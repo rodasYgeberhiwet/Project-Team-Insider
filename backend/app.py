@@ -38,9 +38,7 @@ def get_reviews(team_id):
     return jsonify({"message": "GET reviews", "team_id": team_id})
 
 
-# -------------------------------------------------------
 # REVIEW CRUD (Create, Read, Update, Delete)
-# -------------------------------------------------------
 
 @app.route("/teams/<int:team_id>/reviews", methods=["POST"])
 def create_review(team_id):
@@ -53,7 +51,7 @@ def create_review(team_id):
     data = request.get_json()
     return jsonify({"message": "POST review received", "team_id": team_id, "data": data}), 201
 
-
+# Update and Delete reviews by review ID
 @app.route("/reviews/<int:review_id>", methods=["PATCH"])
 def update_review(review_id):
     """
@@ -63,7 +61,7 @@ def update_review(review_id):
     data = request.get_json()
     return jsonify({"message": "PATCH update review", "review_id": review_id, "updated": data})
 
-
+# Delete a review
 @app.route("/reviews/<int:review_id>", methods=["DELETE"])
 def delete_review(review_id):
     """Delete an existing review."""
