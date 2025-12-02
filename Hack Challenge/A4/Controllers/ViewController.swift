@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     // MARK: - Properties (view)
     
     private let titleLabel = UILabel()
+    private let subtextLabel = UILabel()
     private var exploreCollectionView: UICollectionView!
     private var filterCollectionView: UICollectionView!
     private let refreshControl = UIRefreshControl()
@@ -104,13 +105,14 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //filteredRecipes = recipes
-        view.backgroundColor = UIColor.red
+        view.backgroundColor = UIColor.a4.darkBlue
         setupTitleLabel()
+        setupSubtextLabel()
 //        setupFilterCollectionView()
         setupExploreCollectionView()
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: profileButtonImg, style: .plain, target: self, action: #selector(pushProfileVC))
         exploreCollectionView.alwaysBounceVertical = true
 //        getRecipes()
-        print("getRecipes called")
         
     }
     
@@ -153,20 +155,38 @@ class ViewController: UIViewController {
         }
     }
     
+    private func setupSubtextLabel() {
+        subtextLabel.text = "Learn more about Cornell's student-led project teams"
+        subtextLabel.textColor = .white
+        subtextLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        subtextLabel.textAlignment = .left
+        subtextLabel.numberOfLines = 0
+        
+        view.addSubview(subtextLabel)
+        subtextLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+        subtextLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(32)
+            make.trailing.equalToSuperview()
+        }
+    }
+    
     private func setupExploreCollectionView() {
 
         // TODO: Set Up CollectionView
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 40
+        layout.minimumLineSpacing = 32
         layout.minimumInteritemSpacing = 16
         
         // Initialize collectionView using the layout
         exploreCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         exploreCollectionView.register(ExploreCollectionViewCell.self, forCellWithReuseIdentifier: ExploreCollectionViewCell.reuse)
-        exploreCollectionView.backgroundColor = UIColor.red
+        exploreCollectionView.backgroundColor = UIColor.a4.lightPurple
         exploreCollectionView.delegate = self
         exploreCollectionView.dataSource = self
+        exploreCollectionView.contentInset = UIEdgeInsets(top: 32, left: 0, bottom: 0, right: 0)
         
 //        refreshControl.addTarget(self, action: #selector(getRecipes), for: .valueChanged)
         exploreCollectionView.refreshControl = refreshControl
@@ -175,7 +195,7 @@ class ViewController: UIViewController {
         exploreCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         exploreCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.top.equalTo(subtextLabel.snp.bottom).offset(16)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -283,10 +303,10 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width - (16 * 2) - 24 // minimuminteritemspacing = 33 ; padding on the side = 32
+        let width = collectionView.frame.width - (16 * 2) - 24 // minimuminteritemspacing = 24 ; padding on the side = 32
         let size = width / 2
         
-        return CGSize(width: size, height: size + 43)
+        return CGSize(width: width, height: size + 43)
         /*
         if collectionView == recipeCollectionView {
             let width = collectionView.frame.width - (32 * 2) - 33 // minimuminteritemspacing = 33 ; padding on the side = 32

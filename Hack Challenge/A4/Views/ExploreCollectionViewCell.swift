@@ -32,6 +32,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     private let desc = UILabel()
     private let reviews = UILabel()
     private let hours = UILabel()
+    private let learnMore = UIButton()
         
     static let reuse = "ExploreCollectionViewCellReuse"
     
@@ -48,6 +49,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         setupDesc()
         setupReviews()
         setupHours()
+        setupLearnMoreButton()
     }
 
     required init?(coder: NSCoder) {
@@ -91,7 +93,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
 //    }
     
     func setupName() {
-        name.textColor = UIColor.black
+        name.textColor = UIColor.a4.offBlack
         name.font = .systemFont(ofSize: 18, weight: .semibold)
         
         name.numberOfLines = 0
@@ -102,14 +104,14 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         name.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
-            make.leading.equalToSuperview().offset(4)
+            make.leading.equalToSuperview().offset(8)
             make.trailing.lessThanOrEqualToSuperview().offset(-8)
         }
     }
     
     func setupComp() {
         comp.textColor = UIColor.white
-        comp.backgroundColor = .systemRed
+        comp.backgroundColor = UIColor.a4.pinkRed
         comp.layer.cornerRadius = 8
         comp.layer.masksToBounds = true
         comp.font = .systemFont(ofSize: 10, weight: .bold)
@@ -121,14 +123,14 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         comp.translatesAutoresizingMaskIntoConstraints = false
         
         comp.snp.makeConstraints { make in
-            make.top.equalTo(name.snp.bottom).offset(8)
-            make.leading.equalToSuperview().offset(4)
+            make.top.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-8)
         }
     }
     
     func setupCategory() {
-        category.textColor = UIColor.black
-        category.backgroundColor = UIColor.white
+        category.textColor = UIColor.a4.offBlack
+        category.backgroundColor = UIColor.a4.lilac
         category.layer.borderWidth = 1
         category.layer.borderColor = UIColor.darkGray.cgColor
         category.layer.cornerRadius = 8
@@ -143,12 +145,12 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         category.snp.makeConstraints { make in
             make.top.equalTo(name.snp.bottom).offset(8)
-            make.leading.equalTo(comp.snp.trailing).offset(4)
+            make.leading.equalToSuperview().offset(8)
         }
     }
     
     func setupDesc() {
-        desc.textColor = UIColor.black
+        desc.textColor = UIColor.a4.offBlack
         desc.font = .systemFont(ofSize: 12, weight: .regular)
         
         desc.numberOfLines = 0
@@ -158,14 +160,14 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         desc.translatesAutoresizingMaskIntoConstraints = false
         
         desc.snp.makeConstraints { make in
-            make.top.equalTo(comp.snp.bottom).offset(8)
-            make.leading.equalToSuperview().offset(4)
+            make.top.equalTo(category.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(8)
             make.trailing.lessThanOrEqualToSuperview().offset(-8)
         }
     }
     
     func setupReviews() {
-        reviews.textColor = UIColor.black
+        reviews.textColor = UIColor.a4.offBlack
         reviews.font = .systemFont(ofSize: 12, weight: .semibold)
         
         contentView.addSubview(reviews)
@@ -173,12 +175,12 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         reviews.snp.makeConstraints { make in
             make.top.equalTo(desc.snp.bottom).offset(8)
-            make.leading.equalToSuperview().offset(4)
+            make.leading.equalToSuperview().offset(8)
         }
     }
     
     func setupHours() {
-        hours.textColor = UIColor.black
+        hours.textColor = UIColor.a4.offBlack
         hours.font = .systemFont(ofSize: 12, weight: .semibold)
         
         contentView.addSubview(hours)
@@ -186,7 +188,26 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         hours.snp.makeConstraints { make in
             make.top.equalTo(desc.snp.bottom).offset(8)
-            make.leading.equalTo(reviews.snp.trailing).offset(8)
+            make.leading.equalTo(reviews.snp.trailing).offset(16)
+        }
+    }
+    
+    func setupLearnMoreButton() {
+        learnMore.setTitle("Learn More", for: .normal)
+        learnMore.setTitleColor(UIColor.a4.offBlack, for: .normal)
+        learnMore.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        learnMore.backgroundColor = UIColor.a4.beige
+        learnMore.layer.cornerRadius = 12
+//        learnMore.addTarget(self, action: #selector(pushVC, for: .touchUpInside)
+        learnMore.contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+
+        contentView.addSubview(learnMore)
+        learnMore.translatesAutoresizingMaskIntoConstraints = false
+        
+        learnMore.snp.makeConstraints { make in
+//            make.top.equalTo(hours.snp.bottom).offset(16)
+            make.bottom.equalToSuperview().offset(-16)
+            make.centerX.equalToSuperview()
         }
     }
     /*
