@@ -43,6 +43,11 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         backgroundColor = UIColor.white
         layer.cornerRadius = 12
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.12        // nice subtle shadow
+        layer.shadowRadius = 6            // how blurry
+        layer.shadowOffset = CGSize(width: 0, height: 3)
+        layer.masksToBounds = false       // IMPORTANT
         setupName()
         setupComp()
         setupCategory()
@@ -195,7 +200,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     func setupLearnMoreButton() {
         learnMore.setTitle("Learn More", for: .normal)
         learnMore.setTitleColor(UIColor.a4.offBlack, for: .normal)
-        learnMore.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        learnMore.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
         learnMore.backgroundColor = UIColor.a4.beige
         learnMore.layer.cornerRadius = 12
 //        learnMore.addTarget(self, action: #selector(pushVC, for: .touchUpInside)

@@ -110,7 +110,7 @@ class ViewController: UIViewController {
         setupSubtextLabel()
 //        setupFilterCollectionView()
         setupExploreCollectionView()
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: profileButtonImg, style: .plain, target: self, action: #selector(pushProfileVC))
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: "profile-icon", style: .plain, target: self, action: #selector(pushProfileVC))
         exploreCollectionView.alwaysBounceVertical = true
 //        getRecipes()
         
