@@ -20,7 +20,7 @@ interview_id_counter = 1
 tag_id_counter = 1
 
 
-# -------- TEAMS --------
+#  TEAMS --------
 
 # Get all teams
 @app.route("/teams", methods=["GET"])
@@ -54,7 +54,7 @@ def get_team(team_id):
     return jsonify({"success": True, "data": team})
 
 
-# -------- REVIEWS --------
+# -------REVIEWS 
 
 # Get all reviews for a team
 @app.route("/teams/<int:team_id>/reviews", methods=["GET"])
@@ -138,7 +138,7 @@ def delete_review(review_id):
     return jsonify({"success": True, "message": "Review deleted"})
 
 
-# -------- INTERVIEWS --------
+# ------ interviews ---
 
 # Get interview experiences for team
 @app.route("/teams/<int:team_id>/interviews", methods=["GET"])
@@ -168,7 +168,7 @@ def create_interview(team_id):
     return jsonify({"success": True, "data": new_interview}), 201
 
 
-# -------- TAGS --------
+# -------TAGss
 
 # Get all tags
 @app.route("/tags", methods=["GET"])
