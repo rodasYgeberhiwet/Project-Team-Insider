@@ -18,7 +18,80 @@ class ViewController: UIViewController {
     
     // MARK: - Properties (data)
     
-    private var teams : [Team] = []
+    private var teams : [Team] = [
+        Team(
+            id: "1",
+            name: "Cornell AppDev",
+            description: "Student-run team building mobile apps for the Cornell community. Developers learn iOS, Android, full-stack, and design.",
+            comp: "Competitive",
+            reviews: ["Great learning experience!", "Intense but rewarding", "Best community on campus"],
+            hours: "15-20",
+            category: "Software"
+        ),
+        Team(
+            id: "2",
+            name: "Cornell Data Science",
+            description: "Work on real-world data science projects with industry partners. Focus on ML, analytics, and data visualization.",
+            comp: "Moderate",
+            reviews: ["Awesome mentors", "Great for ML beginners", "Flexible hours"],
+            hours: "8-12",
+            category: "Data Science"
+        ),
+        Team(
+            id: "3",
+            name: "Cornell Design & Tech Initiative",
+            description: "Create digital products that solve campus problems. Roles include product management, design, and engineering.",
+            comp: "Moderate",
+            reviews: ["Impactful projects", "Strong design focus", "Collaborative environment"],
+            hours: "10-15",
+            category: "Product"
+        ),
+        Team(
+            id: "4",
+            name: "CUAir - Autonomous Air Vehicle",
+            description: "Design, build, and compete with autonomous UAVs. Work on computer vision, controls, and aerodynamics.",
+            comp: "Competitive",
+            reviews: ["Hardcore engineering", "Competition focused", "Great for aerospace"],
+            hours: "20-25",
+            category: "Engineering"
+        ),
+        Team(
+            id: "5",
+            name: "Cornell FinTech",
+            description: "Explore blockchain, trading algorithms, and financial technology. Both technical and business roles available.",
+            comp: "Competitive",
+            reviews: ["Wall Street connections", "Cutting-edge tech", "Intense recruitment"],
+            hours: "12-18",
+            category: "Finance"
+        ),
+        Team(
+            id: "6",
+            name: "Cornell WebDev",
+            description: "Build and maintain web applications for student organizations. Focus on React, Node.js, and modern web tech.",
+            comp: "Open",
+            reviews: ["Beginner friendly", "Supportive community", "Good work-life balance"],
+            hours: "6-10",
+            category: "Web Development"
+        ),
+        Team(
+            id: "7",
+            name: "Cornell VR/AR Club",
+            description: "Create immersive virtual and augmented reality experiences. Projects range from games to educational tools.",
+            comp: "Open",
+            reviews: ["Cutting-edge tech", "Creative freedom", "Growing community"],
+            hours: "8-12",
+            category: "XR/Gaming"
+        ),
+        Team(
+            id: "8",
+            name: "Cornell Autonomous Underwater Vehicle",
+            description: "Design and build autonomous submarines for international competition. Focus on robotics and marine engineering.",
+            comp: "Competitive",
+            reviews: ["Travel opportunities", "Hands-on robotics", "Team travels to compete"],
+            hours: "15-20",
+            category: "Robotics"
+        )
+    ]
     
 //    private let filters = ["All", "Beginner", "Intermediate", "Advanced"]
     
@@ -31,7 +104,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //filteredRecipes = recipes
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.red
         setupTitleLabel()
 //        setupFilterCollectionView()
         setupExploreCollectionView()
@@ -66,7 +139,7 @@ class ViewController: UIViewController {
     
     private func setupTitleLabel() {
         titleLabel.text = "Explore Project Teams"
-        titleLabel.textColor = .black
+        titleLabel.textColor = .white
         titleLabel.font = .systemFont(ofSize: 32, weight: .semibold)
         titleLabel.textAlignment = .left
         
@@ -85,12 +158,13 @@ class ViewController: UIViewController {
         // TODO: Set Up CollectionView
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 43
-        layout.minimumInteritemSpacing = 33
+        layout.minimumLineSpacing = 32
+        layout.minimumInteritemSpacing = 16
         
         // Initialize collectionView using the layout
         exploreCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         exploreCollectionView.register(ExploreCollectionViewCell.self, forCellWithReuseIdentifier: ExploreCollectionViewCell.reuse)
+        exploreCollectionView.backgroundColor = UIColor.red
         exploreCollectionView.delegate = self
         exploreCollectionView.dataSource = self
         
@@ -209,7 +283,7 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width - (32 * 2) - 33 // minimuminteritemspacing = 33 ; padding on the side = 32
+        let width = collectionView.frame.width - (16 * 2) - 24 // minimuminteritemspacing = 33 ; padding on the side = 32
         let size = width / 2
         
         return CGSize(width: size, height: size + 43)
@@ -227,7 +301,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 32, bottom: 32, right: 32)
+        return UIEdgeInsets(top: 0, left: 16, bottom: 32, right: 16)
         /*
         if collectionView == recipeCollectionView {
             return UIEdgeInsets(top: 0, left: 32, bottom: 32, right: 32)

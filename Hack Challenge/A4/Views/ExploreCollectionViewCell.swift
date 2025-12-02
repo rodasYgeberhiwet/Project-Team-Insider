@@ -9,13 +9,27 @@ import UIKit
 import SnapKit
 import SDWebImage
 
+class PaddedLabel: UILabel {
+    var textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+    
+    override func drawText(in rect: CGRect) {
+        super.drawText(in: rect.inset(by: textInsets))
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        let size = super.intrinsicContentSize
+        return CGSize(width: size.width + textInsets.left + textInsets.right,
+                      height: size.height + textInsets.top + textInsets.bottom)
+    }
+}
+
 class ExploreCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties (view)
-    private let name = UILabel()
-    private let comp = UILabel()
+    private let name = UILabel() // done
+    private let comp = PaddedLabel() // done
+    private let category = PaddedLabel()
     private let desc = UILabel()
-    private let category = UILabel()
     private let reviews = UILabel()
     private let hours = UILabel()
         
@@ -25,12 +39,15 @@ class ExploreCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        backgroundColor = UIColor.white
+        layer.cornerRadius = 12
         setupName()
         setupComp()
-//        setupDesc()
-//        setupCategory()
-//        setupReviews()
-//        setupHours()
+        setupCategory()
+        setupDesc()
+        setupReviews()
+        setupHours()
     }
 
     required init?(coder: NSCoder) {
@@ -75,7 +92,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     
     func setupName() {
         name.textColor = UIColor.black
-        name.font = .systemFont(ofSize: 16, weight: .semibold)
+        name.font = .systemFont(ofSize: 18, weight: .semibold)
         
         name.numberOfLines = 0
         name.lineBreakMode = .byWordWrapping
@@ -84,7 +101,9 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         name.translatesAutoresizingMaskIntoConstraints = false
         
         name.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(8)
+            make.top.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(4)
+            make.trailing.lessThanOrEqualToSuperview().offset(-8)
         }
     }
     
@@ -93,17 +112,81 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         comp.backgroundColor = .systemRed
         comp.layer.cornerRadius = 8
         comp.layer.masksToBounds = true
-        comp.font = .systemFont(ofSize: 12, weight: .bold)
+        comp.font = .systemFont(ofSize: 10, weight: .bold)
+        comp.textAlignment = .center
         
-        comp.numberOfLines = 0
-        comp.lineBreakMode = .byWordWrapping
-        
+        comp.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+
         contentView.addSubview(comp)
         comp.translatesAutoresizingMaskIntoConstraints = false
         
         comp.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(8)
-            make.leading.equalTo(name.snp.trailing).offset(8)
+            make.top.equalTo(name.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(4)
+        }
+    }
+    
+    func setupCategory() {
+        category.textColor = UIColor.black
+        category.backgroundColor = UIColor.white
+        category.layer.borderWidth = 1
+        category.layer.borderColor = UIColor.darkGray.cgColor
+        category.layer.cornerRadius = 8
+        category.layer.masksToBounds = true
+        category.font = .systemFont(ofSize: 10, weight: .bold)
+        category.textAlignment = .center
+        
+        category.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+//        16
+        contentView.addSubview(category)
+        category.translatesAutoresizingMaskIntoConstraints = false
+        
+        category.snp.makeConstraints { make in
+            make.top.equalTo(name.snp.bottom).offset(8)
+            make.leading.equalTo(comp.snp.trailing).offset(4)
+        }
+    }
+    
+    func setupDesc() {
+        desc.textColor = UIColor.black
+        desc.font = .systemFont(ofSize: 12, weight: .regular)
+        
+        desc.numberOfLines = 0
+        desc.lineBreakMode = .byWordWrapping
+        
+        contentView.addSubview(desc)
+        desc.translatesAutoresizingMaskIntoConstraints = false
+        
+        desc.snp.makeConstraints { make in
+            make.top.equalTo(comp.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(4)
+            make.trailing.lessThanOrEqualToSuperview().offset(-8)
+        }
+    }
+    
+    func setupReviews() {
+        reviews.textColor = UIColor.black
+        reviews.font = .systemFont(ofSize: 12, weight: .semibold)
+        
+        contentView.addSubview(reviews)
+        reviews.translatesAutoresizingMaskIntoConstraints = false
+        
+        reviews.snp.makeConstraints { make in
+            make.top.equalTo(desc.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(4)
+        }
+    }
+    
+    func setupHours() {
+        hours.textColor = UIColor.black
+        hours.font = .systemFont(ofSize: 12, weight: .semibold)
+        
+        contentView.addSubview(hours)
+        hours.translatesAutoresizingMaskIntoConstraints = false
+        
+        hours.snp.makeConstraints { make in
+            make.top.equalTo(desc.snp.bottom).offset(8)
+            make.leading.equalTo(reviews.snp.trailing).offset(8)
         }
     }
     /*
