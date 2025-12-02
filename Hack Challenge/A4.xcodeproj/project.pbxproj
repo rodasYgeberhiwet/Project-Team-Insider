@@ -19,8 +19,8 @@
 		2ED700642AF1CF5700B7C687 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ED700622AF1CF5700B7C687 /* LaunchScreen.storyboard */; };
 		7622D6182ECFD59800CBFAA9 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D6172ECFD58B00CBFAA9 /* DetailViewController.swift */; };
 		76A51D0A2ECAE704001C6B6B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A51D082ECAE704001C6B6B /* ViewController.swift */; };
-		B180B4A12ECAA41600F0A59D /* RecipeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B180B4A02ECAA40A00F0A59D /* RecipeCollectionViewCell.swift */; };
-		B180B4A32ECAA67D00F0A59D /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B180B4A22ECAA67A00F0A59D /* Recipe.swift */; };
+		B180B4A12ECAA41600F0A59D /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B180B4A02ECAA40A00F0A59D /* ExploreCollectionViewCell.swift */; };
+		B180B4A32ECAA67D00F0A59D /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = B180B4A22ECAA67A00F0A59D /* Team.swift */; };
 		B180B4A72ECBBCD600F0A59D /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B180B4A62ECBBCD000F0A59D /* FilterCollectionViewCell.swift */; };
 		B180B4B52ECECF9300F0A59D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B180B4B42ECECF9000F0A59D /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
@@ -36,8 +36,8 @@
 		2ED700652AF1CF5700B7C687 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7622D6172ECFD58B00CBFAA9 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		76A51D082ECAE704001C6B6B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B180B4A02ECAA40A00F0A59D /* RecipeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCollectionViewCell.swift; sourceTree = "<group>"; };
-		B180B4A22ECAA67A00F0A59D /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		B180B4A02ECAA40A00F0A59D /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
+		B180B4A22ECAA67A00F0A59D /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		B180B4A62ECBBCD000F0A59D /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		B180B4B42ECECF9000F0A59D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,7 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				B180B4A62ECBBCD000F0A59D /* FilterCollectionViewCell.swift */,
-				B180B4A02ECAA40A00F0A59D /* RecipeCollectionViewCell.swift */,
+				B180B4A02ECAA40A00F0A59D /* ExploreCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -120,7 +120,7 @@
 		76A51D0B2ECAE70C001C6B6B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B180B4A22ECAA67A00F0A59D /* Recipe.swift */,
+				B180B4A22ECAA67A00F0A59D /* Team.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -215,8 +215,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B180B4B52ECECF9300F0A59D /* NetworkManager.swift in Sources */,
-				B180B4A12ECAA41600F0A59D /* RecipeCollectionViewCell.swift in Sources */,
-				B180B4A32ECAA67D00F0A59D /* Recipe.swift in Sources */,
+				B180B4A12ECAA41600F0A59D /* ExploreCollectionViewCell.swift in Sources */,
+				B180B4A32ECAA67D00F0A59D /* Team.swift in Sources */,
 				2E07F6152AF1D05700395214 /* UIFont+Extension.swift in Sources */,
 				2ED700582AF1CF5600B7C687 /* AppDelegate.swift in Sources */,
 				76A51D0A2ECAE704001C6B6B /* ViewController.swift in Sources */,

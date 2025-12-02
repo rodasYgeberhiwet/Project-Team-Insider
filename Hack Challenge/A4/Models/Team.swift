@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct Recipe: Codable {
+struct Team: Codable {
     // TODO: Create a Post Struct here
     let id: String
-    let description: String
-    let difficulty: String
-    let image_url: String
     let name: String
-    let rating: Float
+    let description: String
+    let comp: String
+    let reviews: [String]
+    let hours: String
+    let category: String
     
 }
