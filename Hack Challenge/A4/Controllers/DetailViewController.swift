@@ -44,6 +44,7 @@ class DetailViewController: UIViewController {
         setupDescription()
         configureView()
         setupBookmark()
+//        setupPostCollectionView()
         
     }
     
