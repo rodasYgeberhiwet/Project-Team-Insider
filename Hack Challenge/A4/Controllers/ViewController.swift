@@ -245,8 +245,11 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDelegate {
     // update later for user defaults
-    /*
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
+        let selectedTeam = teams[indexPath.item]
+        let detailVC = DetailViewController(team: selectedTeam)
+        navigationController?.pushViewController(detailVC, animated: true)
+     /*
         if (collectionView == filterCollectionView) {
             currFilter = filters[indexPath.item]
             filterRecipe()
@@ -256,8 +259,9 @@ extension ViewController: UICollectionViewDelegate {
             let detailVC = DetailViewController(recipe: selectedRecipe)
             navigationController?.pushViewController(detailVC, animated: true)
         }
+      */
     }
-     */
+     
 }
 
 // MARK: - UICollectionViewDataSource
@@ -334,10 +338,10 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
     
 }
-/*
+
 extension ViewController: BookmarkDelegate {
     func didUpdateBookmarks() {
         exploreCollectionView.reloadData()
     }
 }
-*/
+

@@ -33,6 +33,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     private let reviews = UILabel()
     private let hours = UILabel()
     private let learnMore = UIButton()
+    private let bookmark = UIImageView()
         
     static let reuse = "ExploreCollectionViewCellReuse"
     
@@ -55,6 +56,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         setupReviews()
         setupHours()
         setupLearnMoreButton()
+        setupBookmarkIcon()
     }
 
     required init?(coder: NSCoder) {
@@ -72,14 +74,14 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         hours.text = "\(team.hours) hours/week"
         
         // Check UserDefaults
-//        let bookmarked = UserDefaults.standard.array(forKey: "bookmarked") as? [String] ?? []
-//        if bookmarked.contains(recipe.name) {
-//            bookmark.image = UIImage(named: "orangeBookmark")
-//            bookmark.isHidden = false
-//        }
-//        else {
-//            bookmark.isHidden = true
-//        }
+        let bookmarked = UserDefaults.standard.array(forKey: "bookmarked") as? [String] ?? []
+        if bookmarked.contains(team.name) {
+            bookmark.image = UIImage(named: "orangeBookmark")
+            bookmark.isHidden = false
+        }
+        else {
+            bookmark.isHidden = true
+        }
     }
     
     // MARK: - Set Up Views
@@ -198,7 +200,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     }
     
     func setupLearnMoreButton() {
-        learnMore.setTitle("Learn More", for: .normal)
+        learnMore.setTitle("View", for: .normal)
         learnMore.setTitleColor(UIColor.a4.offBlack, for: .normal)
         learnMore.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
         learnMore.backgroundColor = UIColor.a4.beige
@@ -241,18 +243,18 @@ class ExploreCollectionViewCell: UICollectionViewCell {
             make.top.equalTo(name.snp.bottom)
         }
     }
-    
+     */
     private func setupBookmarkIcon() {
         contentView.addSubview(bookmark)
         bookmark.translatesAutoresizingMaskIntoConstraints = false
         
         bookmark.snp.makeConstraints {make in
-            make.trailing.equalTo(image.snp.trailing)
-            make.top.equalTo(image.snp.bottom).offset(8)
+            make.trailing.equalToSuperview().offset(-8)
+            make.top.equalToSuperview().offset(8)
             make.width.height.equalTo(20)
         }
     }
-     */
+     
 }
 
 

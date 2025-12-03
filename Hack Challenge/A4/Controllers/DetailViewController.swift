@@ -4,7 +4,7 @@
 //
 //  Created by Amy Yang on 11/20/25.
 //
-/*
+
 import UIKit
 import SDWebImage
 import SnapKit
@@ -21,11 +21,11 @@ class DetailViewController: UIViewController {
     
     // MARK: - Properties (data)
 
-    private let recipe: Recipe
+    private let team: Team
     weak var delegate: BookmarkDelegate? // creation of delegate
     
-    init(recipe: Recipe){
-        self.recipe = recipe
+    init(team: Team){
+        self.team = team
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,6 +44,7 @@ class DetailViewController: UIViewController {
         setupDescription()
         configureView()
         setupBookmark()
+//        setupPostCollectionView()
         
     }
     
@@ -99,9 +100,9 @@ class DetailViewController: UIViewController {
     }
     
     private func configureView() {
-        self.image.sd_setImage(with: URL(string: recipe.image_url))
-        titleLabel.text = recipe.name
-        descLabel.text = recipe.description
+//        self.image.sd_setImage(with: URL(string: team.image_url))
+        titleLabel.text = team.name
+        descLabel.text = team.description
         
     }
     
@@ -120,7 +121,7 @@ class DetailViewController: UIViewController {
     
     private func updateBookmark() {
         let bookmarked = UserDefaults.standard.array(forKey: "bookmarked") as? [String] ?? []
-        if bookmarked.contains(recipe.name) {
+        if bookmarked.contains(team.name) {
             bookmarkButton.image = UIImage(systemName: "bookmark.fill")
         }
         else {
@@ -129,18 +130,18 @@ class DetailViewController: UIViewController {
     }
     
     @objc private func toggleBookmark() {
-        print("bookmark tapped for recipe: \(recipe.name)")
+        print("bookmark tapped for recipe: \(team.name)")
         
         var bookmarked = UserDefaults.standard.array(forKey: "bookmarked") as? [String] ?? []
         
-        if bookmarked.contains(recipe.name) {
+        if bookmarked.contains(team.name) {
             // bookmarked already
             bookmarked.removeAll { name in
-                name == recipe.name
+                name == team.name
             }
         } else {
             // not bookmarked yet
-            bookmarked.append(recipe.name)
+            bookmarked.append(team.name)
         }
         
         UserDefaults.standard.set(bookmarked, forKey: "bookmarked")
@@ -158,4 +159,4 @@ protocol BookmarkDelegate: AnyObject { // using protocol to establish loose coup
 }
 
     
-*/
+

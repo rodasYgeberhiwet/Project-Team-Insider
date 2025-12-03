@@ -1,10 +1,12 @@
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
+import models
 from moderation import moderate_text  # AI moderation function
+<<<<<<< HEAD
 from config import Config
 from auth import auth_bp
+from db import db, User, Team, Review, Interview
 
 
 
@@ -14,16 +16,16 @@ app.config.from_object(Config)
 app.register_blueprint(auth_bp)
 
 # --- MVP DB initialization ---
-from db import db
 db.init_app(app)
 with app.app_context():
     db.create_all()
+=======
 
-# db = models.DatabaseDriver()
+app = Flask(__name__)
+CORS(app)
+>>>>>>> e4358eb107b8c11b3ac81c514f024359cbcaa394
+
 # Temporary in-memory storage
-teams = []
-reviews = []
-interviews = []
 tags = []
 
 team_id_counter = 1
@@ -37,42 +39,45 @@ tag_id_counter = 1
 # Get all teams
 @app.route("/teams", methods=["GET"])
 def get_teams():
+    teams = Team.query.all()
     return jsonify({"success": True, "data": teams})
 
 # Create new team
 @app.route("/teams", methods=["POST"])
 def create_team():
-    global team_id_counter
     data = request.get_json()
 
-    new_team = {
-        "id": team_id_counter,
-        "name": data.get("name"),
-        "description": data.get("description"),
-        "tags": []
-    }
+    team = Team(
+        name=data.get("name"),
+        description=data.get("description")
+    )
+    db.session.add(team)
+    db.session.commit()
 
-    teams.append(new_team)
-    team_id_counter += 1
-
-    return jsonify({"success": True, "data": new_team}), 201
+    return jsonify({"success": True, "data": team.serialize()}), 201
 
 # Get single team
 @app.route("/teams/<int:team_id>", methods=["GET"])
 def get_team(team_id):
-    team = next((t for t in teams if t["id"] == team_id), None)
+    team = Team.query.get(team_id)
     if not team:
         return jsonify({"success": False, "error": "Team not found"}), 404
-    return jsonify({"success": True, "data": team})
+    return jsonify({"success": True, "data": team.serialize()})
 
 
-# -------REVIEWS 
+# REVIEWS 
 
 # Get all reviews for a team
 @app.route("/teams/<int:team_id>/reviews", methods=["GET"])
 def get_reviews_for_team(team_id):
-    team_reviews = [r for r in reviews if r["team_id"] == team_id]
-    return jsonify({"success": True, "data": team_reviews})
+    team = Team.query.get(team_id)
+    if not team:
+        return jsonify({"success": False, "error": "Team not found"}), 404
+
+    reviews = Review.query.filter_by(team_id=team_id).all()
+    return jsonify({"success": True, "data": [r.serialize() for r in reviews]})
+
+
 
 # Create review with moderation
 @app.route("/teams/<int:team_id>/reviews", methods=["POST"])
@@ -102,68 +107,75 @@ def create_review(team_id):
         "date_posted": datetime.utcnow().isoformat()
     }
 
-    reviews.append(new_review)
-    review_id_counter += 1
+    db.session.add(new_review)
+    db.session.commit()
 
-    return jsonify({"success": True, "data": new_review}), 201
+    return jsonify({"success": True, "data": new_review.serialize()}), 201
+
 
 # Get all reviews (global)
 @app.route("/reviews", methods=["GET"])
 def get_all_reviews():
-    return jsonify({"success": True, "data": reviews})
+
+    reviews = Review.query.all()
+    return jsonify({"success": True, "data": [r.serialize() for r in reviews]})
+
 
 # Like a review
 @app.route("/reviews/<int:review_id>/like", methods=["POST"])
 def like_review(review_id):
-    review = None
-    for r in reviews:
-        if r["id"] == review_id:
-            review = r
-            break
-
-    if review is None:
+    review = Review.query.get(review_id)
+    if not review:
         return jsonify({"success": False, "error": "Review not found"}), 404
 
-    review["likes"] += 1
+    review.likes += 1
+    db.session.commit()
 
-    return jsonify({"success": True, "data": review})
+    return jsonify({"success": True, "data": review.serialize()})
 
 # Unlike a review
 @app.route("/reviews/<int:review_id>/unlike", methods=["POST"])
 def unlike_review(review_id):
-    review = None
-    for r in review:
-        if r['id']== review_id:
-            review = r
-            break
+    review = Review.query.get(review_id)
     if not review:
         return jsonify({"success": False, "error": "Review not found"}), 404
-    
-    review["likes"] = max(0, review["likes"] - 1)
-    return jsonify({"success": True, "data": review})
+
+    review.likes = max(0, review.likes - 1)
+    db.session.commit()
+
+
+    return jsonify({"success": True, "data": review.serialize()})
+
 
 # Delete review
 @app.route("/reviews/<int:review_id>", methods=["DELETE"])
 def delete_review(review_id):
-    global reviews
-    reviews = [r for r in reviews if r["id"] != review_id]
+
+    review = Review.query.get(review_id)
+    if not review:
+        return jsonify({"success": False, "error": "Review not found"}), 404
+
+    db.session.delete(review)
+    db.session.commit()
+
     return jsonify({"success": True, "message": "Review deleted"})
+
 
 
 
 # Get interview experiences for team
 @app.route("/teams/<int:team_id>/interviews", methods=["GET"])
 def get_interviews(team_id):
-    team_interviews = [i for i in interviews if i["team_id"] == team_id]
-    return jsonify({"success": True, "data": team_interviews})
+
+    interviews = Interview.query.filter_by(team_id=team_id).all()
+    return jsonify({"success": True, "data": [i.serialize() for i in interviews ]})
 
 # Create interview entry
 @app.route("/teams/<int:team_id>/interviews", methods=["POST"])
 def create_interview(team_id):
-    global interview_id_counter
     data = request.get_json()
 
-    new_interview = {
+    interview = {
         "id": interview_id_counter,
         "team_id": team_id,
         "difficulty_rating": data.get("difficulty_rating"),
@@ -173,10 +185,12 @@ def create_interview(team_id):
         "date_posted": datetime.utcnow().isoformat()
     }
 
-    interviews.append(new_interview)
-    interview_id_counter += 1
+    db.session.add(interview)
+    db.session.commit()
 
-    return jsonify({"success": True, "data": new_interview}), 201
+    return jsonify({"success": True, "data": interview.serialize()}), 201
+
+
 
 
 # Get all tags
