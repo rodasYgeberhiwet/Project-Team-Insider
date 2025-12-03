@@ -1,9 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
-import models
 from moderation import moderate_text  # AI moderation function
-<<<<<<< HEAD
 from config import Config
 from auth import auth_bp
 from db import db, User, Team, Review, Interview
@@ -19,11 +17,12 @@ app.register_blueprint(auth_bp)
 db.init_app(app)
 with app.app_context():
     db.create_all()
-=======
 
 app = Flask(__name__)
 CORS(app)
->>>>>>> e4358eb107b8c11b3ac81c514f024359cbcaa394
+
+app = Flask(__name__)
+CORS(app)
 
 # Temporary in-memory storage
 tags = []
