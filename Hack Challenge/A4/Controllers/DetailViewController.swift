@@ -19,10 +19,15 @@ class DetailViewController: UIViewController {
     private var bookmarkButton: UIBarButtonItem!
     private let backButtonImg = UIImage(systemName: "chevron.left")
     
+    private var collectionView: UICollectionView!
+    private let refreshControl = UIRefreshControl()
+    
     // MARK: - Properties (data)
 
     private let team: Team
     weak var delegate: BookmarkDelegate? // creation of delegate
+    
+    private var posts: [Post] = []
     
     init(team: Team){
         self.team = team
