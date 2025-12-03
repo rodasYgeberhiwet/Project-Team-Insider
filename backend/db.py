@@ -150,6 +150,7 @@ class User(db.Model):
     associated_teams = db.Column(db.JSON, nullable=True)  # List of team names, not IDs
     grad_year = db.Column(db.Integer, nullable=True)
     anonymous = db.Column(db.Boolean, nullable=False, default=False)
+    password_hash = db.Column(db.String, nullable=True)  # For authentication
 
     reviews = db.relationship("Review", back_populates="user", cascade="delete")
     interviews = db.relationship("Interview", back_populates="user", cascade="delete")
