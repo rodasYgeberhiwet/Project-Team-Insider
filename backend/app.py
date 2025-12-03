@@ -1,23 +1,11 @@
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
+import models
 from moderation import moderate_text  # AI moderation function
-from config import Config
-from auth import auth_bp
-
-
 
 app = Flask(__name__)
 CORS(app)
-app.config.from_object(Config)
-app.register_blueprint(auth_bp)
-
-# --- MVP DB initialization ---
-from db import db
-db.init_app(app)
-with app.app_context():
-    db.create_all()
 
 # db = models.DatabaseDriver()
 # Temporary in-memory storage
