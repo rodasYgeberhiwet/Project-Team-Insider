@@ -52,12 +52,12 @@ class CreatePostCollectionViewCell: UICollectionViewCell {
     }
 
     private func setupPostButton() {
-        postButton.backgroundColor = UIColor.a4.ruby
+        postButton.backgroundColor = UIColor.a4.pinkRed
         postButton.layer.cornerRadius = 4
         postButton.setTitle("Post", for: .normal)
-        postButton.setTitleColor(UIColor.a3.white, for: .normal)
+        postButton.setTitleColor(UIColor.a4.white, for: .normal)
         postButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
-        postButton.addTarget(self, action: #selector(createPost), for: .touchUpInside)
+//        postButton.addTarget(self, action: #selector(createPost), for: .touchUpInside)
 
         contentView.addSubview(postButton)
         postButton.translatesAutoresizingMaskIntoConstraints = false
@@ -73,12 +73,13 @@ class CreatePostCollectionViewCell: UICollectionViewCell {
     }
 
     // MARK: - Button Helpers
-
+/*
     @objc private func createPost() {
         // TODO: Send a POST request to create a post
         if let textFieldText = textField.text, !textFieldText.isEmpty {
             NetworkManager.shared.addToRoster(message: textFieldText) {[weak self] post in guard let self = self else {return} }
         }
     }
+    */
 
 }

@@ -14,8 +14,20 @@ class DetailViewController: UIViewController {
     // MARK: - Properties (view)
     
     private let titleLabel = UILabel()
-    private let descLabel = UILabel()
     private let image = UIImageView()
+    private let overallRatingNumberLabel = UILabel()
+    private let overallRatingTextLabel = UILabel()
+    private let difficultyRatingNumberLabel = UILabel()
+    private let difficultyRatingTextLabel = UILabel()
+    private let separatorView = UIView() // The thin vertical line
+    private let siteButton = UIButton()
+    private let category = UILabel()
+    private let comp = UILabel()
+    private let reviews1 = UILabel()
+    private let hours = UILabel()
+    private let descLabel = UILabel()
+    private let reviews2 = UILabel()
+    
     private var bookmarkButton: UIBarButtonItem!
     private let backButtonImg = UIImage(systemName: "chevron.left")
     
@@ -50,6 +62,9 @@ class DetailViewController: UIViewController {
         configureView()
         setupBookmark()
 //        setupPostCollectionView()
+        let dummyOverallRating: Float = 4.7
+        let dummyDifficultyRating: Float = 3.5
+        setupRatingMetrics(overallRating: dummyOverallRating, difficultyRating: dummyDifficultyRating)
         
     }
     
@@ -68,6 +83,82 @@ class DetailViewController: UIViewController {
             make.top.equalTo(image.snp.bottom).offset(32)
             make.leading.equalToSuperview().offset(32)
             make.trailing.equalToSuperview().offset(-32)
+        }
+    }
+    
+    private func setupRatingMetrics(overallRating: Float, difficultyRating: Float) {
+        
+        // --- 1. Overall Rating (LHS) ---
+        
+        // Set up the big number (e.g., 4.7)
+        overallRatingNumberLabel.text = String(format: "%.1f", overallRating)
+        overallRatingNumberLabel.textColor = UIColor.a4.offBlack // Assuming offBlack is a primary text color [6]
+        overallRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold) // Bigger font
+        
+        // Set up the descriptive text ("Overall")
+        overallRatingTextLabel.text = "Overall"
+        overallRatingTextLabel.textColor = UIColor.a4.silver // Assuming silver is used for secondary text [3]
+        overallRatingTextLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        
+        view.addSubview(overallRatingNumberLabel)
+        view.addSubview(overallRatingTextLabel)
+        
+        // --- 2. Difficulty Rating (RHS) ---
+        
+        // Set up the big number (e.g., 3.5)
+        difficultyRatingNumberLabel.text = String(format: "%.1f", difficultyRating)
+        difficultyRatingNumberLabel.textColor = UIColor.a4.offBlack
+        difficultyRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold) // Bigger font
+        
+        // Set up the descriptive text ("Difficulty")
+        difficultyRatingTextLabel.text = "Difficulty"
+        difficultyRatingTextLabel.textColor = UIColor.a4.silver
+        difficultyRatingTextLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        
+        view.addSubview(difficultyRatingNumberLabel)
+        view.addSubview(difficultyRatingTextLabel)
+        
+        // --- 3. Separator Line ---
+        
+        separatorView.backgroundColor = UIColor.a4.silver // Thin line color
+        view.addSubview(separatorView)
+        
+        // --- 4. Apply SnapKit Constraints ---
+        
+        let ratingBlockTopOffset = 32 // Offset below the description
+        
+        // Constraint for Separator (Center component)
+        separatorView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview() // Center horizontally
+            make.top.equalTo(descLabel.snp.bottom).offset(ratingBlockTopOffset + 8) // Below description
+            make.width.equalTo(1) // Thin vertical line
+            make.height.equalTo(50) // Short height
+        }
+        
+        // Constraints for Overall Rating (LHS)
+        overallRatingNumberLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(separatorView.snp.centerY).offset(-12) // Slightly above center
+            // Pin the LHS rating block to the left of the separator
+            make.trailing.equalTo(separatorView.snp.leading).offset(-32)
+        }
+        
+        overallRatingTextLabel.snp.makeConstraints { make in
+            // Positioned directly below the rating number
+            make.top.equalTo(overallRatingNumberLabel.snp.bottom).offset(4)
+            make.centerX.equalTo(overallRatingNumberLabel.snp.centerX)
+        }
+
+        // Constraints for Difficulty Rating (RHS)
+        difficultyRatingNumberLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(overallRatingNumberLabel.snp.centerY) // Align horizontally with the other number
+            // Pin the RHS rating block to the right of the separator
+            make.leading.equalTo(separatorView.snp.trailing).offset(32)
+        }
+        
+        difficultyRatingTextLabel.snp.makeConstraints { make in
+            make.top.equalTo(difficultyRatingNumberLabel.snp.bottom).offset(4)
+            make.centerX.equalTo(difficultyRatingNumberLabel.snp.centerX)
+            make.bottom.lessThanOrEqualToSuperview().offset(-32) // Ensure the bottom anchor is constrained
         }
     }
     
