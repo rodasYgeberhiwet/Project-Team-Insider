@@ -34,6 +34,7 @@ def create_team():
     team = Team(
         name=data.get("name"),
         description=data.get("description"),
+        tags = data.get("tags", [])
     )
     db.session.add(team)
     db.session.commit()

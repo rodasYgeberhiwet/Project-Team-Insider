@@ -31,13 +31,11 @@ def _extract_json(text):
     if not text:
         return None
 
-    # 1) Try direct parse
     try:
         return json.loads(text)
     except Exception:
         pass
 
-    # 2) Try to extract the first {...} block
     match = re.search(r"\{.*\}", text, flags=re.DOTALL)
     if match:
         candidate = match.group(0)
@@ -112,7 +110,7 @@ Respond only with valid JSON and nothing else, EXACTLY in this shape:
 {{
   "decision": "APPROVE" | "WARNING" | "REJECT",
   "reason": "short explanation (1-2 sentences)",
-  "confidence": number_between_1_and_10
+  "confidence": number between 1 and 10 (10 = most confident)
 }}
 
 Review: "{text}"
@@ -137,7 +135,6 @@ Review: "{text}"
             last_exception = exc
             logger.warning("Moderation API call failed on attempt %d: %s", attempt, exc)
 
-        # small backoff before retrying
         if attempt <= retries:
             time.sleep(retry_delay)
 

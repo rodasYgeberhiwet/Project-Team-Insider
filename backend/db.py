@@ -17,12 +17,12 @@ class Review(db.Model):
     """
     __tablename__ = "review"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    star_rating = db.Column(db.Float, nullable=False)
-    likes = db.Column(db.Integer, nullable=False, default=0)
+    star_rating = db.Column(db.Float, nullable=True)
+    likes = db.Column(db.Integer, nullable=True, default=0)
     date_posted = db.Column(db.DateTime, nullable=False, server_default=func.now())
     time_commitment = db.Column(db.String, nullable=False)
-    list_of_pros = db.Column(db.JSON, nullable=False)
-    list_of_cons = db.Column(db.JSON, nullable=False)
+    list_of_pros = db.Column(db.JSON, nullable=True)
+    list_of_cons = db.Column(db.JSON, nullable=True)
     team_id = db.Column(db.Integer, db.ForeignKey("team.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
 
