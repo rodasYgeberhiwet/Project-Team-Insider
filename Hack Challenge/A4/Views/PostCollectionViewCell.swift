@@ -154,7 +154,7 @@ class PostCollectionViewCell: UICollectionViewCell {
     private func setupRatingMetrics(overallRating: Float, difficultyRating: Float) {
         overallRatingNumberLabel.text = String(format: "%.1f", overallRating)
         overallRatingNumberLabel.textColor = UIColor.a4.offBlack
-        overallRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold)
+        overallRatingNumberLabel.font = .systemFont(ofSize: 24, weight: .bold)
         
         overallRatingTextLabel.text = "Overall"
         overallRatingTextLabel.textColor = UIColor.a4.silver
@@ -165,7 +165,7 @@ class PostCollectionViewCell: UICollectionViewCell {
                 
         difficultyRatingNumberLabel.text = String(format: "%.1f", difficultyRating)
         difficultyRatingNumberLabel.textColor = UIColor.a4.offBlack
-        difficultyRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold)
+        difficultyRatingNumberLabel.font = .systemFont(ofSize: 24, weight: .bold)
         
         difficultyRatingTextLabel.text = "Difficulty"
         difficultyRatingTextLabel.textColor = UIColor.a4.silver
@@ -203,7 +203,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         }
         
         difficultyRatingTextLabel.snp.makeConstraints { make in
-            make.top.equalTo(difficultyRatingNumberLabel.snp.bottom).offset(4)
+            make.centerY.equalTo(overallRatingTextLabel.snp.centerY)
             make.centerX.equalTo(difficultyRatingNumberLabel.snp.centerX)
 //            make.bottom.lessThanOrEqualToSuperview().offset(-32) // Ensure the bottom anchor is constrained
         }

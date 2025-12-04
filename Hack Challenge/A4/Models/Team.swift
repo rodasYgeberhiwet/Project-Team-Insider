@@ -15,5 +15,6 @@ struct Team: Codable {
     let reviews: [String]
     let hours: String
     let category: String
+    let website: String?
     
 }

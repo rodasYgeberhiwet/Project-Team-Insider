@@ -33,7 +33,9 @@ class DetailViewController: UIViewController {
     private var bookmarkButton: UIBarButtonItem!
     private let backButtonImg = UIImage(systemName: "chevron.left")
     
-    private var collectionView: UICollectionView!
+    private let scrollView = UIScrollView()
+    private let contentView = UIView() //scrollable view
+//    private var collectionView: UICollectionView!
     private let refreshControl = UIRefreshControl()
     
     // MARK: - Properties (data)
@@ -118,6 +120,7 @@ class DetailViewController: UIViewController {
         self.posts = dummyPosts
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: backButtonImg, style: .plain, target: self, action: #selector(tapBack))
+        setupScroll()
         setupImage()
         setupNameLabel()
         configureView()
@@ -131,7 +134,7 @@ class DetailViewController: UIViewController {
         setupHours()
         setupDescription()
         setupBookmark()
-        setupCreatePostButton()
+//        setupCreatePostButton()
         setupPostCollectionView()
     }
     
@@ -146,12 +149,12 @@ class DetailViewController: UIViewController {
         gradientLayer.colors = [
             darkdarkBlue,
             darkBlue,
-            lightBlue,
             white,
-            white
+            lightBlue,
+            lightBlue
         ]
 
-        gradientLayer.locations = [0, 0.15, 0.25, 0.5, 1]
+        gradientLayer.locations = [0, 0.10, 0.20, 0.60, 1]
         
         gradientLayer.frame = view.bounds
         view.layer.insertSublayer(gradientLayer, at: 0)
@@ -171,6 +174,21 @@ class DetailViewController: UIViewController {
         category.text = team.category
         reviews.text = "\(team.reviews.count) reviews"
         hours.text = "\(team.hours) hours/week"
+    }
+    
+    private func setupScroll() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        scrollView.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        // pin ContentView to the ScrollView edges
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(view.snp.width) // vertical scrolling
+        }
     }
     
     /*
@@ -214,7 +232,7 @@ class DetailViewController: UIViewController {
         nameLabel.textAlignment = .left
         nameLabel.numberOfLines = 0
         
-        view.addSubview(nameLabel)
+        contentView.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
             
         nameLabel.snp.makeConstraints { make in
@@ -229,33 +247,33 @@ class DetailViewController: UIViewController {
         // Set up the big number (e.g., 4.7)
         overallRatingNumberLabel.text = String(format: "%.1f", overallRating)
         overallRatingNumberLabel.textColor = UIColor.a4.offBlack
-        overallRatingNumberLabel.font = .systemFont(ofSize: 24, weight: .bold)
+        overallRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold)
         
         // Set up the descriptive text ("Overall")
         overallRatingTextLabel.text = "Overall"
         overallRatingTextLabel.textColor = UIColor.a4.silver
         overallRatingTextLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         
-        view.addSubview(overallRatingNumberLabel)
-        view.addSubview(overallRatingTextLabel)
+        contentView.addSubview(overallRatingNumberLabel)
+        contentView.addSubview(overallRatingTextLabel)
                 
         // Set up the big number (e.g., 3.5)
         difficultyRatingNumberLabel.text = String(format: "%.1f", difficultyRating)
         difficultyRatingNumberLabel.textColor = UIColor.a4.offBlack
-        difficultyRatingNumberLabel.font = .systemFont(ofSize: 24, weight: .bold) // Bigger font
+        difficultyRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold) // Bigger font
         
         // Set up the descriptive text ("Difficulty")
         difficultyRatingTextLabel.text = "Difficulty"
         difficultyRatingTextLabel.textColor = UIColor.a4.silver
         difficultyRatingTextLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         
-        view.addSubview(difficultyRatingNumberLabel)
-        view.addSubview(difficultyRatingTextLabel)
+        contentView.addSubview(difficultyRatingNumberLabel)
+        contentView.addSubview(difficultyRatingTextLabel)
         
         // --- 3. Separator Line ---
         
         separatorView.backgroundColor = UIColor.a4.silver // Thin line color
-        view.addSubview(separatorView)
+        contentView.addSubview(separatorView)
         
         // --- 4. Apply SnapKit Constraints ---
         
@@ -297,11 +315,11 @@ class DetailViewController: UIViewController {
         image.clipsToBounds = true
         image.layer.cornerRadius = 12
         
-        view.addSubview(image)
+        contentView.addSubview(image)
         image.translatesAutoresizingMaskIntoConstraints = false
 
         image.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(32)
+            make.top.equalToSuperview().offset(32)
             make.leading.equalToSuperview().offset(32)
             make.height.equalTo(80) //329
             make.width.equalTo(80) //340
@@ -317,10 +335,10 @@ class DetailViewController: UIViewController {
         siteButton.setImage(linkImage, for: .normal)
         siteButton.tintColor = UIColor.a4.white
         siteButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
-//        postButton.addTarget(self, action: #selector(openSite), for: .touchUpInside)
+        siteButton.addTarget(self, action: #selector(openSite), for: .touchUpInside)
         siteButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 8)
 
-        view.addSubview(siteButton)
+        contentView.addSubview(siteButton)
         siteButton.translatesAutoresizingMaskIntoConstraints = false
         
         siteButton.snp.makeConstraints { make in
@@ -340,7 +358,7 @@ class DetailViewController: UIViewController {
         
         comp.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
 
-        view.addSubview(comp)
+        contentView.addSubview(comp)
         comp.translatesAutoresizingMaskIntoConstraints = false
         
         comp.snp.makeConstraints { make in
@@ -361,7 +379,7 @@ class DetailViewController: UIViewController {
         
         category.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         
-        view.addSubview(category)
+        contentView.addSubview(category)
         category.translatesAutoresizingMaskIntoConstraints = false
         
         category.snp.makeConstraints { make in
@@ -374,11 +392,11 @@ class DetailViewController: UIViewController {
         reviews.textColor = UIColor.a4.offBlack
         reviews.font = .systemFont(ofSize: 18, weight: .semibold)
         
-        view.addSubview(reviews)
+        contentView.addSubview(reviews)
         reviews.translatesAutoresizingMaskIntoConstraints = false
         
         reviews.snp.makeConstraints { make in
-            make.top.equalTo(comp.snp.bottom).offset(20)
+            make.top.equalTo(comp.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(32)
         }
     }
@@ -387,11 +405,11 @@ class DetailViewController: UIViewController {
         hours.textColor = UIColor.a4.offBlack
         hours.font = .systemFont(ofSize: 18, weight: .semibold)
         
-        view.addSubview(hours)
+        contentView.addSubview(hours)
         hours.translatesAutoresizingMaskIntoConstraints = false
         
         hours.snp.makeConstraints { make in
-            make.top.equalTo(comp.snp.bottom).offset(20)
+            make.top.equalTo(comp.snp.bottom).offset(16)
             make.leading.equalTo(reviews.snp.trailing).offset(60)
         }
     }
@@ -402,7 +420,7 @@ class DetailViewController: UIViewController {
         descLabel.textAlignment = .left
         descLabel.numberOfLines = 0
         
-        view.addSubview(descLabel)
+        contentView.addSubview(descLabel)
         descLabel.translatesAutoresizingMaskIntoConstraints = false
             
         descLabel.snp.makeConstraints { make in
@@ -411,7 +429,7 @@ class DetailViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-32)
         }
     }
-    
+    /*
     func setupCreatePostButton() {
         createPostButton.backgroundColor = UIColor.a4.darkBlue
         createPostButton.layer.cornerRadius = 4
@@ -426,37 +444,62 @@ class DetailViewController: UIViewController {
         createPostButton.translatesAutoresizingMaskIntoConstraints = false
         
         createPostButton.snp.makeConstraints { make in
+            // Vertically align the site button with the top of the ratings numbers
             createPostButton.top.equalTo(descLabel.snp.bottom).offset(24)
             createPostButton.trailing.equalToSuperview().offset(-32)
         }
     }
+     */
     
     private func setupPostCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .vertical //~needed?
 //        layout.minimumLineSpacing = 32
         layout.minimumInteritemSpacing = 16
         
         // Initialize collectionView using the layout
         postCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         postCollectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.reuse)
-        postCollectionView.backgroundColor = UIColor.a4.white
+        postCollectionView.backgroundColor = UIColor.a4.lightPurple
         postCollectionView.alwaysBounceVertical = true
         postCollectionView.delegate = self
         postCollectionView.dataSource = self
-        postCollectionView.contentInset = UIEdgeInsets(top: 32, left: 0, bottom: 0, right: 0)
+//        postCollectionView.contentInset = UIEdgeInsets(top: 32, left: 0, bottom: 0, right: 0)
+        postCollectionView.isScrollEnabled = false //let parent control scrolling
         
 //        refreshControl.addTarget(self, action: #selector(getRecipes), for: .valueChanged)
         postCollectionView.refreshControl = refreshControl
         
-        view.addSubview(postCollectionView)
+        contentView.addSubview(postCollectionView)
         postCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         postCollectionView.snp.makeConstraints { make in
             make.top.equalTo(descLabel.snp.bottom).offset(32)
             make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(calculateCollectionViewHeight()) //height of all posts
+            make.bottom.equalToSuperview()
         }
     }
+    
+    private func calculateCollectionViewHeight() -> CGFloat {
+        let postCount = posts.count
+        let estimatedCellHeight: CGFloat = 350
+        let sectionTopInset: CGFloat = 16
+        let sectionBottomInset: CGFloat = 32
+        let contentInsetTop: CGFloat = 32
+        let minimumLineSpacing: CGFloat = 0 //~what value?
+        let interItemSpacing: CGFloat = 16
+
+        // Total height calculation:
+        // (Total height of all cells) + (Spacing between cells) + (Insets/Padding)
+        
+        let totalCellHeight = estimatedCellHeight * CGFloat(postCount)
+        let totalSpacing = interItemSpacing * CGFloat(postCount - 1)
+        let totalPadding = sectionTopInset + sectionBottomInset + contentInsetTop
+
+        return totalCellHeight + totalSpacing + totalPadding
+    }
+
     
     private func setupBookmark() {
         bookmarkButton = UIBarButtonItem(
@@ -504,6 +547,18 @@ class DetailViewController: UIViewController {
     @objc private func tapBack() {
         navigationController?.popViewController(animated: true)
     }
+    
+    @objc private func openSite() {
+        guard let urlString = team.website,
+              let url = URL(string: urlString) else {
+            return
+        }
+
+        UIApplication.shared.open(url) { success in
+            // error handling?
+        }
+    }
+
 }
 
 protocol BookmarkDelegate: AnyObject { // using protocol to establish loose coupling instead of tight coupling
