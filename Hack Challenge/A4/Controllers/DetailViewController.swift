@@ -58,13 +58,14 @@ class DetailViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: backButtonImg, style: .plain, target: self, action: #selector(tapBack))
         setupImage()
         setupTitleLabel()
-        setupDescription()
         configureView()
-        setupBookmark()
-//        setupPostCollectionView()
         let dummyOverallRating: Float = 4.7
         let dummyDifficultyRating: Float = 3.5
         setupRatingMetrics(overallRating: dummyOverallRating, difficultyRating: dummyDifficultyRating)
+        setupSiteButton()
+        setupDescription()
+        setupBookmark()
+//        setupPostCollectionView()
         
     }
     
@@ -80,8 +81,8 @@ class DetailViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
             
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(image.snp.bottom).offset(32)
-            make.leading.equalToSuperview().offset(32)
+            make.centerY.equalTo(image.snp.centerY)
+            make.leading.equalTo(image.snp.trailing).offset(16)
             make.trailing.equalToSuperview().offset(-32)
         }
     }
@@ -92,12 +93,12 @@ class DetailViewController: UIViewController {
         
         // Set up the big number (e.g., 4.7)
         overallRatingNumberLabel.text = String(format: "%.1f", overallRating)
-        overallRatingNumberLabel.textColor = UIColor.a4.offBlack // Assuming offBlack is a primary text color [6]
-        overallRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold) // Bigger font
+        overallRatingNumberLabel.textColor = UIColor.a4.offBlack
+        overallRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold)
         
         // Set up the descriptive text ("Overall")
         overallRatingTextLabel.text = "Overall"
-        overallRatingTextLabel.textColor = UIColor.a4.silver // Assuming silver is used for secondary text [3]
+        overallRatingTextLabel.textColor = UIColor.a4.silver
         overallRatingTextLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         
         view.addSubview(overallRatingNumberLabel)
@@ -125,21 +126,10 @@ class DetailViewController: UIViewController {
         
         // --- 4. Apply SnapKit Constraints ---
         
-        let ratingBlockTopOffset = 32 // Offset below the description
-        
-        // Constraint for Separator (Center component)
-        separatorView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview() // Center horizontally
-            make.top.equalTo(descLabel.snp.bottom).offset(ratingBlockTopOffset + 8) // Below description
-            make.width.equalTo(1) // Thin vertical line
-            make.height.equalTo(50) // Short height
-        }
-        
         // Constraints for Overall Rating (LHS)
         overallRatingNumberLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(separatorView.snp.centerY).offset(-12) // Slightly above center
-            // Pin the LHS rating block to the left of the separator
-            make.trailing.equalTo(separatorView.snp.leading).offset(-32)
+            make.top.equalTo(image.snp.bottom).offset(32)
+            make.leading.equalToSuperview().offset(32)
         }
         
         overallRatingTextLabel.snp.makeConstraints { make in
@@ -147,18 +137,26 @@ class DetailViewController: UIViewController {
             make.top.equalTo(overallRatingNumberLabel.snp.bottom).offset(4)
             make.centerX.equalTo(overallRatingNumberLabel.snp.centerX)
         }
+                
+        // Constraint for Separator (Center component)
+        separatorView.snp.makeConstraints { make in
+            make.top.equalTo(overallRatingNumberLabel.snp.top)
+            make.leading.equalTo(overallRatingNumberLabel.snp.trailing).offset(32)
+            make.width.equalTo(1) // Thin vertical line
+            make.height.equalTo(50)
+        }
+        
 
         // Constraints for Difficulty Rating (RHS)
         difficultyRatingNumberLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(overallRatingNumberLabel.snp.centerY) // Align horizontally with the other number
-            // Pin the RHS rating block to the right of the separator
+            make.centerY.equalTo(overallRatingNumberLabel.snp.centerY)
             make.leading.equalTo(separatorView.snp.trailing).offset(32)
         }
         
         difficultyRatingTextLabel.snp.makeConstraints { make in
             make.top.equalTo(difficultyRatingNumberLabel.snp.bottom).offset(4)
             make.centerX.equalTo(difficultyRatingNumberLabel.snp.centerX)
-            make.bottom.lessThanOrEqualToSuperview().offset(-32) // Ensure the bottom anchor is constrained
+//            make.bottom.lessThanOrEqualToSuperview().offset(-32) // Ensure the bottom anchor is constrained
         }
     }
     
@@ -172,7 +170,7 @@ class DetailViewController: UIViewController {
         descLabel.translatesAutoresizingMaskIntoConstraints = false
             
         descLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(16)
+            make.top.equalTo(overallRatingTextLabel.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(32)
             make.trailing.equalToSuperview().offset(-32)
         }
@@ -188,18 +186,37 @@ class DetailViewController: UIViewController {
 
         image.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(32)
-            make.height.equalTo(329)
-            make.width.equalTo(340)
             make.leading.equalToSuperview().offset(32)
-            make.trailing.equalToSuperview().offset(-32)
+            make.height.equalTo(80) //329
+            make.width.equalTo(80) //340
         }
     }
     
     private func configureView() {
 //        self.image.sd_setImage(with: URL(string: team.image_url))
+        self.image.image = UIImage(named: "appdev-logo") //dummy image
         titleLabel.text = team.name
         descLabel.text = team.description
         
+    }
+    
+    private func setupSiteButton() {
+        siteButton.backgroundColor = UIColor.a4.darkBlue
+        siteButton.layer.cornerRadius = 4
+        siteButton.setTitle("Visit Site", for: .normal)
+        siteButton.setTitleColor(UIColor.a4.white, for: .normal)
+        siteButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+//        postButton.addTarget(self, action: #selector(openSite), for: .touchUpInside)
+        siteButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+
+        view.addSubview(siteButton)
+        siteButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        siteButton.snp.makeConstraints { make in
+            // Vertically align the site button with the top of the ratings numbers
+            make.centerY.equalTo(overallRatingNumberLabel.snp.centerY)
+            make.trailing.equalToSuperview().offset(-32)
+        }
     }
     
     private func setupBookmark() {

@@ -21,6 +21,7 @@ extension UIColor {
         let yellowOrange = UIColor(red: 255/255, green: 170/255, blue: 51/255, alpha: 1)
         //new color palette
         let darkBlue = UIColor(red:145/255, green:167/255, blue: 219/255, alpha:1)
+        let midBlue = UIColor(red:224/255, green:62/255, blue: 80/255, alpha:1)
         let pinkRed = UIColor(red:242/255, green:147/255, blue:159/255, alpha:1)
         let offBlack = UIColor(red:97/255, green:81/255, blue:96/255, alpha:1)
         let beige = UIColor(red:254/255, green:218/255, blue:204/255, alpha:1)
