@@ -63,6 +63,8 @@ class DetailViewController: UIViewController {
         let dummyDifficultyRating: Float = 3.5
         setupRatingMetrics(overallRating: dummyOverallRating, difficultyRating: dummyDifficultyRating)
         setupSiteButton()
+        setupComp()
+        setupCategory()
         setupDescription()
         setupBookmark()
 //        setupPostCollectionView()
@@ -128,7 +130,7 @@ class DetailViewController: UIViewController {
         
         // Constraints for Overall Rating (LHS)
         overallRatingNumberLabel.snp.makeConstraints { make in
-            make.top.equalTo(image.snp.bottom).offset(32)
+            make.top.equalTo(image.snp.bottom).offset(24)
             make.leading.equalToSuperview().offset(32)
         }
         
@@ -140,12 +142,11 @@ class DetailViewController: UIViewController {
                 
         // Constraint for Separator (Center component)
         separatorView.snp.makeConstraints { make in
-            make.top.equalTo(overallRatingNumberLabel.snp.top)
+            make.top.equalTo(overallRatingNumberLabel.snp.top).offset(4)
             make.leading.equalTo(overallRatingNumberLabel.snp.trailing).offset(32)
             make.width.equalTo(1) // Thin vertical line
             make.height.equalTo(50)
         }
-        
 
         // Constraints for Difficulty Rating (RHS)
         difficultyRatingNumberLabel.snp.makeConstraints { make in
@@ -203,19 +204,62 @@ class DetailViewController: UIViewController {
     private func setupSiteButton() {
         siteButton.backgroundColor = UIColor.a4.darkBlue
         siteButton.layer.cornerRadius = 4
-        siteButton.setTitle("Visit Site", for: .normal)
+        siteButton.setTitle(" Visit Site", for: .normal)
         siteButton.setTitleColor(UIColor.a4.white, for: .normal)
-        siteButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        let linkImage = UIImage(systemName: "link") //~link, safari
+        siteButton.setImage(linkImage, for: .normal)
+        siteButton.tintColor = UIColor.a4.white
+        siteButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
 //        postButton.addTarget(self, action: #selector(openSite), for: .touchUpInside)
-        siteButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        siteButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 8)
 
         view.addSubview(siteButton)
         siteButton.translatesAutoresizingMaskIntoConstraints = false
         
         siteButton.snp.makeConstraints { make in
             // Vertically align the site button with the top of the ratings numbers
-            make.centerY.equalTo(overallRatingNumberLabel.snp.centerY)
+            make.centerY.equalTo(separatorView.snp.centerY)
             make.trailing.equalToSuperview().offset(-32)
+        }
+    }
+    
+    func setupComp() {
+        comp.textColor = UIColor.white
+        comp.backgroundColor = UIColor.a4.pinkRed
+        comp.layer.cornerRadius = 8
+        comp.layer.masksToBounds = true
+        comp.font = .systemFont(ofSize: 10, weight: .bold)
+        comp.textAlignment = .center
+        
+//        comp.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+
+        view.addSubview(comp)
+        comp.translatesAutoresizingMaskIntoConstraints = false
+        
+        comp.snp.makeConstraints { make in
+            make.top.equalTo(overallRatingTextLabel.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(32)
+        }
+    }
+    
+    func setupCategory() {
+        category.textColor = UIColor.a4.offBlack
+        category.backgroundColor = UIColor.a4.lilac
+        category.layer.borderWidth = 1
+        category.layer.borderColor = UIColor.darkGray.cgColor
+        category.layer.cornerRadius = 8
+        category.layer.masksToBounds = true
+        category.font = .systemFont(ofSize: 10, weight: .bold)
+        category.textAlignment = .center
+        
+//        category.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+//        16
+        view.addSubview(category)
+        category.translatesAutoresizingMaskIntoConstraints = false
+        
+        category.snp.makeConstraints { make in
+            make.centerY.equalTo(comp.snp.centerY)
+            make.leading.equalTo(comp.snp.trailing).offset(16)
         }
     }
     
