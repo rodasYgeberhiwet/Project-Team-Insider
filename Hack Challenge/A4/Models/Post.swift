@@ -8,7 +8,6 @@
 import Foundation
 
 struct Post: Codable {
-    // TODO: Create a Post Struct here
     var likes: [String]
     let message: String
     let time: Date

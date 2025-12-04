@@ -285,10 +285,10 @@ class PostCollectionViewCell: UICollectionViewCell {
         heart.setTitle("♥︎", for: .normal)
         heart.setTitleColor(UIColor.a4.pinkRed, for: .normal)
         post.likes.append(netId)
-        NetworkManager.shared.updateRosterLikes(netId: netId, postId: post.id) { updatedPost in
-            self.post = updatedPost
-            self.likes.text = "\(updatedPost.likes.count) likes"
-        }
+//        NetworkManager.shared.updateRosterLikes(netId: netId, postId: post.id) { updatedPost in
+//            self.post = updatedPost
+//            self.likes.text = "\(updatedPost.likes.count) likes"
+//        }
     }
     
     private func setupLikeCount(){
@@ -301,7 +301,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         likes.snp.makeConstraints { make in
             make.centerY.equalTo(heart.snp.centerY)
             make.leading.equalTo(heart.snp.trailing).offset(4)
-            make.bottom.equalToSuperview().offset(-sidePadding) 
+            make.bottom.equalToSuperview().offset(-sidePadding)
         }
     }
     

@@ -8,7 +8,6 @@
 import Foundation
 
 struct Team: Codable {
-    // TODO: Create a Post Struct here
     let id: String
     let name: String
     let description: String

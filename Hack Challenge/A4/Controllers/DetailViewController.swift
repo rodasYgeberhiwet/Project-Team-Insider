@@ -27,7 +27,7 @@ class DetailViewController: UIViewController {
     private let reviews = UILabel()
     private let hours = UILabel()
     private let descLabel = UILabel()
-    //private let reviews2 = UILabel()
+    private var postCollectionView: UICollectionView!
     
     private var bookmarkButton: UIBarButtonItem!
     private let backButtonImg = UIImage(systemName: "chevron.left")
@@ -71,6 +71,51 @@ class DetailViewController: UIViewController {
         setupGradientBackground()
         view.backgroundColor = UIColor.a4.white
         
+        let post1 = Post(
+            likes: ["aly32", "user_b", "user_c"], // Includes the current user's netId ("aly32") to test liking logic [3]
+            message: "The development workflow is highly structured and professional. Excellent mentorship for new members, but expect the time commitment to be closer to 20 hours/week.",
+            time: Date().addingTimeInterval(-3600 * 4), // 4 hours ago
+            id: "review_101",
+            profileImage: "default_icon.png",
+            isMember: true,
+            yearsMember: "F2024 - S2025",
+            major: "Computer Science",
+            timesApplied: 1,
+            timeCommitment: "15-20" // matches setupDataLabels dummy data [4]
+        )
+        // Dummy Post 2: A shorter, non-member experience
+        let post2 = Post(
+            likes: [],
+            message: "The interview process was mostly behavioral and very organized. I was slightly disappointed by the lack of technical feedback provided afterwards.",
+            time: Date().addingTimeInterval(-86400 * 5), // 5 days ago
+            id: "interview_204",
+            profileImage: "default_icon.png",
+            isMember: false,
+            yearsMember: "N/A",
+            major: "Electrical Engineering",
+            timesApplied: 2,
+            timeCommitment: "N/A"
+        )
+        // Dummy Post 3: A recently liked post
+        let post3 = Post(
+            likes: ["user_a"],
+            message: "I really enjoyed the collaborative environment. Great for beginners looking to learn the basics!",
+            time: Date().addingTimeInterval(-60 * 15), // 15 minutes ago
+            id: "review_300",
+            profileImage: "default_icon.png",
+            isMember: true,
+            yearsMember: "F2023",
+            major: "Information Science",
+            timesApplied: 1,
+            timeCommitment: "10-15"
+        )
+        let dummyPosts: [Post] = [
+            post1,
+            post2,
+            post3
+        ]
+        self.posts = dummyPosts
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: backButtonImg, style: .plain, target: self, action: #selector(tapBack))
         setupImage()
         setupNameLabel()
@@ -85,8 +130,7 @@ class DetailViewController: UIViewController {
         setupHours()
         setupDescription()
         setupBookmark()
-//        setupPostCollectionView()
-        
+        setupPostCollectionView()
     }
     
     private func setupGradientBackground() {
@@ -127,6 +171,7 @@ class DetailViewController: UIViewController {
         hours.text = "\(team.hours) hours/week"
     }
     
+    /*
     private func setupTitleLabel() {
         titleLabel.text = "Big Red Teams"
         titleLabel.textColor = .white
@@ -142,6 +187,7 @@ class DetailViewController: UIViewController {
             make.trailing.equalToSuperview()
         }
     }
+     */
     /*
     private func setupSubtextLabel() {
         subtextLabel.text = "Learn more about Cornell's student-led project teams"
@@ -177,13 +223,11 @@ class DetailViewController: UIViewController {
     }
     
     private func setupRatingMetrics(overallRating: Float, difficultyRating: Float) {
-        
-        // --- 1. Overall Rating (LHS) ---
-        
+                
         // Set up the big number (e.g., 4.7)
         overallRatingNumberLabel.text = String(format: "%.1f", overallRating)
         overallRatingNumberLabel.textColor = UIColor.a4.offBlack
-        overallRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold)
+        overallRatingNumberLabel.font = .systemFont(ofSize: 24, weight: .bold)
         
         // Set up the descriptive text ("Overall")
         overallRatingTextLabel.text = "Overall"
@@ -192,13 +236,11 @@ class DetailViewController: UIViewController {
         
         view.addSubview(overallRatingNumberLabel)
         view.addSubview(overallRatingTextLabel)
-        
-        // --- 2. Difficulty Rating (RHS) ---
-        
+                
         // Set up the big number (e.g., 3.5)
         difficultyRatingNumberLabel.text = String(format: "%.1f", difficultyRating)
         difficultyRatingNumberLabel.textColor = UIColor.a4.offBlack
-        difficultyRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold) // Bigger font
+        difficultyRatingNumberLabel.font = .systemFont(ofSize: 24, weight: .bold) // Bigger font
         
         // Set up the descriptive text ("Difficulty")
         difficultyRatingTextLabel.text = "Difficulty"
@@ -353,7 +395,7 @@ class DetailViewController: UIViewController {
     }
     
     private func setupDescription() {
-        descLabel.textColor = UIColor.black
+        descLabel.textColor = UIColor.a4.offBlack
         descLabel.font = .systemFont(ofSize: 16, weight: .medium)
         descLabel.textAlignment = .left
         descLabel.numberOfLines = 0
@@ -365,6 +407,33 @@ class DetailViewController: UIViewController {
             make.top.equalTo(reviews.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(32)
             make.trailing.equalToSuperview().offset(-32)
+        }
+    }
+    
+    private func setupPostCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+//        layout.minimumLineSpacing = 32
+        layout.minimumInteritemSpacing = 16
+        
+        // Initialize collectionView using the layout
+        postCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        postCollectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.reuse)
+        postCollectionView.backgroundColor = UIColor.a4.white
+        postCollectionView.alwaysBounceVertical = true
+        postCollectionView.delegate = self
+        postCollectionView.dataSource = self
+        postCollectionView.contentInset = UIEdgeInsets(top: 32, left: 0, bottom: 0, right: 0)
+        
+//        refreshControl.addTarget(self, action: #selector(getRecipes), for: .valueChanged)
+        postCollectionView.refreshControl = refreshControl
+        
+        view.addSubview(postCollectionView)
+        postCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        postCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(descLabel.snp.bottom).offset(32)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
@@ -432,5 +501,46 @@ extension UIFont {
             font = systemFont
         }
         return font
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+extension DetailViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return posts.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCollectionViewCell.reuse, for: indexPath) as? PostCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+
+        let post = posts[indexPath.row]
+        cell.configure(post: post)
+        return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension DetailViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // define height based on content of PostCollectionViewCell (wraps)
+        let width = collectionView.frame.width - (32 * 2) // Total width minus padding
+        // estimate a height tall enough to contain all elements, or use self-sizing cells.
+        let estimatedHeight: CGFloat = 350 // Placeholder height based on required complexity
+        
+        return CGSize(width: width, height: estimatedHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Handle post selection/interaction here
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        // Add padding around the section
+        return UIEdgeInsets(top: 16, left: 32, bottom: 32, right: 32)
     }
 }
