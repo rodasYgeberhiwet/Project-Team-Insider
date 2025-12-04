@@ -49,8 +49,8 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         layer.shadowRadius = 6            // how blurry
         layer.shadowOffset = CGSize(width: 0, height: 3)
         layer.masksToBounds = false       // IMPORTANT
-        setupName()
         setupComp()
+        setupName()
         setupCategory()
         setupDesc()
         setupReviews()
@@ -99,23 +99,6 @@ class ExploreCollectionViewCell: UICollectionViewCell {
 //        }
 //    }
     
-    func setupName() {
-        name.textColor = UIColor.a4.offBlack
-        name.font = .systemFont(ofSize: 18, weight: .semibold)
-        
-        name.numberOfLines = 0
-        name.lineBreakMode = .byWordWrapping
-        
-        contentView.addSubview(name)
-        name.translatesAutoresizingMaskIntoConstraints = false
-        
-        name.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(16)
-            make.leading.equalToSuperview().offset(8)
-            make.trailing.lessThanOrEqualToSuperview().offset(-8)
-        }
-    }
-    
     func setupComp() {
         comp.textColor = UIColor.white
         comp.backgroundColor = UIColor.a4.pinkRed
@@ -131,7 +114,24 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         comp.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-8)
+            make.trailing.equalToSuperview().offset(-16)
+        }
+    }
+    
+    func setupName() {
+        name.textColor = UIColor.a4.offBlack
+        name.font = .systemFont(ofSize: 18, weight: .semibold)
+        
+        name.numberOfLines = 0
+        name.lineBreakMode = .byWordWrapping
+        
+        contentView.addSubview(name)
+        name.translatesAutoresizingMaskIntoConstraints = false
+        
+        name.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalTo(comp.snp.leading).offset(-8)
         }
     }
     
@@ -152,7 +152,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         category.snp.makeConstraints { make in
             make.top.equalTo(name.snp.bottom).offset(8)
-            make.leading.equalToSuperview().offset(8)
+            make.leading.equalToSuperview().offset(16)
         }
     }
     
@@ -168,8 +168,8 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         desc.snp.makeConstraints { make in
             make.top.equalTo(category.snp.bottom).offset(8)
-            make.leading.equalToSuperview().offset(8)
-            make.trailing.lessThanOrEqualToSuperview().offset(-8)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.lessThanOrEqualToSuperview().offset(-16)
         }
     }
     
@@ -182,7 +182,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         reviews.snp.makeConstraints { make in
             make.top.equalTo(desc.snp.bottom).offset(8)
-            make.leading.equalToSuperview().offset(8)
+            make.leading.equalToSuperview().offset(16)
         }
     }
     
@@ -249,8 +249,8 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         bookmark.translatesAutoresizingMaskIntoConstraints = false
         
         bookmark.snp.makeConstraints {make in
-            make.trailing.equalToSuperview().offset(-8)
-            make.top.equalToSuperview().offset(8)
+            make.trailing.equalTo(comp.snp.leading).offset(-8)
+            make.top.equalToSuperview().offset(16)
             make.width.height.equalTo(20)
         }
     }

@@ -12,8 +12,9 @@ import SnapKit
 class DetailViewController: UIViewController {
     
     // MARK: - Properties (view)
-    
     private let titleLabel = UILabel()
+    // private let subtextLabel = UILabel()
+    private let nameLabel = UILabel()
     private let image = UIImageView()
     private let overallRatingNumberLabel = UILabel()
     private let overallRatingTextLabel = UILabel()
@@ -21,12 +22,12 @@ class DetailViewController: UIViewController {
     private let difficultyRatingTextLabel = UILabel()
     private let separatorView = UIView() // The thin vertical line
     private let siteButton = UIButton()
-    private let category = UILabel()
-    private let comp = UILabel()
-    private let reviews1 = UILabel()
+    private let category = PaddedLabel()
+    private let comp = PaddedLabel()
+    private let reviews = UILabel()
     private let hours = UILabel()
     private let descLabel = UILabel()
-    private let reviews2 = UILabel()
+    //private let reviews2 = UILabel()
     
     private var bookmarkButton: UIBarButtonItem!
     private let backButtonImg = UIImage(systemName: "chevron.left")
@@ -54,10 +55,25 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        
+        let titleLabel = UILabel()
+        titleLabel.text = "Cup of Teams"
+        titleLabel.textColor = UIColor.a4.lightPurple
+        titleLabel.font = UIFont.rounded(ofSize: 28, weight: .bold)
+
+        let attributedString = NSMutableAttributedString(string: "Cup of Teams")
+        attributedString.addAttribute(.kern, value: 1.2, range: NSRange(location: 0, length: attributedString.length))
+        titleLabel.attributedText = attributedString
+
+        titleLabel.sizeToFit()
+        navigationItem.titleView = titleLabel
+        
+        setupGradientBackground()
+        view.backgroundColor = UIColor.a4.white
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: backButtonImg, style: .plain, target: self, action: #selector(tapBack))
         setupImage()
-        setupTitleLabel()
+        setupNameLabel()
         configureView()
         let dummyOverallRating: Float = 4.7
         let dummyDifficultyRating: Float = 3.5
@@ -65,24 +81,97 @@ class DetailViewController: UIViewController {
         setupSiteButton()
         setupComp()
         setupCategory()
+        setupReviews()
+        setupHours()
         setupDescription()
         setupBookmark()
 //        setupPostCollectionView()
         
     }
     
+    private func setupGradientBackground() {
+        let gradientLayer = CAGradientLayer()
+            
+        let darkdarkBlue = UIColor.a4.darkdarkBlue.cgColor
+        let darkBlue = UIColor.a4.darkBlue.cgColor
+        let lightBlue = UIColor.a4.lightPurple.cgColor
+        let white = UIColor.a4.white.cgColor
+        
+        gradientLayer.colors = [
+            darkdarkBlue,      // Top: Dark blue
+            darkBlue,
+            lightBlue,     // Quick transition to light blue
+            white,         // White starts EARLY
+            white          // Rest is white
+        ]
+        
+        // ⭐️ CRITICAL: Adjust these values! Lower numbers = higher up
+        // 0 = top of screen, 1 = bottom of screen
+        gradientLayer.locations = [0, 0.15, 0.25, 0.33, 1]  // ⭐️ White starts at 25% down!
+        
+        gradientLayer.frame = view.bounds
+        view.layer.insertSublayer(gradientLayer, at: 0)
+        
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
+    }
+
+    
     // MARK: - Set Up Views
+    private func configureView() {
+//        self.image.sd_setImage(with: URL(string: team.image_url))
+        self.image.image = UIImage(named: "appdev-logo") //dummy image
+        nameLabel.text = team.name
+        descLabel.text = team.description
+        comp.text = team.comp
+        category.text = team.category
+        reviews.text = "\(team.reviews.count) reviews"
+        hours.text = "\(team.hours) hours/week"
+    }
     
     private func setupTitleLabel() {
-        titleLabel.textColor = .black
-        titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
+        titleLabel.text = "Big Red Teams"
+        titleLabel.textColor = .white
+        titleLabel.font = .systemFont(ofSize: 32, weight: .semibold)
         titleLabel.textAlignment = .left
-        titleLabel.numberOfLines = 0
         
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
             
         titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.equalToSuperview().offset(32)
+            make.trailing.equalToSuperview()
+        }
+    }
+    /*
+    private func setupSubtextLabel() {
+        subtextLabel.text = "Learn more about Cornell's student-led project teams"
+        subtextLabel.textColor = .white
+        subtextLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        subtextLabel.textAlignment = .left
+        subtextLabel.numberOfLines = 0
+        
+        view.addSubview(subtextLabel)
+        subtextLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+        subtextLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(32)
+            make.trailing.equalToSuperview()
+        }
+    }
+    */
+    private func setupNameLabel() {
+        nameLabel.textColor = .black
+        nameLabel.font = .systemFont(ofSize: 22, weight: .semibold)
+        nameLabel.textAlignment = .left
+        nameLabel.numberOfLines = 0
+        
+        view.addSubview(nameLabel)
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+        nameLabel.snp.makeConstraints { make in
             make.centerY.equalTo(image.snp.centerY)
             make.leading.equalTo(image.snp.trailing).offset(16)
             make.trailing.equalToSuperview().offset(-32)
@@ -161,22 +250,6 @@ class DetailViewController: UIViewController {
         }
     }
     
-    private func setupDescription() {
-        descLabel.textColor = UIColor.a4.silver
-        descLabel.font = .systemFont(ofSize: 16, weight: .medium)
-        descLabel.textAlignment = .left
-        descLabel.numberOfLines = 0
-        
-        view.addSubview(descLabel)
-        descLabel.translatesAutoresizingMaskIntoConstraints = false
-            
-        descLabel.snp.makeConstraints { make in
-            make.top.equalTo(overallRatingTextLabel.snp.bottom).offset(16)
-            make.leading.equalToSuperview().offset(32)
-            make.trailing.equalToSuperview().offset(-32)
-        }
-    }
-    
     private func setupImage() {
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
@@ -191,14 +264,6 @@ class DetailViewController: UIViewController {
             make.height.equalTo(80) //329
             make.width.equalTo(80) //340
         }
-    }
-    
-    private func configureView() {
-//        self.image.sd_setImage(with: URL(string: team.image_url))
-        self.image.image = UIImage(named: "appdev-logo") //dummy image
-        titleLabel.text = team.name
-        descLabel.text = team.description
-        
     }
     
     private func setupSiteButton() {
@@ -224,44 +289,84 @@ class DetailViewController: UIViewController {
     }
     
     func setupComp() {
-        comp.text = team.comp
         comp.textColor = UIColor.white
         comp.backgroundColor = UIColor.a4.pinkRed
         comp.layer.cornerRadius = 8
         comp.layer.masksToBounds = true
-        comp.font = .systemFont(ofSize: 10, weight: .bold)
+        comp.font = .systemFont(ofSize: 12, weight: .bold)
         comp.textAlignment = .center
         
-//        comp.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        comp.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
 
         view.addSubview(comp)
         comp.translatesAutoresizingMaskIntoConstraints = false
         
         comp.snp.makeConstraints { make in
-            make.top.equalTo(overallRatingTextLabel.snp.bottom).offset(16)
+            make.top.equalTo(overallRatingTextLabel.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(32)
         }
     }
     
     func setupCategory() {
-        category.text = team.category
         category.textColor = UIColor.a4.offBlack
         category.backgroundColor = UIColor.a4.lilac
         category.layer.borderWidth = 1
-        category.layer.borderColor = UIColor.darkGray.cgColor
+        // category.layer.borderColor = UIColor.darkGray.cgColor
         category.layer.cornerRadius = 8
         category.layer.masksToBounds = true
-        category.font = .systemFont(ofSize: 10, weight: .bold)
+        category.font = .systemFont(ofSize: 12, weight: .bold)
         category.textAlignment = .center
         
-//        category.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
-//        16
+        category.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        
         view.addSubview(category)
         category.translatesAutoresizingMaskIntoConstraints = false
         
         category.snp.makeConstraints { make in
             make.centerY.equalTo(comp.snp.centerY)
             make.leading.equalTo(comp.snp.trailing).offset(16)
+        }
+    }
+    
+    func setupReviews() {
+        reviews.textColor = UIColor.a4.offBlack
+        reviews.font = .systemFont(ofSize: 18, weight: .semibold)
+        
+        view.addSubview(reviews)
+        reviews.translatesAutoresizingMaskIntoConstraints = false
+        
+        reviews.snp.makeConstraints { make in
+            make.top.equalTo(comp.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(32)
+        }
+    }
+    
+    func setupHours() {
+        hours.textColor = UIColor.a4.offBlack
+        hours.font = .systemFont(ofSize: 18, weight: .semibold)
+        
+        view.addSubview(hours)
+        hours.translatesAutoresizingMaskIntoConstraints = false
+        
+        hours.snp.makeConstraints { make in
+            make.top.equalTo(comp.snp.bottom).offset(20)
+            make.leading.equalTo(reviews.snp.trailing).offset(60)
+        }
+    }
+    
+    private func setupDescription() {
+        descLabel.textColor = UIColor.black
+        descLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        descLabel.textAlignment = .left
+        descLabel.numberOfLines = 0
+        
+        view.addSubview(descLabel)
+        descLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+        descLabel.snp.makeConstraints { make in
+            make.top.equalTo(reviews.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(32)
+            make.trailing.equalToSuperview().offset(-32)
         }
     }
     
@@ -274,7 +379,7 @@ class DetailViewController: UIViewController {
         )
         
         navigationItem.rightBarButtonItem = bookmarkButton
-        // let bookmarked = UserDefaults.standard.array(forKey: "bookmarked") as? [String] ?? []
+        let bookmarked = UserDefaults.standard.array(forKey: "bookmarked") as? [String] ?? []
         updateBookmark()
     }
     
@@ -318,4 +423,16 @@ protocol BookmarkDelegate: AnyObject { // using protocol to establish loose coup
 }
 
     
-
+extension UIFont {
+    class func rounded(ofSize size: CGFloat, weight: UIFont.Weight) -> UIFont {
+        let systemFont = UIFont.systemFont(ofSize: size, weight: weight)
+        let font: UIFont
+        
+        if let descriptor = systemFont.fontDescriptor.withDesign(.rounded) {
+            font = UIFont(descriptor: descriptor, size: size)
+        } else {
+            font = systemFont
+        }
+        return font
+    }
+}

@@ -27,6 +27,7 @@ extension UIColor {
         let beige = UIColor(red:254/255, green:218/255, blue:204/255, alpha:1)
         let lilac = UIColor(red:207/255, green:175/255, blue:228/255, alpha:1)
         let lightPurple = UIColor(red:234/255, green:236/255, blue:255/255, alpha:1)
+        let darkdarkBlue = UIColor(red: 72/255, green: 74/255, blue: 194/255, alpha: 1)
     }
 
 }

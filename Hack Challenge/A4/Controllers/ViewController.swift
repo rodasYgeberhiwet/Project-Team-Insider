@@ -103,6 +103,19 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let titleLabel = UILabel()
+        titleLabel.text = "Cup of Teams"
+        titleLabel.textColor = UIColor.a4.lightPurple
+        titleLabel.font = UIFont.rounded(ofSize: 32, weight: .bold)
+
+        let attributedString = NSMutableAttributedString(string: "Cup of Teams")
+        attributedString.addAttribute(.kern, value: 1.2, range: NSRange(location: 0, length: attributedString.length))
+        titleLabel.attributedText = attributedString
+
+        titleLabel.sizeToFit()
+        navigationItem.titleView = titleLabel
+        
         // Do any additional setup after loading the view.
         //filteredRecipes = recipes
         view.backgroundColor = UIColor.a4.darkBlue
@@ -142,7 +155,7 @@ class ViewController: UIViewController {
     private func setupTitleLabel() {
         titleLabel.text = "Explore Project Teams"
         titleLabel.textColor = .white
-        titleLabel.font = .systemFont(ofSize: 32, weight: .semibold)
+        titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
         titleLabel.textAlignment = .left
         
         view.addSubview(titleLabel)
