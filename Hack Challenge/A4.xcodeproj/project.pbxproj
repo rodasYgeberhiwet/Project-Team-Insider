@@ -23,6 +23,7 @@
 		76D61FE92EE0AFC70019D349 /* CreatePostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D61FE82EE0AFC10019D349 /* CreatePostCollectionViewCell.swift */; };
 		76D61FEB2EE0B48E0019D349 /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D61FEA2EE0B47D0019D349 /* CreatePostViewController.swift */; };
 		76D61FED2EE0B4A70019D349 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D61FEC2EE0B4A50019D349 /* Post.swift */; };
+		76D61FEF2EE1E4EA0019D349 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D61FEE2EE1E4E60019D349 /* Date+Extension.swift */; };
 		B180B4A12ECAA41600F0A59D /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B180B4A02ECAA40A00F0A59D /* ExploreCollectionViewCell.swift */; };
 		B180B4A32ECAA67D00F0A59D /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = B180B4A22ECAA67A00F0A59D /* Team.swift */; };
 		B180B4A72ECBBCD600F0A59D /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B180B4A62ECBBCD000F0A59D /* FilterCollectionViewCell.swift */; };
@@ -44,6 +45,7 @@
 		76D61FE82EE0AFC10019D349 /* CreatePostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostCollectionViewCell.swift; sourceTree = "<group>"; };
 		76D61FEA2EE0B47D0019D349 /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		76D61FEC2EE0B4A50019D349 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		76D61FEE2EE1E4E60019D349 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		B180B4A02ECAA40A00F0A59D /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		B180B4A22ECAA67A00F0A59D /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		B180B4A62ECBBCD000F0A59D /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		2E07F6132AF1D04700395214 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				76D61FEE2EE1E4E60019D349 /* Date+Extension.swift */,
 				2E07F6162AF1D06A00395214 /* UIColor+Extension.swift */,
 				2E07F6142AF1D05700395214 /* UIFont+Extension.swift */,
 			);
@@ -231,6 +234,7 @@
 				B180B4A12ECAA41600F0A59D /* ExploreCollectionViewCell.swift in Sources */,
 				B180B4A32ECAA67D00F0A59D /* Team.swift in Sources */,
 				2E07F6152AF1D05700395214 /* UIFont+Extension.swift in Sources */,
+				76D61FEF2EE1E4EA0019D349 /* Date+Extension.swift in Sources */,
 				76D61FED2EE0B4A70019D349 /* Post.swift in Sources */,
 				2ED700582AF1CF5600B7C687 /* AppDelegate.swift in Sources */,
 				76A51D0A2ECAE704001C6B6B /* ViewController.swift in Sources */,

@@ -27,12 +27,15 @@ class DetailViewController: UIViewController {
     private let reviews = UILabel()
     private let hours = UILabel()
     private let descLabel = UILabel()
-    //private let reviews2 = UILabel()
+    private let createPostButton = UIButton()
+    private var postCollectionView: UICollectionView!
     
     private var bookmarkButton: UIBarButtonItem!
     private let backButtonImg = UIImage(systemName: "chevron.left")
     
-    private var collectionView: UICollectionView!
+    private let scrollView = UIScrollView()
+    private let contentView = UIView() //scrollable view
+//    private var collectionView: UICollectionView!
     private let refreshControl = UIRefreshControl()
     
     // MARK: - Properties (data)
@@ -71,7 +74,53 @@ class DetailViewController: UIViewController {
         setupGradientBackground()
         view.backgroundColor = UIColor.a4.white
         
+        let post1 = Post(
+            likes: ["aly32", "user_b", "user_c"], // Includes the current user's netId ("aly32") to test liking logic [3]
+            message: "The development workflow is highly structured and professional. Excellent mentorship for new members, but expect the time commitment to be closer to 20 hours/week.",
+            time: Date().addingTimeInterval(-3600 * 4), // 4 hours ago
+            id: "review_101",
+            profileImage: "default_icon.png",
+            isMember: true,
+            yearsMember: "F2024 - S2025",
+            major: "Computer Science",
+            timesApplied: 1,
+            timeCommitment: "15-20" // matches setupDataLabels dummy data [4]
+        )
+        // Dummy Post 2: A shorter, non-member experience
+        let post2 = Post(
+            likes: [],
+            message: "The interview process was mostly behavioral and very organized. I was slightly disappointed by the lack of technical feedback provided afterwards.",
+            time: Date().addingTimeInterval(-86400 * 5), // 5 days ago
+            id: "interview_204",
+            profileImage: "default_icon.png",
+            isMember: false,
+            yearsMember: "N/A",
+            major: "Electrical Engineering",
+            timesApplied: 2,
+            timeCommitment: "N/A"
+        )
+        // Dummy Post 3: A recently liked post
+        let post3 = Post(
+            likes: ["user_a"],
+            message: "I really enjoyed the collaborative environment. Great for beginners looking to learn the basics!",
+            time: Date().addingTimeInterval(-60 * 15), // 15 minutes ago
+            id: "review_300",
+            profileImage: "default_icon.png",
+            isMember: true,
+            yearsMember: "F2023",
+            major: "Information Science",
+            timesApplied: 1,
+            timeCommitment: "10-15"
+        )
+        let dummyPosts: [Post] = [
+            post1,
+            post2,
+            post3
+        ]
+        self.posts = dummyPosts
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: backButtonImg, style: .plain, target: self, action: #selector(tapBack))
+        setupScroll()
         setupImage()
         setupNameLabel()
         configureView()
@@ -84,9 +133,9 @@ class DetailViewController: UIViewController {
         setupReviews()
         setupHours()
         setupDescription()
+        setupCreatePostButton()
+        setupPostCollectionView()
         setupBookmark()
-//        setupPostCollectionView()
-        
     }
     
     private func setupGradientBackground() {
@@ -100,12 +149,12 @@ class DetailViewController: UIViewController {
         gradientLayer.colors = [
             darkdarkBlue,
             darkBlue,
-            lightBlue,
             white,
-            white
+            lightBlue,
+            lightBlue
         ]
 
-        gradientLayer.locations = [0, 0.15, 0.25, 0.5, 1]
+        gradientLayer.locations = [0, 0.15, 0.25, 0.60, 1]
         
         gradientLayer.frame = view.bounds
         view.layer.insertSublayer(gradientLayer, at: 0)
@@ -127,6 +176,22 @@ class DetailViewController: UIViewController {
         hours.text = "\(team.hours) hours/week"
     }
     
+    private func setupScroll() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        scrollView.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        // pin ContentView to the ScrollView edges
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(view.snp.width) // vertical scrolling
+        }
+    }
+    
+    /*
     private func setupTitleLabel() {
         titleLabel.text = "Big Red Teams"
         titleLabel.textColor = .white
@@ -142,6 +207,7 @@ class DetailViewController: UIViewController {
             make.trailing.equalToSuperview()
         }
     }
+     */
     /*
     private func setupSubtextLabel() {
         subtextLabel.text = "Learn more about Cornell's student-led project teams"
@@ -166,7 +232,7 @@ class DetailViewController: UIViewController {
         nameLabel.textAlignment = .left
         nameLabel.numberOfLines = 0
         
-        view.addSubview(nameLabel)
+        contentView.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
             
         nameLabel.snp.makeConstraints { make in
@@ -177,9 +243,7 @@ class DetailViewController: UIViewController {
     }
     
     private func setupRatingMetrics(overallRating: Float, difficultyRating: Float) {
-        
-        // --- 1. Overall Rating (LHS) ---
-        
+                
         // Set up the big number (e.g., 4.7)
         overallRatingNumberLabel.text = String(format: "%.1f", overallRating)
         overallRatingNumberLabel.textColor = UIColor.a4.offBlack
@@ -190,11 +254,9 @@ class DetailViewController: UIViewController {
         overallRatingTextLabel.textColor = UIColor.a4.silver
         overallRatingTextLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         
-        view.addSubview(overallRatingNumberLabel)
-        view.addSubview(overallRatingTextLabel)
-        
-        // --- 2. Difficulty Rating (RHS) ---
-        
+        contentView.addSubview(overallRatingNumberLabel)
+        contentView.addSubview(overallRatingTextLabel)
+                
         // Set up the big number (e.g., 3.5)
         difficultyRatingNumberLabel.text = String(format: "%.1f", difficultyRating)
         difficultyRatingNumberLabel.textColor = UIColor.a4.offBlack
@@ -205,13 +267,13 @@ class DetailViewController: UIViewController {
         difficultyRatingTextLabel.textColor = UIColor.a4.silver
         difficultyRatingTextLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         
-        view.addSubview(difficultyRatingNumberLabel)
-        view.addSubview(difficultyRatingTextLabel)
+        contentView.addSubview(difficultyRatingNumberLabel)
+        contentView.addSubview(difficultyRatingTextLabel)
         
         // --- 3. Separator Line ---
         
         separatorView.backgroundColor = UIColor.a4.silver // Thin line color
-        view.addSubview(separatorView)
+        contentView.addSubview(separatorView)
         
         // --- 4. Apply SnapKit Constraints ---
         
@@ -253,11 +315,11 @@ class DetailViewController: UIViewController {
         image.clipsToBounds = true
         image.layer.cornerRadius = 12
         
-        view.addSubview(image)
+        contentView.addSubview(image)
         image.translatesAutoresizingMaskIntoConstraints = false
 
         image.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(32)
+            make.top.equalToSuperview().offset(32)
             make.leading.equalToSuperview().offset(32)
             make.height.equalTo(80) //329
             make.width.equalTo(80) //340
@@ -267,20 +329,23 @@ class DetailViewController: UIViewController {
     private func setupSiteButton() {
         siteButton.backgroundColor = UIColor.a4.darkBlue
         siteButton.layer.cornerRadius = 4
+        siteButton.layer.shadowColor = UIColor.a4.black.cgColor
+        siteButton.layer.shadowOpacity = 0.2
+        siteButton.layer.shadowRadius = 4
+        siteButton.layer.shadowOffset = CGSize(width: 0, height: 2)
         siteButton.setTitle(" Visit Site", for: .normal)
         siteButton.setTitleColor(UIColor.a4.white, for: .normal)
         let linkImage = UIImage(systemName: "link") //~link, safari
         siteButton.setImage(linkImage, for: .normal)
         siteButton.tintColor = UIColor.a4.white
         siteButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
-//        postButton.addTarget(self, action: #selector(openSite), for: .touchUpInside)
+        siteButton.addTarget(self, action: #selector(openSite), for: .touchUpInside)
         siteButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 8)
 
-        view.addSubview(siteButton)
+        contentView.addSubview(siteButton)
         siteButton.translatesAutoresizingMaskIntoConstraints = false
         
         siteButton.snp.makeConstraints { make in
-            // Vertically align the site button with the top of the ratings numbers
             make.centerY.equalTo(separatorView.snp.centerY)
             make.trailing.equalToSuperview().offset(-32)
         }
@@ -296,7 +361,7 @@ class DetailViewController: UIViewController {
         
         comp.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
 
-        view.addSubview(comp)
+        contentView.addSubview(comp)
         comp.translatesAutoresizingMaskIntoConstraints = false
         
         comp.snp.makeConstraints { make in
@@ -308,7 +373,7 @@ class DetailViewController: UIViewController {
     func setupCategory() {
         category.textColor = UIColor.a4.offBlack
         category.backgroundColor = UIColor.a4.lilac
-        category.layer.borderWidth = 1
+//        category.layer.borderWidth = 1
         // category.layer.borderColor = UIColor.darkGray.cgColor
         category.layer.cornerRadius = 8
         category.layer.masksToBounds = true
@@ -317,7 +382,7 @@ class DetailViewController: UIViewController {
         
         category.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         
-        view.addSubview(category)
+        contentView.addSubview(category)
         category.translatesAutoresizingMaskIntoConstraints = false
         
         category.snp.makeConstraints { make in
@@ -330,11 +395,11 @@ class DetailViewController: UIViewController {
         reviews.textColor = UIColor.a4.offBlack
         reviews.font = .systemFont(ofSize: 18, weight: .semibold)
         
-        view.addSubview(reviews)
+        contentView.addSubview(reviews)
         reviews.translatesAutoresizingMaskIntoConstraints = false
         
         reviews.snp.makeConstraints { make in
-            make.top.equalTo(comp.snp.bottom).offset(20)
+            make.top.equalTo(comp.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(32)
         }
     }
@@ -343,22 +408,22 @@ class DetailViewController: UIViewController {
         hours.textColor = UIColor.a4.offBlack
         hours.font = .systemFont(ofSize: 18, weight: .semibold)
         
-        view.addSubview(hours)
+        contentView.addSubview(hours)
         hours.translatesAutoresizingMaskIntoConstraints = false
         
         hours.snp.makeConstraints { make in
-            make.top.equalTo(comp.snp.bottom).offset(20)
+            make.top.equalTo(comp.snp.bottom).offset(16)
             make.leading.equalTo(reviews.snp.trailing).offset(60)
         }
     }
     
     private func setupDescription() {
-        descLabel.textColor = UIColor.black
+        descLabel.textColor = UIColor.a4.offBlack
         descLabel.font = .systemFont(ofSize: 16, weight: .medium)
         descLabel.textAlignment = .left
         descLabel.numberOfLines = 0
         
-        view.addSubview(descLabel)
+        contentView.addSubview(descLabel)
         descLabel.translatesAutoresizingMaskIntoConstraints = false
             
         descLabel.snp.makeConstraints { make in
@@ -367,6 +432,84 @@ class DetailViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-32)
         }
     }
+    
+    func setupCreatePostButton() {
+        createPostButton.backgroundColor = UIColor.a4.darkBlue
+        createPostButton.layer.cornerRadius = 4
+        //inner shadow effect
+        createPostButton.layer.shadowColor = UIColor.a4.black.cgColor
+        createPostButton.layer.shadowOpacity = 0.2
+        createPostButton.layer.shadowRadius = 4
+        createPostButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        createPostButton.layer.masksToBounds = false
+        createPostButton.setTitle(" Post", for: .normal)
+        createPostButton.setTitleColor(UIColor.a4.white, for: .normal)
+        createPostButton.tintColor = UIColor.a4.white
+        let iconImage = UIImage(systemName: "square.and.pencil")
+        createPostButton.setImage(iconImage, for: .normal)
+        createPostButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        createPostButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
+     
+     //        createPostButton.addTarget(self, action: #selector(createPost), for: .touchUpInside)
+
+        view.addSubview(createPostButton)
+        createPostButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        createPostButton.snp.makeConstraints { make in
+            make.top.equalTo(descLabel.snp.bottom).offset(16)
+            make.trailing.equalToSuperview().offset(-32)
+        }
+    }
+    
+    private func setupPostCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical //~needed?
+//        layout.minimumLineSpacing = 32
+        layout.minimumInteritemSpacing = 16
+        
+        // Initialize collectionView using the layout
+        postCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        postCollectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.reuse)
+        postCollectionView.backgroundColor = UIColor.a4.lightPurple
+        postCollectionView.alwaysBounceVertical = true
+        postCollectionView.delegate = self
+        postCollectionView.dataSource = self
+//        postCollectionView.contentInset = UIEdgeInsets(top: 32, left: 0, bottom: 0, right: 0)
+        postCollectionView.isScrollEnabled = false //let parent control scrolling
+        
+//        refreshControl.addTarget(self, action: #selector(getRecipes), for: .valueChanged)
+        postCollectionView.refreshControl = refreshControl
+        
+        contentView.addSubview(postCollectionView)
+        postCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        postCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(createPostButton.snp.bottom).offset(2)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(calculateCollectionViewHeight()) //height of all posts
+            make.bottom.equalToSuperview()
+        }
+    }
+    
+    private func calculateCollectionViewHeight() -> CGFloat {
+        let postCount = posts.count
+        let estimatedCellHeight: CGFloat = 350
+        let sectionTopInset: CGFloat = 16
+        let sectionBottomInset: CGFloat = 32
+        let contentInsetTop: CGFloat = 32
+        let minimumLineSpacing: CGFloat = 0 //~what value?
+        let interItemSpacing: CGFloat = 16
+
+        // Total height calculation:
+        // (Total height of all cells) + (Spacing between cells) + (Insets/Padding)
+        
+        let totalCellHeight = estimatedCellHeight * CGFloat(postCount)
+        let totalSpacing = interItemSpacing * CGFloat(postCount - 1)
+        let totalPadding = sectionTopInset + sectionBottomInset + contentInsetTop
+
+        return totalCellHeight + totalSpacing + totalPadding
+    }
+
     
     private func setupBookmark() {
         bookmarkButton = UIBarButtonItem(
@@ -414,6 +557,22 @@ class DetailViewController: UIViewController {
     @objc private func tapBack() {
         navigationController?.popViewController(animated: true)
     }
+    
+    @objc private func openSite() {
+        guard let urlString = team.website,
+              let url = URL(string: urlString) else {
+            return
+        }
+
+        UIApplication.shared.open(url) { success in
+            // error handling?
+        }
+    }
+    
+    @objc private func createPost() {
+        
+    }
+
 }
 
 protocol BookmarkDelegate: AnyObject { // using protocol to establish loose coupling instead of tight coupling
@@ -432,5 +591,46 @@ extension UIFont {
             font = systemFont
         }
         return font
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+extension DetailViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return posts.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCollectionViewCell.reuse, for: indexPath) as? PostCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+
+        let post = posts[indexPath.row]
+        cell.configure(post: post)
+        return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension DetailViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // define height based on content of PostCollectionViewCell (wraps)
+        let width = collectionView.frame.width - (32 * 2) // Total width minus padding
+        // estimate a height tall enough to contain all elements, or use self-sizing cells.
+        let estimatedHeight: CGFloat = 350 // Placeholder height based on required complexity
+        
+        return CGSize(width: width, height: estimatedHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Handle post selection/interaction here
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        // Add padding around the section
+        return UIEdgeInsets(top: 16, left: 32, bottom: 32, right: 32)
     }
 }
