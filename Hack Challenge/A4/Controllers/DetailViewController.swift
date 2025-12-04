@@ -224,6 +224,7 @@ class DetailViewController: UIViewController {
     }
     
     func setupComp() {
+        comp.text = team.comp
         comp.textColor = UIColor.white
         comp.backgroundColor = UIColor.a4.pinkRed
         comp.layer.cornerRadius = 8
@@ -243,6 +244,7 @@ class DetailViewController: UIViewController {
     }
     
     func setupCategory() {
+        category.text = team.category
         category.textColor = UIColor.a4.offBlack
         category.backgroundColor = UIColor.a4.lilac
         category.layer.borderWidth = 1
