@@ -74,7 +74,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         if(post.isMember){
             membership.text = "Member: \(post.yearsMember)"
         } else {
-            membership.text = "No"
+            membership.text = "Member: No"
         }
         major.text = "Major: \(post.major)"
         timesApplied.text = "Times applied: \(post.timesApplied)"
@@ -179,7 +179,7 @@ class PostCollectionViewCell: UICollectionViewCell {
                 
         // Constraints for Overall Rating (LHS)
         overallRatingNumberLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.bottom).offset(24)
+            make.top.equalTo(profileImage.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(32)
         }
         
@@ -190,7 +190,7 @@ class PostCollectionViewCell: UICollectionViewCell {
                 
         // Constraint for Separator (Center component)
         separatorView.snp.makeConstraints { make in
-            make.top.equalTo(overallRatingNumberLabel.snp.top).offset(4)
+            make.top.equalTo(overallRatingNumberLabel.snp.top).offset(8)
             make.leading.equalTo(overallRatingNumberLabel.snp.trailing).offset(32)
             make.width.equalTo(1)
             make.height.equalTo(50)
@@ -217,12 +217,6 @@ class PostCollectionViewCell: UICollectionViewCell {
                 label.font = .systemFont(ofSize: 14, weight: .regular)
                 contentView.addSubview(label)
             }
-            
-            // Dummy data
-            membership.text = "Member: Fall 2024 - Spring 2025"
-            major.text = "Major: Computer Science (CS)"
-            timesApplied.text = "Times Applied: 2"
-            timeCommitment.text = "Time Commitment: 15-20 hours/week"
             
             let dataGap: CGFloat = 16 // Gap below ratings
             let smallStackGap: CGFloat = 4
@@ -251,7 +245,7 @@ class PostCollectionViewCell: UICollectionViewCell {
     private func setupMessage(){
         message.textColor = UIColor.a4.black
         message.font = .systemFont(ofSize: 14, weight: .medium)
-        
+        message.numberOfLines = 10
         contentView.addSubview(message)
         message.translatesAutoresizingMaskIntoConstraints = false
         

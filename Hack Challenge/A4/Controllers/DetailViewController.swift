@@ -133,9 +133,9 @@ class DetailViewController: UIViewController {
         setupReviews()
         setupHours()
         setupDescription()
-        setupBookmark()
-//        setupCreatePostButton()
+        setupCreatePostButton()
         setupPostCollectionView()
+        setupBookmark()
     }
     
     private func setupGradientBackground() {
@@ -154,7 +154,7 @@ class DetailViewController: UIViewController {
             lightBlue
         ]
 
-        gradientLayer.locations = [0, 0.10, 0.20, 0.60, 1]
+        gradientLayer.locations = [0, 0.15, 0.25, 0.60, 1]
         
         gradientLayer.frame = view.bounds
         view.layer.insertSublayer(gradientLayer, at: 0)
@@ -329,6 +329,10 @@ class DetailViewController: UIViewController {
     private func setupSiteButton() {
         siteButton.backgroundColor = UIColor.a4.darkBlue
         siteButton.layer.cornerRadius = 4
+        siteButton.layer.shadowColor = UIColor.a4.black.cgColor
+        siteButton.layer.shadowOpacity = 0.2
+        siteButton.layer.shadowRadius = 4
+        siteButton.layer.shadowOffset = CGSize(width: 0, height: 2)
         siteButton.setTitle(" Visit Site", for: .normal)
         siteButton.setTitleColor(UIColor.a4.white, for: .normal)
         let linkImage = UIImage(systemName: "link") //~link, safari
@@ -342,7 +346,6 @@ class DetailViewController: UIViewController {
         siteButton.translatesAutoresizingMaskIntoConstraints = false
         
         siteButton.snp.makeConstraints { make in
-            // Vertically align the site button with the top of the ratings numbers
             make.centerY.equalTo(separatorView.snp.centerY)
             make.trailing.equalToSuperview().offset(-32)
         }
@@ -370,7 +373,7 @@ class DetailViewController: UIViewController {
     func setupCategory() {
         category.textColor = UIColor.a4.offBlack
         category.backgroundColor = UIColor.a4.lilac
-        category.layer.borderWidth = 1
+//        category.layer.borderWidth = 1
         // category.layer.borderColor = UIColor.darkGray.cgColor
         category.layer.cornerRadius = 8
         category.layer.masksToBounds = true
@@ -429,27 +432,34 @@ class DetailViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-32)
         }
     }
-    /*
+    
     func setupCreatePostButton() {
         createPostButton.backgroundColor = UIColor.a4.darkBlue
         createPostButton.layer.cornerRadius = 4
-        createPostButton.setTitle(" Visit Site", for: .normal)
+        //inner shadow effect
+        createPostButton.layer.shadowColor = UIColor.a4.black.cgColor
+        createPostButton.layer.shadowOpacity = 0.2
+        createPostButton.layer.shadowRadius = 4
+        createPostButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        createPostButton.layer.masksToBounds = false
+        createPostButton.setTitle(" Post", for: .normal)
         createPostButton.setTitleColor(UIColor.a4.white, for: .normal)
         createPostButton.tintColor = UIColor.a4.white
-        createPostButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
-//        createPostButton.addTarget(self, action: #selector(createPost), for: .touchUpInside)
-        createPostButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 8)
+        let iconImage = UIImage(systemName: "square.and.pencil")
+        createPostButton.setImage(iconImage, for: .normal)
+        createPostButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        createPostButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
+     
+     //        createPostButton.addTarget(self, action: #selector(createPost), for: .touchUpInside)
 
         view.addSubview(createPostButton)
         createPostButton.translatesAutoresizingMaskIntoConstraints = false
         
         createPostButton.snp.makeConstraints { make in
-            // Vertically align the site button with the top of the ratings numbers
-            createPostButton.top.equalTo(descLabel.snp.bottom).offset(24)
-            createPostButton.trailing.equalToSuperview().offset(-32)
+            make.top.equalTo(descLabel.snp.bottom).offset(16)
+            make.trailing.equalToSuperview().offset(-32)
         }
     }
-     */
     
     private func setupPostCollectionView() {
         let layout = UICollectionViewFlowLayout()
@@ -474,7 +484,7 @@ class DetailViewController: UIViewController {
         postCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         postCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(descLabel.snp.bottom).offset(32)
+            make.top.equalTo(createPostButton.snp.bottom).offset(2)
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(calculateCollectionViewHeight()) //height of all posts
             make.bottom.equalToSuperview()
@@ -557,6 +567,10 @@ class DetailViewController: UIViewController {
         UIApplication.shared.open(url) { success in
             // error handling?
         }
+    }
+    
+    @objc private func createPost() {
+        
     }
 
 }
