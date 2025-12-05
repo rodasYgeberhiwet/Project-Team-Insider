@@ -27,19 +27,54 @@ def get_teams():
     return jsonify({"success": True, "data": [t.serialize() for t in sorted_teams]})
 
 # Create new team
-@app.route("/teams", methods=["POST"])
-def create_team():
+#def create_team():
     data = request.get_json()
     
     team = Team(
         name=data.get("name"),
         description=data.get("description"),
-        tags = data.get("tags", [])
+        comp = data.get("comp"),
+        tags = data.get("tags", []),
+        hours = data.get("hours")
     )
     db.session.add(team)
     db.session.commit()
 
     return jsonify({"success": True, "data": team.serialize()}), 201
+
+@app.route("/teams", methods=["POST"])
+def create_teams():
+    data = request.get_json()
+
+    # If the incoming data is a dict, wrap it in a list
+    if isinstance(data, dict):
+        data = [data]
+
+    # If it's not a list at this point, reject it
+    if not isinstance(data, list):
+        return jsonify({"success": False, "error": "Request body must be a JSON object or a list of JSON objects."}), 400
+
+    created_teams = []
+
+    for item in data:
+        team = Team(
+            name=item.get("name"),
+            description=item.get("description"),
+            comp=item.get("comp"),
+            tags=item.get("tags", []),
+            hours=item.get("hours")
+        )
+        db.session.add(team)
+        created_teams.append(team)
+
+    db.session.commit()
+
+    return jsonify({
+        "success": True,
+        "count": len(created_teams),
+        "data": [team.serialize() for team in created_teams]
+    }), 201
+
 
 # Get single team
 @app.route("/teams/<int:team_id>", methods=["GET"])
@@ -221,7 +256,7 @@ def assign_tag(team_id):
 
     return jsonify({"success": True, "data": teams.serialize()}), 200
 
-
+# Get teams by tag
 @app.route("/tags/<string:tag_name>/teams", methods=["GET"])
 def get_teams_by_tag(tag_name):
     tag = Tag.query.filter_by(name=tag_name).first()
@@ -232,6 +267,7 @@ def get_teams_by_tag(tag_name):
     teams = tag.teams
     sorted_teams = sorted(teams, key=lambda t: len(t.reviews), reverse=True)
     return jsonify({"success": True, "data": [t.serialize() for t in sorted_teams]})
+
 
 if __name__ == "__main__":
     app.run(debug=True)
