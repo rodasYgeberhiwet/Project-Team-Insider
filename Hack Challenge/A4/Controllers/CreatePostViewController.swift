@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class TextField: UITextField {
 
@@ -34,10 +35,10 @@ class CreatePostViewController: UIViewController {
     private let overallRatingTextField = TextField()
     private let diffRatingLabel = UILabel()
     private let diffRatingTextField = TextField()
-    private let memberLabel = UILabel()
-    private let memberTextField = TextField()
     private let majorLabel = UILabel()
     private let majorTextField = TextField()
+    private let memberLabel = UILabel()
+    private let memberTextField = TextField()
     private let yearsAppLabel = UILabel()
     private let yearsAppTextField = TextField()
     private let hoursLabel = UILabel()
@@ -49,26 +50,28 @@ class CreatePostViewController: UIViewController {
     private let postButton = UIButton()
 
     // MARK: - Properties (data)
+    private let team: Team
     private var overallRatingText: String
     private var diffRatingText: String
-    private var majorRatingText: String
+    private var majorText: String
     private var memberText: String
-    private var yearAppText: String
+    private var yearsAppText: String
     private var hoursText: String
     private var messageText: String
     private weak var delegate: UpdateTextDelegate?
     
-    private let post: Post
-    private let team: Team
+    private let sidePadding: CGFloat = 24
+    private var lastView: UIView!
     
-    init(post: Post, team: Team, overallRatingText: String, diffRatingText: String, majorRatingText: String, memberText: String, yearAppText: String, hoursText: String, messageText: String, delegate: UpdateTextDelegate){
-        self.post = post
+    // MARK: - init
+    
+    init(team: Team, overallRatingText: String, diffRatingText: String, majorText: String, memberText: String, yearsAppText: String, hoursText: String, messageText: String, delegate: UpdateTextDelegate){
         self.team = team
         self.overallRatingText = overallRatingText
         self.diffRatingText = diffRatingText
-        self.majorRatingText = majorRatingText
+        self.majorText = majorText
         self.memberText = memberText
-        self.yearAppText = yearAppText
+        self.yearsAppText = yearsAppText
         self.hoursText = hoursText
         self.messageText = messageText
         self.delegate = delegate
@@ -83,12 +86,33 @@ class CreatePostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.a4.white
+        
+        configureView()
+        setupTitleLabel()
+        
+        lastView = titleLabel // Start vertical stacking below the title
+        
+        // Setup all 7 input field pairs sequentially
+        setupInputPair(label: overallRatingLabel, textField: overallRatingTextField, labelText: "Overall Rating (1-5)", placeholder: "e.g., 4.5", initialText: overallRatingText)
+        setupInputPair(label: diffRatingLabel, textField: diffRatingTextField, labelText: "Difficulty Rating (1-5)", placeholder: "e.g., 3.0", initialText: diffRatingText)
+        setupInputPair(label: majorLabel, textField: majorTextField, labelText: "Major", placeholder: "e.g., Computer Science", initialText: majorText)
+        setupInputPair(label: memberLabel, textField: memberTextField, labelText: "Member Status", placeholder: "e.g., Yes/No", initialText: memberText)
+        setupInputPair(label: yearsAppLabel, textField: yearsAppTextField, labelText: "Years Applied", placeholder: "e.g., 1", initialText: yearsAppText)
+        setupInputPair(label: hoursLabel, textField: hoursTextField, labelText: "Time Commitment (hours/week)", placeholder: "e.g., 15", initialText: hoursText)
+        
+        setupMessageField(label: messageLabel, textField: messageTextField, labelText: "Your Message/Review", placeholder: "Share your experience...", initialText: messageText)
+        
+        setupButtons()
+    }
+    /*
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         let titleLabel = UILabel()
         titleLabel.text = "Cup of Teams"
         titleLabel.textColor = UIColor.a4.lightPurple
         titleLabel.font = UIFont.rounded(ofSize: 28, weight: .bold)
-
         let attributedString = NSMutableAttributedString(string: "Cup of Teams")
         attributedString.addAttribute(.kern, value: 1.2, range: NSRange(location: 0, length: attributedString.length))
         titleLabel.attributedText = attributedString
@@ -97,7 +121,6 @@ class CreatePostViewController: UIViewController {
         navigationItem.titleView = titleLabel
         
         view.backgroundColor = UIColor.a4.white
-        
         
         configureView()
         setupTitleLabel()
@@ -113,15 +136,19 @@ class CreatePostViewController: UIViewController {
         setupPostButton()
         */
     }
+    */
 
     // MARK: - Set Up Views
-    
+    //~im confused bc why are we initializing blank fields?? whats being passed in anyhow?
     private func configureView() {
         titleLabel.text = "Rate \(team.name)"
-//        comp.text = team.comp
-//        category.text = team.category
-//        reviews.text = "\(team.reviews.count) reviews"
-//        hours.text = "\(team.hours) hours/week"
+        overallRatingLabel.text = overallRatingText
+        diffRatingLabel.text = diffRatingText
+        majorLabel.text = majorText
+        memberLabel.text = memberText
+        yearsAppLabel.text = yearsAppText
+        hoursLabel.text = hoursText
+        messageLabel.text = messageText
     }
     
     private func setupTitleLabel() {
@@ -134,11 +161,120 @@ class CreatePostViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
             
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(8)
-            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
+            make.leading.equalToSuperview().offset(sidePadding)
+            make.trailing.equalToSuperview().offset(-sidePadding) //~how does this work if not spanning the entire thing tho
         }
     }
     
+    private func setupInputPair(label: UILabel, textField: TextField, labelText: String, placeholder: String, initialText: String) {
+        
+        // 1. Configure Label
+        label.text = labelText
+        label.textColor = UIColor.a4.offBlack
+        label.font = .systemFont(ofSize: 14, weight: .semibold)
+        view.addSubview(label)
+        
+        // 2. Configure TextField
+        textField.placeholder = placeholder
+        textField.text = initialText
+        textField.font = .systemFont(ofSize: 16)
+        textField.backgroundColor = UIColor.a4.lilac.withAlphaComponent(0.3)
+        textField.layer.cornerRadius = 8
+        textField.layer.masksToBounds = true
+        view.addSubview(textField)
+        
+        // 3. Apply Constraints
+        
+        // Label constraints (start below the previous element)
+        label.snp.makeConstraints { make in
+            make.top.equalTo(lastView.snp.bottom).offset(24)
+            make.leading.equalToSuperview().offset(sidePadding)
+            make.trailing.equalToSuperview().offset(-sidePadding)
+        }
+        
+        // TextField constraints (below the label)
+        textField.snp.makeConstraints { make in
+            make.top.equalTo(label.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(sidePadding)
+            make.trailing.equalToSuperview().offset(-sidePadding)
+            make.height.equalTo(44)
+        }
+        
+        // Update the last constrained view for the next stack
+        lastView = textField
+    }
+    
+    private func setupMessageField(label: UILabel, textField: TextField, labelText: String, placeholder: String, initialText: String) {
+        
+        // 1. Configure Label
+        label.text = labelText
+        label.textColor = UIColor.a4.offBlack
+        label.font = .systemFont(ofSize: 14, weight: .semibold)
+        view.addSubview(label)
+        
+        // 2. Configure TextField (using large text area appearance)
+        textField.placeholder = placeholder
+        textField.text = initialText
+        textField.font = .systemFont(ofSize: 16)
+        textField.backgroundColor = UIColor.a4.lilac.withAlphaComponent(0.3)
+        textField.layer.cornerRadius = 8
+        textField.layer.masksToBounds = true
+        view.addSubview(textField)
+        
+        // 3. Apply Constraints
+        label.snp.makeConstraints { make in
+            make.top.equalTo(lastView.snp.bottom).offset(24)
+            make.leading.equalToSuperview().offset(sidePadding)
+            make.trailing.equalToSuperview().offset(-sidePadding)
+        }
+        
+        textField.snp.makeConstraints { make in
+            make.top.equalTo(label.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(sidePadding)
+            make.trailing.equalToSuperview().offset(-sidePadding)
+            make.height.equalTo(120) // Provide adequate height for the message field
+        }
+        
+        lastView = textField
+    }
+    
+    private func setupButtons() {
+        // Setup Post Button (Save/Submit action)
+        postButton.backgroundColor = UIColor.a4.darkBlue // Changed color from source [11] for clarity/consistency
+        postButton.layer.cornerRadius = 4
+        postButton.setTitle("Post", for: .normal)
+        postButton.setTitleColor(UIColor.a4.white, for: .normal)
+        postButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        postButton.addTarget(self, action: #selector(popVC), for: .touchUpInside) // Target for posting and popping [12]
+        view.addSubview(postButton)
+        
+        // Setup Cancel Button
+        cancelButton.backgroundColor = UIColor.a4.pinkRed
+        cancelButton.layer.cornerRadius = 4
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.setTitleColor(UIColor.a4.white, for: .normal)
+        cancelButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        cancelButton.addTarget(self, action: #selector(tapBack), for: .touchUpInside) // Target for popping [14]
+        view.addSubview(cancelButton)
+
+        // Constraints for buttons (place below the message field)
+        
+        cancelButton.snp.makeConstraints { make in
+            make.top.equalTo(lastView.snp.bottom).offset(32)
+            make.leading.equalToSuperview().offset(sidePadding)
+            make.width.equalTo(96) // Using width from example constraints [15]
+            make.height.equalTo(40)
+        }
+
+        postButton.snp.makeConstraints { make in
+            make.top.equalTo(cancelButton.snp.top)
+            make.trailing.equalToSuperview().offset(-sidePadding)
+            make.width.equalTo(96)
+            make.height.equalTo(40)
+        }
+        
+    }
     
     /*
     private func setupMembershipLabel() {
@@ -219,5 +355,28 @@ class CreatePostViewController: UIViewController {
         }
     }
     */
+    
+    // MARK: - Button Helpers (Delegate/Navigation)
+
+    @objc private func popVC() {
+        print("popVC() called")
+        navigationController?.popViewController(animated: true)
+
+        // Delegate call to pass back all collected text fields [12]
+        delegate?.updateText(
+            newOverallRatingText: overallRatingTextField.text ?? "",
+            newDiffRatingText: diffRatingTextField.text ?? "",
+            newMajorText: majorTextField.text ?? "",
+            newMemberText: memberTextField.text ?? "",
+            newYearsAppText: yearsAppTextField.text ?? "",
+            newHoursText: hoursTextField.text ?? "",
+            newMessageText: messageTextField.text ?? ""
+        )
+    }
+
+    @objc private func tapBack() {
+        print("tapBack() called")
+        navigationController?.popViewController(animated: true)
+    }
 
 }

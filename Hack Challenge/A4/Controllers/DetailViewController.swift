@@ -690,8 +690,18 @@ class DetailViewController: UIViewController {
     }
     
     @objc private func pushCreatePost() {
-        //let createVC = createPostViewController(hometownText: hometownText, majorText: majorText, delegate: self)
-        //navigationController?.pushViewController(createVC, animated: true)
+        let createVC = CreatePostViewController(
+            team: team,
+            overallRatingText: "",
+            diffRatingText: "",
+            majorText: "",
+            memberText: "",
+            yearsAppText: "",
+            hoursText: "",
+            messageText: "",
+            delegate: self
+        )
+    navigationController?.pushViewController(createVC, animated: true)
     }
 
 }
@@ -762,6 +772,67 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-protocol UpdateTextDelegate: AnyObject {
-    func updateText(newHometownText: String, newMajorText: String)
+extension DetailViewController: UpdateTextDelegate {
+
+    func updateText(
+        newOverallRatingText: String,
+        newDiffRatingText: String,
+        newMajorText: String,
+        newMemberText: String,
+        newYearsAppText: String,
+        newHoursText: String,
+        newMessageText: String
+    ) {
+        print("updateText called")
+        // Step A: Data Conversion and Preparation
+        
+        // Convert status string to Bool for isMember, defaulting to false
+        let isMember = newMemberText.lowercased() == "yes"
+        
+        // Convert years applied string to Int, defaulting to 0
+        let timesAppliedInt = Int(newYearsAppText) ?? 0
+        
+        // Determine yearsMember status based on isMember
+        let yearsMemberStatus = isMember ? "F2025 - S2026" : "N/A"
+        
+        // Step B: Create a New Post Object
+        
+        // Construct the new Post object using the data collected from CreatePostVC.
+        let newPost = Post(
+            likes: [], // Initially, the new post has no likes
+            message: newMessageText,
+            time: Date(), // Set post time to now
+            id: UUID().uuidString, // Generate a unique identifier
+            profileImage: "default_icon.png", // Use a placeholder profile image
+            overallRating: newOverallRatingText,
+            difficultyRating: newDiffRatingText,
+            isMember: isMember,
+            yearsMember: yearsMemberStatus,
+            major: newMajorText,
+            timesApplied: timesAppliedInt,
+            timeCommitment: newHoursText
+        )
+
+        // ****************
+        // NOTE: In a complete application, NetworkManager.shared.createPost(...)
+        // would be called here, sending all seven parameters to the backend
+        // (which might involve routes defined for reviews or interviews [4, 5]).
+        // The rest of this block would execute upon successful API response.
+        // ****************
+
+        // Step C: Update the Data Source
+        
+        // Append the newly created post to the local data source array [6, 7].
+        self.posts.append(newPost)
+
+        // Step D: Display the New Post
+        
+        // Force the post collection view to reload its data to show the newly added item [8].
+        self.postCollectionView.reloadData()
+    }
 }
+
+protocol UpdateTextDelegate: AnyObject {
+    func updateText(newOverallRatingText: String, newDiffRatingText: String, newMajorText: String, newMemberText: String, newYearsAppText: String, newHoursText: String, newMessageText: String)
+}
+

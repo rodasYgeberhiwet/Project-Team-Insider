@@ -4,7 +4,7 @@
 //
 //  Created by Amy Yang on 12/3/25.
 //
-
+/*
 import UIKit
 
 class CreatePostCollectionViewCell: UICollectionViewCell {
@@ -83,3 +83,4 @@ class CreatePostCollectionViewCell: UICollectionViewCell {
     */
 
 }
+*/
