@@ -16,7 +16,5 @@ struct Team: Codable {
     let hours: String
     let category: String
     let website: String?
-    let overallRating: String
-    let diffRating: String
     
 }

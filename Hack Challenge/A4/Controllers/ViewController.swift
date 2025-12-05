@@ -28,9 +28,7 @@ class ViewController: UIViewController {
             reviews: ["Great learning experience!", "Intense but rewarding", "Best community on campus"],
             hours: "15-20",
             category: "Software",
-            website: "https://www.cornellappdev.com/",
-            overallRating: "4.5",
-            diffRating: "3.6"
+            website: "https://www.cornellappdev.com/"
         ),
         Team(
             id: "2",
@@ -40,9 +38,7 @@ class ViewController: UIViewController {
             reviews: ["Awesome mentors", "Great for ML beginners", "Flexible hours"],
             hours: "8-12",
             category: "Data Science",
-            website: "https://cornelldata.science/",
-            overallRating: "4.5",
-            diffRating: "3.6"
+            website: "https://cornelldata.science/"
         ),
         Team(
             id: "3",
@@ -52,9 +48,7 @@ class ViewController: UIViewController {
             reviews: ["Impactful projects", "Strong design focus", "Collaborative environment"],
             hours: "10-15",
             category: "Product",
-            website: "https://new.cornelldti.org/",
-            overallRating: "4.5",
-            diffRating: "3.6"
+            website: "https://new.cornelldti.org/"
         ),
         Team(
             id: "4",
@@ -64,9 +58,7 @@ class ViewController: UIViewController {
             reviews: ["Hardcore engineering", "Competition focused", "Great for aerospace"],
             hours: "20-25",
             category: "Engineering",
-            website: "https://cuair.org/",
-            overallRating: "4.5",
-            diffRating: "3.6"
+            website: "https://cuair.org/"
         ),
         Team(
             id: "5",
@@ -76,9 +68,7 @@ class ViewController: UIViewController {
             reviews: ["Wall Street connections", "Cutting-edge tech", "Intense recruitment"],
             hours: "12-18",
             category: "Finance",
-            website: "https://www.cornellfintechclub.com/",
-            overallRating: "4.5",
-            diffRating: "3.6"
+            website: "https://www.cornellfintechclub.com/"
         ),
         Team(
             id: "6",
@@ -88,9 +78,7 @@ class ViewController: UIViewController {
             reviews: ["Beginner friendly", "Supportive community", "Good work-life balance"],
             hours: "6-10",
             category: "Web Development",
-            website: "https://cornellwebdevclub.com/",
-            overallRating: "4.5",
-            diffRating: "3.6"
+            website: "https://cornellwebdevclub.com/"
         ),
         Team(
             id: "7",
@@ -100,9 +88,7 @@ class ViewController: UIViewController {
             reviews: ["Cutting-edge tech", "Creative freedom", "Growing community"],
             hours: "8-12",
             category: "XR/Gaming",
-            website: "https://xr.cornell.edu/",
-            overallRating: "4.5",
-            diffRating: "3.6"
+            website: "https://xr.cornell.edu/"
         ),
         Team(
             id: "8",
@@ -112,9 +98,7 @@ class ViewController: UIViewController {
             reviews: ["Travel opportunities", "Hands-on robotics", "Team travels to compete"],
             hours: "15-20",
             category: "Robotics",
-            website: "https://cuauv.org/",
-            overallRating: "4.5",
-            diffRating: "3.6"
+            website: "https://cuauv.org/"
         )
     ]
     

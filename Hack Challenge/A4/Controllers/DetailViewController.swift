@@ -449,9 +449,15 @@ class DetailViewController: UIViewController {
         createPostButton.setImage(iconImage, for: .normal)
         createPostButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         createPostButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
+<<<<<<< HEAD
         
         createPostButton.addTarget(self, action: #selector(pushCreatePost), for: .touchUpInside)
         
+=======
+     
+     //        createPostButton.addTarget(self, action: #selector(createPost), for: .touchUpInside)
+
+>>>>>>> parent of de4497c (mid updates)
         view.addSubview(createPostButton)
         createPostButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -464,8 +470,12 @@ class DetailViewController: UIViewController {
     private func setupPostCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical //~needed?
+<<<<<<< HEAD
         //        layout.estimatedItemSize = automatic
         //        layout.minimumLineSpacing = 32
+=======
+//        layout.minimumLineSpacing = 32
+>>>>>>> parent of de4497c (mid updates)
         layout.minimumInteritemSpacing = 16
         
         // Initialize collectionView using the layout
@@ -569,6 +579,7 @@ class DetailViewController: UIViewController {
             // error handling?
         }
     }
+<<<<<<< HEAD
     /*
      @objc private func pushCreatePost() {
      let createVC = CreatePostViewController(post: post, team: team, overallRatingText: overallRatingText, diffRatingText: diffRatingText, majorRatingText: majorRatingText, memberText: memberText, yearAppText: yearAppText, hoursText: hoursText, messageText: messageText, delegate: self)
@@ -591,6 +602,11 @@ class DetailViewController: UIViewController {
         )
         
         navigationController?.pushViewController(createVC, animated: true)
+=======
+    
+    @objc private func createPost() {
+        
+>>>>>>> parent of de4497c (mid updates)
     }
     
     protocol BookmarkDelegate: AnyObject { // using protocol to establish loose coupling instead of tight coupling
@@ -655,6 +671,7 @@ class DetailViewController: UIViewController {
     }
 }
     
+<<<<<<< HEAD
 extension DetailViewController: UpdateTextDelegate {
     func updateText(
         newOverallRatingText: String,
@@ -687,4 +704,23 @@ protocol UpdateTextDelegate: AnyObject {
         newHoursText: String,
         newMessageText: String
     )
+=======
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // define height based on content of PostCollectionViewCell (wraps)
+        let width = collectionView.frame.width - (32 * 2) // Total width minus padding
+        // estimate a height tall enough to contain all elements, or use self-sizing cells.
+        let estimatedHeight: CGFloat = 350 // Placeholder height based on required complexity
+        
+        return CGSize(width: width, height: estimatedHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Handle post selection/interaction here
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        // Add padding around the section
+        return UIEdgeInsets(top: 16, left: 32, bottom: 32, right: 32)
+    }
+>>>>>>> parent of de4497c (mid updates)
 }

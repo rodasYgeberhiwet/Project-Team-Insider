@@ -5,6 +5,7 @@
 //  Created by Amy Yang on 12/3/25.
 //
 
+<<<<<<< HEAD
 import UIKit
 
 class TextField: UITextField {
@@ -236,3 +237,5 @@ class CreatePostViewController: UIViewController {
     }
 
 }
+=======
+>>>>>>> parent of de4497c (mid updates)
