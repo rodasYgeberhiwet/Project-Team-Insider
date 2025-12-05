@@ -22,9 +22,7 @@ class Review(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, server_default=func.now())
     time_commitment = db.Column(db.String, nullable=False)
 
-    #---------------change this------------------------
-    list_of_pros = db.Column(db.JSON, nullable=True)
-    list_of_cons = db.Column(db.JSON, nullable=True)
+    review = db.Column(db.JSON, nullable=False)
     team_id = db.Column(db.Integer, db.ForeignKey("team.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
 
@@ -38,8 +36,7 @@ class Review(db.Model):
         self.star_rating = kwargs.get("star_rating")
         self.likes = kwargs.get("likes", 0)
         self.time_commitment = kwargs.get("time_commitment")
-        self.list_of_pros = kwargs.get("list_of_pros", [])
-        self.list_of_cons = kwargs.get("list_of_cons", [])
+        self.review = kwargs.get("review", [])
         self.team_id = kwargs.get("team_id")
         self.user_id = kwargs.get("user_id")
 
@@ -73,8 +70,7 @@ class Review(db.Model):
             "likes": self.likes,
             "date_posted": self.date_posted.isoformat() if self.date_posted else None,
             "time_commitment": self.time_commitment,
-            "list_of_pros": self.list_of_pros,
-            "list_of_cons": self.list_of_cons,
+            "review": self.review,
             "team": team_info,
             "user": user_info
         }
