@@ -46,9 +46,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         setupProfileImage()
         setupName()
         setupDate()
-        let dummyOverallRating: Float = 4.7
-        let dummyDifficultyRating: Float = 3.5
-        setupRatingMetrics(overallRating: dummyOverallRating, difficultyRating: dummyDifficultyRating)
+        setupRatingMetrics()
         setupDataLabels()
         setupMessage()
 //        setupHeart()
@@ -67,9 +65,9 @@ class PostCollectionViewCell: UICollectionViewCell {
         name.text = "Anonymous"
         time.text = post.time.convertToAgo()
         likes.text = "\(post.likes.count) likes"
-//        overallRatingNumberLabel.text = post.overallRating
+        overallRatingNumberLabel.text = post.overallRating
         overallRatingTextLabel.text = "Overall"
-//        difficultyRatingNumberLabel = post.difficultyRating
+        difficultyRatingNumberLabel.text = post.difficultyRating
         difficultyRatingTextLabel.text = "Difficulty"
         if(post.isMember){
             membership.text = "Member: \(post.yearsMember)"
@@ -151,8 +149,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         
     }
     
-    private func setupRatingMetrics(overallRating: Float, difficultyRating: Float) {
-        overallRatingNumberLabel.text = String(format: "%.1f", overallRating)
+    private func setupRatingMetrics() {
         overallRatingNumberLabel.textColor = UIColor.a4.offBlack
         overallRatingNumberLabel.font = .systemFont(ofSize: 24, weight: .bold)
         
@@ -163,7 +160,6 @@ class PostCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(overallRatingNumberLabel)
         contentView.addSubview(overallRatingTextLabel)
                 
-        difficultyRatingNumberLabel.text = String(format: "%.1f", difficultyRating)
         difficultyRatingNumberLabel.textColor = UIColor.a4.offBlack
         difficultyRatingNumberLabel.font = .systemFont(ofSize: 24, weight: .bold)
         

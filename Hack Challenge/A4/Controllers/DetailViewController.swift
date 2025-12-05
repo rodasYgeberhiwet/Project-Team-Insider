@@ -35,11 +35,11 @@ class DetailViewController: UIViewController {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView() //scrollable view
-    //    private var collectionView: UICollectionView!
+//    private var collectionView: UICollectionView!
     private let refreshControl = UIRefreshControl()
     
     // MARK: - Properties (data)
-    
+
     private let team: Team
     weak var delegate: BookmarkDelegate? // creation of delegate
     
@@ -53,7 +53,7 @@ class DetailViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+        
     // MARK: - viewDidLoad
     
     override func viewDidLoad() {
@@ -63,11 +63,11 @@ class DetailViewController: UIViewController {
         titleLabel.text = "Cup of Teams"
         titleLabel.textColor = UIColor.a4.lightPurple
         titleLabel.font = UIFont.rounded(ofSize: 28, weight: .bold)
-        
+
         let attributedString = NSMutableAttributedString(string: "Cup of Teams")
         attributedString.addAttribute(.kern, value: 1.2, range: NSRange(location: 0, length: attributedString.length))
         titleLabel.attributedText = attributedString
-        
+
         titleLabel.sizeToFit()
         navigationItem.titleView = titleLabel
         
@@ -80,43 +80,163 @@ class DetailViewController: UIViewController {
             time: Date().addingTimeInterval(-3600 * 4), // 4 hours ago
             id: "review_101",
             profileImage: "default_icon.png",
+            overallRating: "4.9",
+            difficultyRating: "3.1",
             isMember: true,
             yearsMember: "F2024 - S2025",
             major: "Computer Science",
             timesApplied: 1,
             timeCommitment: "15-20" // matches setupDataLabels dummy data [4]
         )
-        // Dummy Post 2: A shorter, non-member experience
+        
         let post2 = Post(
             likes: [],
             message: "The interview process was mostly behavioral and very organized. I was slightly disappointed by the lack of technical feedback provided afterwards.",
             time: Date().addingTimeInterval(-86400 * 5), // 5 days ago
             id: "interview_204",
             profileImage: "default_icon.png",
+            overallRating: "4.5",
+            difficultyRating: "4.3",
             isMember: false,
             yearsMember: "N/A",
             major: "Electrical Engineering",
             timesApplied: 2,
             timeCommitment: "N/A"
         )
-        // Dummy Post 3: A recently liked post
+
         let post3 = Post(
             likes: ["user_a"],
             message: "I really enjoyed the collaborative environment. Great for beginners looking to learn the basics!",
             time: Date().addingTimeInterval(-60 * 15), // 15 minutes ago
             id: "review_300",
             profileImage: "default_icon.png",
+            overallRating: "4.1",
+            difficultyRating: "3.9",
             isMember: true,
             yearsMember: "F2023",
             major: "Information Science",
             timesApplied: 1,
             timeCommitment: "10-15"
         )
+        
+        let post4 = Post(
+            likes: ["user_x", "user_y", "user_z"],
+            message: "The technical challenges here are graduate-level. You'll work on real engineering problems that push your limits. Not recommended for beginners.",
+            time: Date().addingTimeInterval(-60 * 25), // 25 minutes ago
+            id: "review_400",
+            profileImage: "default_icon.png",
+            overallRating: "4.9",
+            difficultyRating: "4.7",
+            isMember: true,
+            yearsMember: "S2023",
+            major: "Mechanical Engineering",
+            timesApplied: 2,
+            timeCommitment: "18-24"
+        )
+
+        let post5 = Post(
+            likes: ["user_m", "user_n"],
+            message: "Best community I've found on campus. Everyone is supportive and you'll ship actual products that get used. Great mix of technical and creative work.",
+            time: Date().addingTimeInterval(-60 * 45), // 45 minutes ago
+            id: "review_500",
+            profileImage: "default_icon.png",
+            overallRating: "4.8",
+            difficultyRating: "3.8",
+            isMember: true,
+            yearsMember: "F2022",
+            major: "Computer Science",
+            timesApplied: 1,
+            timeCommitment: "15-20"
+        )
+
+        let post6 = Post(
+            likes: ["user_p"],
+            message: "Seeing your work actually get implemented and help people is incredibly fulfilling. More hands-on building than theoretical design work.",
+            time: Date().addingTimeInterval(-60 * 90), // 1.5 hours ago
+            id: "review_600",
+            profileImage: "default_icon.png",
+            overallRating: "4.7",
+            difficultyRating: "3.5",
+            isMember: true,
+            yearsMember: "S2023",
+            major: "Civil Engineering",
+            timesApplied: 1,
+            timeCommitment: "10-15"
+        )
+
+        let post7 = Post(
+            likes: ["user_q", "user_r", "user_s", "user_t"],
+            message: "We spend more time in the workshop than anywhere else. The commitment is intense but the competition experience is absolutely worth it.",
+            time: Date().addingTimeInterval(-60 * 120), // 2 hours ago
+            id: "review_700",
+            profileImage: "default_icon.png",
+            overallRating: "4.8",
+            difficultyRating: "4.5",
+            isMember: true,
+            yearsMember: "F2021",
+            major: "Mechanical Engineering",
+            timesApplied: 3,
+            timeCommitment: "20-25"
+        )
+
+        let post8 = Post(
+            likes: ["user_u"],
+            message: "You build software that actually helps communities. Less about fancy tech stacks, more about solving real problems for people in need.",
+            time: Date().addingTimeInterval(-60 * 180), // 3 hours ago
+            id: "review_800",
+            profileImage: "default_icon.png",
+            overallRating: "4.6",
+            difficultyRating: "3.2",
+            isMember: true,
+            yearsMember: "S2024",
+            major: "Information Science",
+            timesApplied: 1,
+            timeCommitment: "10-14"
+        )
+
+        let post9 = Post(
+            likes: ["user_v", "user_w"],
+            message: "The AI/ML work we do competes with graduate research. You'll learn cutting-edge algorithms that aren't covered in undergraduate courses.",
+            time: Date().addingTimeInterval(-60 * 240), // 4 hours ago
+            id: "review_900",
+            profileImage: "default_icon.png",
+            overallRating: "4.9",
+            difficultyRating: "4.4",
+            isMember: true,
+            yearsMember: "F2023",
+            major: "Electrical & Computer Engineering",
+            timesApplied: 2,
+            timeCommitment: "20-25"
+        )
+
+        let post10 = Post(
+            likes: ["user_aa", "user_bb", "user_cc"],
+            message: "International trips completely changed my engineering perspective. Building infrastructure abroad teaches you more than any classroom ever could.",
+            time: Date().addingTimeInterval(-60 * 300), // 5 hours ago
+            id: "review_1000",
+            profileImage: "default_icon.png",
+            overallRating: "4.7",
+            difficultyRating: "3.6",
+            isMember: true,
+            yearsMember: "S2022",
+            major: "Environmental Engineering",
+            timesApplied: 1,
+            timeCommitment: "10-15"
+        )
+        
         let dummyPosts: [Post] = [
             post1,
             post2,
-            post3
+            post3,
+            post4,
+            post5,
+            post6,
+            post7,
+            post8,
+            post9,
+            post10
         ]
+        
         self.posts = dummyPosts
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: backButtonImg, style: .plain, target: self, action: #selector(tapBack))
@@ -124,9 +244,7 @@ class DetailViewController: UIViewController {
         setupImage()
         setupNameLabel()
         configureView()
-        let dummyOverallRating: Float = 4.7
-        let dummyDifficultyRating: Float = 3.5
-        setupRatingMetrics(overallRating: dummyOverallRating, difficultyRating: dummyDifficultyRating)
+        setupRatingMetrics()
         setupSiteButton()
         setupComp()
         setupCategory()
@@ -140,7 +258,7 @@ class DetailViewController: UIViewController {
     
     private func setupGradientBackground() {
         let gradientLayer = CAGradientLayer()
-        
+            
         let darkdarkBlue = UIColor.a4.darkdarkBlue.cgColor
         let darkBlue = UIColor.a4.darkBlue.cgColor
         let lightBlue = UIColor.a4.lightPurple.cgColor
@@ -153,7 +271,7 @@ class DetailViewController: UIViewController {
             lightBlue,
             lightBlue
         ]
-        
+
         gradientLayer.locations = [0, 0.15, 0.25, 0.60, 1]
         
         gradientLayer.frame = view.bounds
@@ -162,18 +280,21 @@ class DetailViewController: UIViewController {
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
     }
-    
+
     
     // MARK: - Set Up Views
     private func configureView() {
-        //        self.image.sd_setImage(with: URL(string: team.image_url))
+//        self.image.sd_setImage(with: URL(string: team.image_url))
         self.image.image = UIImage(named: "appdev-logo") //dummy image
         nameLabel.text = team.name
         descLabel.text = team.description
         comp.text = team.comp
         category.text = team.category
-        reviews.text = "\(team.reviews.count) reviews"
+        //reviews.text = "\(team.reviews.count) reviews"
+        reviews.text = "10 reviews"
         hours.text = "\(team.hours) hours/week"
+        overallRatingNumberLabel.text = team.overallRating
+        difficultyRatingNumberLabel.text = team.diffRating
     }
     
     private func setupScroll() {
@@ -192,40 +313,40 @@ class DetailViewController: UIViewController {
     }
     
     /*
-     private func setupTitleLabel() {
-     titleLabel.text = "Big Red Teams"
-     titleLabel.textColor = .white
-     titleLabel.font = .systemFont(ofSize: 32, weight: .semibold)
-     titleLabel.textAlignment = .left
-     
-     view.addSubview(titleLabel)
-     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-     
-     titleLabel.snp.makeConstraints { make in
-     make.top.equalTo(view.safeAreaLayoutGuide)
-     make.leading.equalToSuperview().offset(32)
-     make.trailing.equalToSuperview()
-     }
-     }
+    private func setupTitleLabel() {
+        titleLabel.text = "Big Red Teams"
+        titleLabel.textColor = .white
+        titleLabel.font = .systemFont(ofSize: 32, weight: .semibold)
+        titleLabel.textAlignment = .left
+        
+        view.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.equalToSuperview().offset(32)
+            make.trailing.equalToSuperview()
+        }
+    }
      */
     /*
-     private func setupSubtextLabel() {
-     subtextLabel.text = "Learn more about Cornell's student-led project teams"
-     subtextLabel.textColor = .white
-     subtextLabel.font = .systemFont(ofSize: 16, weight: .semibold)
-     subtextLabel.textAlignment = .left
-     subtextLabel.numberOfLines = 0
-     
-     view.addSubview(subtextLabel)
-     subtextLabel.translatesAutoresizingMaskIntoConstraints = false
-     
-     subtextLabel.snp.makeConstraints { make in
-     make.top.equalTo(titleLabel.snp.bottom).offset(8)
-     make.leading.equalToSuperview().offset(32)
-     make.trailing.equalToSuperview()
-     }
-     }
-     */
+    private func setupSubtextLabel() {
+        subtextLabel.text = "Learn more about Cornell's student-led project teams"
+        subtextLabel.textColor = .white
+        subtextLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        subtextLabel.textAlignment = .left
+        subtextLabel.numberOfLines = 0
+        
+        view.addSubview(subtextLabel)
+        subtextLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+        subtextLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(32)
+            make.trailing.equalToSuperview()
+        }
+    }
+    */
     private func setupNameLabel() {
         nameLabel.textColor = .black
         nameLabel.font = .systemFont(ofSize: 22, weight: .semibold)
@@ -234,7 +355,7 @@ class DetailViewController: UIViewController {
         
         contentView.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+            
         nameLabel.snp.makeConstraints { make in
             make.centerY.equalTo(image.snp.centerY)
             make.leading.equalTo(image.snp.trailing).offset(16)
@@ -242,10 +363,9 @@ class DetailViewController: UIViewController {
         }
     }
     
-    private func setupRatingMetrics(overallRating: Float, difficultyRating: Float) {
-        
+    private func setupRatingMetrics() {
+                
         // Set up the big number (e.g., 4.7)
-        overallRatingNumberLabel.text = String(format: "%.1f", overallRating)
         overallRatingNumberLabel.textColor = UIColor.a4.offBlack
         overallRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold)
         
@@ -256,9 +376,8 @@ class DetailViewController: UIViewController {
         
         contentView.addSubview(overallRatingNumberLabel)
         contentView.addSubview(overallRatingTextLabel)
-        
+                
         // Set up the big number (e.g., 3.5)
-        difficultyRatingNumberLabel.text = String(format: "%.1f", difficultyRating)
         difficultyRatingNumberLabel.textColor = UIColor.a4.offBlack
         difficultyRatingNumberLabel.font = .systemFont(ofSize: 32, weight: .bold) // Bigger font
         
@@ -288,7 +407,7 @@ class DetailViewController: UIViewController {
             make.top.equalTo(overallRatingNumberLabel.snp.bottom).offset(4)
             make.centerX.equalTo(overallRatingNumberLabel.snp.centerX)
         }
-        
+                
         // Constraint for Separator (Center component)
         separatorView.snp.makeConstraints { make in
             make.top.equalTo(overallRatingNumberLabel.snp.top).offset(4)
@@ -296,7 +415,7 @@ class DetailViewController: UIViewController {
             make.width.equalTo(1) // Thin vertical line
             make.height.equalTo(50)
         }
-        
+
         // Constraints for Difficulty Rating (RHS)
         difficultyRatingNumberLabel.snp.makeConstraints { make in
             make.centerY.equalTo(overallRatingNumberLabel.snp.centerY)
@@ -306,7 +425,7 @@ class DetailViewController: UIViewController {
         difficultyRatingTextLabel.snp.makeConstraints { make in
             make.top.equalTo(difficultyRatingNumberLabel.snp.bottom).offset(4)
             make.centerX.equalTo(difficultyRatingNumberLabel.snp.centerX)
-            //            make.bottom.lessThanOrEqualToSuperview().offset(-32) // Ensure the bottom anchor is constrained
+//            make.bottom.lessThanOrEqualToSuperview().offset(-32) // Ensure the bottom anchor is constrained
         }
     }
     
@@ -317,7 +436,7 @@ class DetailViewController: UIViewController {
         
         contentView.addSubview(image)
         image.translatesAutoresizingMaskIntoConstraints = false
-        
+
         image.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(32)
             make.leading.equalToSuperview().offset(32)
@@ -341,7 +460,7 @@ class DetailViewController: UIViewController {
         siteButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
         siteButton.addTarget(self, action: #selector(openSite), for: .touchUpInside)
         siteButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 8)
-        
+
         contentView.addSubview(siteButton)
         siteButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -360,7 +479,7 @@ class DetailViewController: UIViewController {
         comp.textAlignment = .center
         
         comp.textInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
-        
+
         contentView.addSubview(comp)
         comp.translatesAutoresizingMaskIntoConstraints = false
         
@@ -373,7 +492,7 @@ class DetailViewController: UIViewController {
     func setupCategory() {
         category.textColor = UIColor.a4.offBlack
         category.backgroundColor = UIColor.a4.lilac
-        //        category.layer.borderWidth = 1
+//        category.layer.borderWidth = 1
         // category.layer.borderColor = UIColor.darkGray.cgColor
         category.layer.cornerRadius = 8
         category.layer.masksToBounds = true
@@ -425,7 +544,7 @@ class DetailViewController: UIViewController {
         
         contentView.addSubview(descLabel)
         descLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+            
         descLabel.snp.makeConstraints { make in
             make.top.equalTo(reviews.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(32)
@@ -449,15 +568,9 @@ class DetailViewController: UIViewController {
         createPostButton.setImage(iconImage, for: .normal)
         createPostButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         createPostButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
-<<<<<<< HEAD
-        
-        createPostButton.addTarget(self, action: #selector(pushCreatePost), for: .touchUpInside)
-        
-=======
      
-     //        createPostButton.addTarget(self, action: #selector(createPost), for: .touchUpInside)
+             createPostButton.addTarget(self, action: #selector(pushCreatePost), for: .touchUpInside)
 
->>>>>>> parent of de4497c (mid updates)
         view.addSubview(createPostButton)
         createPostButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -470,12 +583,8 @@ class DetailViewController: UIViewController {
     private func setupPostCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical //~needed?
-<<<<<<< HEAD
-        //        layout.estimatedItemSize = automatic
-        //        layout.minimumLineSpacing = 32
-=======
+//        layout.estimatedItemSize = automatic
 //        layout.minimumLineSpacing = 32
->>>>>>> parent of de4497c (mid updates)
         layout.minimumInteritemSpacing = 16
         
         // Initialize collectionView using the layout
@@ -485,10 +594,10 @@ class DetailViewController: UIViewController {
         postCollectionView.alwaysBounceVertical = true
         postCollectionView.delegate = self
         postCollectionView.dataSource = self
-        //        postCollectionView.contentInset = UIEdgeInsets(top: 32, left: 0, bottom: 0, right: 0)
+//        postCollectionView.contentInset = UIEdgeInsets(top: 32, left: 0, bottom: 0, right: 0)
         postCollectionView.isScrollEnabled = false //let parent control scrolling
         
-        //        refreshControl.addTarget(self, action: #selector(getRecipes), for: .valueChanged)
+//        refreshControl.addTarget(self, action: #selector(getRecipes), for: .valueChanged)
         postCollectionView.refreshControl = refreshControl
         
         contentView.addSubview(postCollectionView)
@@ -510,17 +619,17 @@ class DetailViewController: UIViewController {
         let contentInsetTop: CGFloat = 32
         let minimumLineSpacing: CGFloat = 0 //~what value?
         let interItemSpacing: CGFloat = 16
-        
+
         // Total height calculation:
         // (Total height of all cells) + (Spacing between cells) + (Insets/Padding)
         
         let totalCellHeight = estimatedCellHeight * CGFloat(postCount)
         let totalSpacing = interItemSpacing * CGFloat(postCount - 1)
         let totalPadding = sectionTopInset + sectionBottomInset + contentInsetTop
-        
+
         return totalCellHeight + totalSpacing + totalPadding
     }
-    
+
     
     private func setupBookmark() {
         bookmarkButton = UIBarButtonItem(
@@ -574,137 +683,60 @@ class DetailViewController: UIViewController {
               let url = URL(string: urlString) else {
             return
         }
-        
+
         UIApplication.shared.open(url) { success in
             // error handling?
         }
     }
-<<<<<<< HEAD
-    /*
-     @objc private func pushCreatePost() {
-     let createVC = CreatePostViewController(post: post, team: team, overallRatingText: overallRatingText, diffRatingText: diffRatingText, majorRatingText: majorRatingText, memberText: memberText, yearAppText: yearAppText, hoursText: hoursText, messageText: messageText, delegate: self)
-     navigationController?.pushViewController(createVC, animated: true)
-     }
-     */
+    
     @objc private func pushCreatePost() {
-        guard let initialPost = posts.first else { return }
-        
-        let createVC = CreatePostViewController(
-            team: team,
-            overallRatingText: "", // Overall Rating
-            diffRatingText: "",    // Difficulty Rating
-            majorRatingText: "",   // Major
-            memberText: "",        // Member status
-            yearAppText: "",       // Years Applied
-            hoursText: "",         // Hours
-            messageText: "",       // Message
-            delegate: self
-        )
-        
-        navigationController?.pushViewController(createVC, animated: true)
-=======
-    
-    @objc private func createPost() {
-        
->>>>>>> parent of de4497c (mid updates)
+        //let createVC = createPostViewController(hometownText: hometownText, majorText: majorText, delegate: self)
+        //navigationController?.pushViewController(createVC, animated: true)
     }
-    
-    protocol BookmarkDelegate: AnyObject { // using protocol to establish loose coupling instead of tight coupling
-        func didUpdateBookmarks() // what the delegate must do
-    }
-    
-    
-    extension UIFont {
-        class func rounded(ofSize size: CGFloat, weight: UIFont.Weight) -> UIFont {
-            let systemFont = UIFont.systemFont(ofSize: size, weight: weight)
-            let font: UIFont
-            
-            if let descriptor = systemFont.fontDescriptor.withDesign(.rounded) {
-                font = UIFont(descriptor: descriptor, size: size)
-            } else {
-                font = systemFont
-            }
-            return font
-        }
-    }
-    
-    // MARK: - UICollectionViewDataSource
-    extension DetailViewController: UICollectionViewDataSource {
-        
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return posts.count
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCollectionViewCell.reuse, for: indexPath) as? PostCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            
-            let post = posts[indexPath.row]
-            cell.configure(post: post)
-            return cell
-        }
-    }
-    
-    // MARK: - UICollectionViewDelegateFlowLayout
-    extension DetailViewController: UICollectionViewDelegateFlowLayout {
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            // define height based on content of PostCollectionViewCell (wraps)
-            let width = collectionView.frame.width - (32 * 2) // Total width minus padding
-            // estimate a height tall enough to contain all elements, or use self-sizing cells.
-            let estimatedHeight: CGFloat = 350 // Placeholder height based on required complexity
-            
-            return CGSize(width: width, height: estimatedHeight)
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            // Handle post selection/interaction here
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            // Add padding around the section
-            return UIEdgeInsets(top: 16, left: 32, bottom: 32, right: 32)
-        }
-        
-    }
+
 }
+
+protocol BookmarkDelegate: AnyObject { // using protocol to establish loose coupling instead of tight coupling
+    func didUpdateBookmarks() // what the delegate must do
+}
+
     
-<<<<<<< HEAD
-extension DetailViewController: UpdateTextDelegate {
-    func updateText(
-        newOverallRatingText: String,
-        newDiffRatingText: String,
-        newMajorText: String,
-        newMemberText: String,
-        newYearAppText: String,
-        newHoursText: String,
-        newMessageText: String
-    ) {
-//        overallRatingLabel.text = newOverallRatingText
-//        OverallRatingText: String,
-//        DiffRatingText: String,
-//        MajorRatingText: String,
-//        MemberText: String,
-//        YearAppText: String,
-//        HoursText: String,
-//        MessageText: String
+extension UIFont {
+    class func rounded(ofSize size: CGFloat, weight: UIFont.Weight) -> UIFont {
+        let systemFont = UIFont.systemFont(ofSize: size, weight: weight)
+        let font: UIFont
+        
+        if let descriptor = systemFont.fontDescriptor.withDesign(.rounded) {
+            font = UIFont(descriptor: descriptor, size: size)
+        } else {
+            font = systemFont
+        }
+        return font
     }
 }
 
-protocol UpdateTextDelegate: AnyObject {
-    // Modify the signature to include all seven fields used in CreatePostViewController
-    func updateText(
-        newOverallRatingText: String,
-        newDiffRatingText: String,
-        newMajorText: String,
-        newMemberText: String,
-        newYearAppText: String,
-        newHoursText: String,
-        newMessageText: String
-    )
-=======
+// MARK: - UICollectionViewDataSource
+extension DetailViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return posts.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCollectionViewCell.reuse, for: indexPath) as? PostCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+
+        let post = posts[indexPath.row]
+        cell.configure(post: post)
+        return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension DetailViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // define height based on content of PostCollectionViewCell (wraps)
         let width = collectionView.frame.width - (32 * 2) // Total width minus padding
@@ -722,5 +754,14 @@ protocol UpdateTextDelegate: AnyObject {
         // Add padding around the section
         return UIEdgeInsets(top: 16, left: 32, bottom: 32, right: 32)
     }
->>>>>>> parent of de4497c (mid updates)
+    
+    @objc private func pushVC() {
+        // TODO: Push ViewControllerTwo
+        //let editVC = EditProfileVC(hometownText: hometownText, majorText: majorText, delegate: self)
+        //navigationController?.pushViewController(editVC, animated: true)
+    }
+}
+
+protocol UpdateTextDelegate: AnyObject {
+    func updateText(newHometownText: String, newMajorText: String)
 }

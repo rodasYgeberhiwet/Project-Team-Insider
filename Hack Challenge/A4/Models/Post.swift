@@ -13,8 +13,8 @@ struct Post: Codable {
     let time: Date
     let id: String
     let profileImage: String
-//    let overallRating = Float
-//    let difficultyRating = Float
+    let overallRating: String
+    let difficultyRating: String
     let isMember: Bool
     let yearsMember: String
     let major: String

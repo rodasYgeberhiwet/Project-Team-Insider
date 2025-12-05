@@ -21,84 +21,256 @@ class ViewController: UIViewController {
     
     private var teams : [Team] = [
         Team(
-            id: "1",
-            name: "Cornell AppDev",
-            description: "Student-run team building mobile apps for the Cornell community. Developers learn iOS, Android, full-stack, and design.",
-            comp: "Competitive",
-            reviews: ["Great learning experience!", "Intense but rewarding", "Best community on campus"],
-            hours: "15-20",
-            category: "Software",
-            website: "https://www.cornellappdev.com/"
+            id: "1", name: "AguaClara",
+            description: "Designs sustainable water treatment plants using gravity-powered systems for communities without reliable electricity in Honduras and other developing regions worldwide.",
+            comp: "Moderate", reviews: ["Clean water impact", "Civil engineering"], hours: "10-15",
+            category: "Civil/Environmental", website: "https://aguaclara.cornell.edu",
+            overallRating: "4.7", diffRating: "3.4"
         ),
         Team(
-            id: "2",
-            name: "Cornell Data Science",
-            description: "Work on real-world data science projects with industry partners. Focus on ML, analytics, and data visualization.",
-            comp: "Moderate",
-            reviews: ["Awesome mentors", "Great for ML beginners", "Flexible hours"],
-            hours: "8-12",
-            category: "Data Science",
-            website: "https://cornelldata.science/"
+            id: "2", name: "Combat Robotics",
+            description: "Designs and builds remote-controlled combat robots that compete in televised robot fighting competitions with destructive weapons and armored chassis for protection.",
+            comp: "Competitive", reviews: ["Battle bots", "Destructive testing"], hours: "15-20",
+            category: "Robotics", website: "https://combatrobotics.cornell.edu",
+            overallRating: "4.8", diffRating: "4.2"
         ),
         Team(
-            id: "3",
-            name: "Cornell Design & Tech Initiative",
-            description: "Create digital products that solve campus problems. Roles include product management, design, and engineering.",
-            comp: "Moderate",
-            reviews: ["Impactful projects", "Strong design focus", "Collaborative environment"],
-            hours: "10-15",
-            category: "Product",
-            website: "https://new.cornelldti.org/"
+            id: "3", name: "AppDev",
+            description: "Student-run software development team that creates mobile apps used by thousands of Cornell students including CampusGuide and Eatery for iOS and Android platforms.",
+            comp: "Competitive", reviews: ["iOS/Android dev", "Real apps"], hours: "15-20",
+            category: "Software", website: "https://cornellappdev.com",
+            overallRating: "4.8", diffRating: "3.9"
         ),
         Team(
-            id: "4",
-            name: "CUAir - Autonomous Air Vehicle",
-            description: "Design, build, and compete with autonomous UAVs. Work on computer vision, controls, and aerodynamics.",
-            comp: "Competitive",
-            reviews: ["Hardcore engineering", "Competition focused", "Great for aerospace"],
-            hours: "20-25",
-            category: "Engineering",
-            website: "https://cuair.org/"
+            id: "4", name: "Assistive Technologies",
+            description: "Develops innovative technology solutions to help people with disabilities including communication devices, mobility aids, and accessibility tools for daily living challenges.",
+            comp: "Moderate", reviews: ["Meaningful work", "Human-centered design"], hours: "10-15",
+            category: "Biomedical", website: "https://assistivetech.cornell.edu",
+            overallRating: "4.6", diffRating: "3.3"
         ),
         Team(
-            id: "5",
-            name: "Cornell FinTech",
-            description: "Explore blockchain, trading algorithms, and financial technology. Both technical and business roles available.",
-            comp: "Competitive",
-            reviews: ["Wall Street connections", "Cutting-edge tech", "Intense recruitment"],
-            hours: "12-18",
-            category: "Finance",
-            website: "https://www.cornellfintechclub.com/"
+            id: "5", name: "Autonomous Sailboat",
+            description: "Designs fully autonomous sailing vessels that navigate using wind power alone, competing in international robotic sailing regattas with AI-based navigation systems.",
+            comp: "Moderate", reviews: ["Sailing + robotics", "Marine autonomy"], hours: "12-16",
+            category: "Robotics", website: "https://sailboat.cornell.edu",
+            overallRating: "4.5", diffRating: "3.8"
         ),
         Team(
-            id: "6",
-            name: "Cornell WebDev",
-            description: "Build and maintain web applications for student organizations. Focus on React, Node.js, and modern web tech.",
-            comp: "Open",
-            reviews: ["Beginner friendly", "Supportive community", "Good work-life balance"],
-            hours: "6-10",
-            category: "Web Development",
-            website: "https://cornellwebdevclub.com/"
+            id: "6", name: "Baja Racing",
+            description: "Engineers and builds single-seat off-road vehicles from scratch to compete in SAE Baja competitions involving endurance, acceleration, and maneuverability challenges.",
+            comp: "Competitive", reviews: ["Dirt racing", "Mechanical design"], hours: "18-22",
+            category: "Mechanical", website: "https://cornellbaja.com",
+            overallRating: "4.7", diffRating: "4.1"
         ),
         Team(
-            id: "7",
-            name: "Cornell VR/AR Club",
-            description: "Create immersive virtual and augmented reality experiences. Projects range from games to educational tools.",
-            comp: "Open",
-            reviews: ["Cutting-edge tech", "Creative freedom", "Growing community"],
-            hours: "8-12",
-            category: "XR/Gaming",
-            website: "https://xr.cornell.edu/"
+            id: "7", name: "Biomedical Device",
+            description: "Creates medical devices and diagnostic tools from concept to prototype, focusing on solving clinical problems through engineering innovation and regulatory compliance.",
+            comp: "Competitive", reviews: ["Healthcare innovation", "FDA regulations"], hours: "14-18",
+            category: "Biomedical", website: "https://biomeddevice.cornell.edu",
+            overallRating: "4.7", diffRating: "4.0"
         ),
         Team(
-            id: "8",
-            name: "Cornell Autonomous Underwater Vehicle",
-            description: "Design and build autonomous submarines for international competition. Focus on robotics and marine engineering.",
-            comp: "Competitive",
-            reviews: ["Travel opportunities", "Hands-on robotics", "Team travels to compete"],
-            hours: "15-20",
-            category: "Robotics",
-            website: "https://cuauv.org/"
+            id: "8", name: "ChemE Car",
+            description: "Designs chemically-powered miniature cars that must stop precisely using only chemical reactions, competing in national AIChE competitions with creative engineering solutions.",
+            comp: "Moderate", reviews: ["Chemical engineering", "Precision vehicles"], hours: "12-16",
+            category: "Chemical", website: "https://chemecar.cornell.edu",
+            overallRating: "4.4", diffRating: "3.7"
+        ),
+        Team(
+            id: "9", name: "Concrete Canoe",
+            description: "Designs, builds, and races concrete canoes that must float and be raced in national ASCE competitions, focusing on innovative concrete mix designs.",
+            comp: "Moderate", reviews: ["Civil engineering", "Mix design"], hours: "12-16",
+            category: "Civil", website: "https://concretecanoe.cornell.edu",
+            overallRating: "4.3", diffRating: "3.5"
+        ),
+        Team(
+            id: "10", name: "Custom Silicon Systems",
+            description: "Designs custom integrated circuits and microchips from transistor-level layout to full system integration, creating specialized hardware for computational applications.",
+            comp: "Competitive", reviews: ["Chip design", "Hardware engineering"], hours: "16-20",
+            category: "Electrical", website: "https://silicon.cornell.edu",
+            overallRating: "4.9", diffRating: "4.5"
+        ),
+        Team(
+            id: "11", name: "Data Science",
+            description: "Works on real-world data analysis projects with industry partners, applying machine learning, statistical modeling, and data visualization to solve complex problems.",
+            comp: "Moderate", reviews: ["ML models", "Industry projects"], hours: "10-15",
+            category: "Data Science", website: "https://datascience.cornell.edu",
+            overallRating: "4.5", diffRating: "3.6"
+        ),
+        Team(
+            id: "12", name: "Debate",
+            description: "Competitive policy debate team that researches, argues, and competes in national tournaments focusing on current political, economic, and social issues.",
+            comp: "Competitive", reviews: ["Public speaking", "Critical thinking"], hours: "12-18",
+            category: "Humanities", website: "https://debate.cornell.edu",
+            overallRating: "4.4", diffRating: "3.2"
+        ),
+        Team(
+            id: "13", name: "Digital Tech & Innovation",
+            description: "Explores emerging digital technologies like blockchain, AI, and IoT while developing innovative projects that bridge technology with real-world applications.",
+            comp: "Moderate", reviews: ["Tech trends", "Startup mindset"], hours: "10-14",
+            category: "Technology", website: "https://dti.cornell.edu",
+            overallRating: "4.5", diffRating: "3.4"
+        ),
+        Team(
+            id: "14", name: "Design Build Fly",
+            description: "Designs, builds, and tests radio-controlled aircraft for AIAA competition, optimizing for flight performance, payload capacity, and mission-specific requirements.",
+            comp: "Moderate", reviews: ["Aircraft design", "Flight testing"], hours: "12-18",
+            category: "Aerospace", website: "https://dbf.cornell.edu",
+            overallRating: "4.5", diffRating: "3.8"
+        ),
+        Team(
+            id: "15", name: "Electric Vehicles",
+            description: "Develops electric vehicle technology including battery management systems, motor controllers, and charging infrastructure for sustainable transportation solutions.",
+            comp: "Competitive", reviews: ["EV technology", "Battery systems"], hours: "15-20",
+            category: "Mechanical/Electrical", website: "https://ev.cornell.edu",
+            overallRating: "4.6", diffRating: "4.0"
+        ),
+        Team(
+            id: "16", name: "Engineering World Health",
+            description: "Creates low-cost medical devices for developing countries, focusing on diagnostic tools, treatment devices, and healthcare infrastructure for resource-limited settings.",
+            comp: "Moderate", reviews: ["Global health", "Medical devices"], hours: "10-15",
+            category: "Biomedical", website: "https://ewh.cornell.edu",
+            overallRating: "4.7", diffRating: "3.5"
+        ),
+        Team(
+            id: "17", name: "Extended Reality (CUXR)",
+            description: "Develops virtual and augmented reality applications for education, training, and entertainment using Unity, Unreal Engine, and custom XR hardware setups.",
+            comp: "Open", reviews: ["Immersive tech", "Creative projects"], hours: "8-12",
+            category: "XR", website: "https://cuxr.cornell.edu",
+            overallRating: "4.4", diffRating: "3.1"
+        ),
+        Team(
+            id: "18", name: "Hack4Impact",
+            description: "Builds custom software solutions for non-profit organizations, creating web applications, databases, and digital tools that address social challenges directly.",
+            comp: "Moderate", reviews: ["Social impact", "Web development"], hours: "10-14",
+            category: "Software", website: "https://hack4impact.cornell.edu",
+            overallRating: "4.6", diffRating: "3.3"
+        ),
+        Team(
+            id: "19", name: "Hyperloop",
+            description: "Designs high-speed vacuum tube transportation pods that levitate using magnetic systems, competing in SpaceX competitions for futuristic transit solutions.",
+            comp: "Competitive", reviews: ["Futuristic transport", "High-speed systems"], hours: "18-24",
+            category: "Mechanical", website: "https://hyperloop.cornell.edu",
+            overallRating: "4.9", diffRating: "4.6"
+        ),
+        Team(
+            id: "20", name: "iGEM",
+            description: "Synthetic biology team that engineers biological systems using genetic circuits, competing in international iGEM with innovative biotechnology applications.",
+            comp: "Competitive", reviews: ["Genetic engineering", "Lab research"], hours: "15-20",
+            category: "Biology", website: "https://igem.cornell.edu",
+            overallRating: "4.8", diffRating: "4.1"
+        ),
+        Team(
+            id: "21", name: "Mars Rover",
+            description: "Builds semi-autonomous Mars rovers that compete in University Rover Challenge, performing geology tasks and navigation in simulated Martian terrain.",
+            comp: "Competitive", reviews: ["Space robotics", "Rover systems"], hours: "16-20",
+            category: "Robotics", website: "https://marsrover.cornell.edu",
+            overallRating: "4.7", diffRating: "4.3"
+        ),
+        Team(
+            id: "22", name: "Nexus",
+            description: "Interdisciplinary innovation team that tackles complex problems at the intersection of technology, business, and design through collaborative project development.",
+            comp: "Moderate", reviews: ["Cross-disciplinary", "Innovation projects"], hours: "10-15",
+            category: "Interdisciplinary", website: "https://nexus.cornell.edu",
+            overallRating: "4.4", diffRating: "3.4"
+        ),
+        Team(
+            id: "23", name: "FSAE Racing",
+            description: "Designs, builds, and races Formula-style open-wheel race cars from the ground up for international SAE Collegiate Design Series competitions.",
+            comp: "Competitive", reviews: ["Race car engineering", "Performance tuning"], hours: "20-25",
+            category: "Mechanical", website: "https://fsae.cornell.edu",
+            overallRating: "4.8", diffRating: "4.4"
+        ),
+        Team(
+            id: "24", name: "Rocketry",
+            description: "Designs and launches high-power rockets reaching altitudes over 10,000 feet, competing in intercollegiate rocketry competitions with complex payload missions.",
+            comp: "Competitive", reviews: ["Rocket science", "Launch events"], hours: "15-20",
+            category: "Aerospace", website: "https://rocketry.cornell.edu",
+            overallRating: "4.7", diffRating: "4.2"
+        ),
+        Team(
+            id: "25", name: "Seismic Design",
+            description: "Engineers earthquake-resistant building structures using innovative damping systems and materials, competing in seismic design challenges with scaled models.",
+            comp: "Moderate", reviews: ["Earthquake engineering", "Structural design"], hours: "12-16",
+            category: "Civil", website: "https://seismic.cornell.edu",
+            overallRating: "4.5", diffRating: "3.9"
+        ),
+        Team(
+            id: "26", name: "Steel Bridge",
+            description: "Designs, fabricates, and assembles steel bridges under time constraints for ASCE competition, focusing on structural efficiency and construction speed.",
+            comp: "Moderate", reviews: ["Bridge engineering", "Steel fabrication"], hours: "10-15",
+            category: "Civil", website: "https://steelbridge.cornell.edu",
+            overallRating: "4.3", diffRating: "3.7"
+        ),
+        Team(
+            id: "27", name: "Solar Boat",
+            description: "Designs and races solar-powered boats that convert sunlight to propulsion energy, competing in solar boat regattas with efficient energy systems.",
+            comp: "Moderate", reviews: ["Solar power", "Marine design"], hours: "12-16",
+            category: "Mechanical/Electrical", website: "https://solarboat.cornell.edu",
+            overallRating: "4.4", diffRating: "3.6"
+        ),
+        Team(
+            id: "28", name: "Autonomous Underwater Vehicle",
+            description: "Builds autonomous submarines that perform underwater tasks like navigation, object retrieval, and mapping in international robotics competitions.",
+            comp: "Competitive", reviews: ["Underwater robotics", "Marine engineering"], hours: "15-20",
+            category: "Robotics", website: "https://auv.cornell.edu",
+            overallRating: "4.7", diffRating: "4.3"
+        ),
+        Team(
+            id: "29", name: "Unmanned Air Systems",
+            description: "Develops unmanned aerial systems including fixed-wing drones and quadcopters for applications in mapping, surveillance, and payload delivery missions.",
+            comp: "Competitive", reviews: ["Drone technology", "Aerial systems"], hours: "14-18",
+            category: "Aerospace", website: "https://uas.cornell.edu",
+            overallRating: "4.6", diffRating: "4.0"
+        ),
+        Team(
+            id: "30", name: "Autoboat",
+            description: "Creates autonomous surface vehicles that navigate waterways using computer vision and sensor fusion for environmental monitoring and research applications.",
+            comp: "Moderate", reviews: ["Surface autonomy", "Marine robotics"], hours: "12-16",
+            category: "Robotics", website: "https://autoboat.cornell.edu",
+            overallRating: "4.5", diffRating: "3.8"
+        ),
+        Team(
+            id: "31", name: "Autonomous Drone",
+            description: "Develops fully autonomous drone systems capable of complex missions including search and rescue, inspection, and autonomous swarm coordination.",
+            comp: "Moderate", reviews: ["Drone autonomy", "Aerial applications"], hours: "12-16",
+            category: "Robotics/Aerospace", website: "https://autodrone.cornell.edu",
+            overallRating: "4.6", diffRating: "3.9"
+        ),
+        Team(
+            id: "32", name: "Geodata",
+            description: "Works with geographic information systems, satellite imagery, and spatial data analysis to solve environmental, urban, and resource management problems.",
+            comp: "Moderate", reviews: ["GIS mapping", "Spatial analysis"], hours: "10-14",
+            category: "Data Science", website: "https://geodata.cornell.edu",
+            overallRating: "4.4", diffRating: "3.3"
+        ),
+        Team(
+            id: "33", name: "Engineers for a Sustainable World",
+            description: "Implements sustainability projects on campus and in the local community focusing on renewable energy, waste reduction, and sustainable design solutions.",
+            comp: "Open", reviews: ["Environmental projects", "Sustainability"], hours: "8-12",
+            category: "Environmental", website: "https://esw.cornell.edu",
+            overallRating: "4.3", diffRating: "3.0"
+        ),
+        Team(
+            id: "34", name: "Engineers in Action",
+            description: "Builds pedestrian footbridges in rural communities worldwide, providing safe river crossings and transportation infrastructure for isolated populations.",
+            comp: "Moderate", reviews: ["Global development", "Bridge building"], hours: "10-15",
+            category: "Civil", website: "https://eia.cornell.edu",
+            overallRating: "4.5", diffRating: "3.4"
+        ),
+        Team(
+            id: "35", name: "Engineers Without Borders",
+            description: "Completes international engineering projects including water supply systems, sanitation facilities, and renewable energy installations in developing communities.",
+            comp: "Moderate", reviews: ["Global service", "Community projects"], hours: "10-15",
+            category: "Civil/Environmental", website: "https://ewb.cornell.edu",
+            overallRating: "4.6", diffRating: "3.5"
+        ),
+        Team(
+            id: "36", name: "Senstech",
+            description: "Develops advanced sensor technologies and Internet of Things systems for environmental monitoring, industrial applications, and smart city infrastructure.",
+            comp: "Moderate", reviews: ["Sensor design", "IoT networks"], hours: "12-16",
+            category: "Electrical", website: "https://senstech.cornell.edu",
+            overallRating: "4.5", diffRating: "3.7"
         )
     ]
     
@@ -133,30 +305,28 @@ class ViewController: UIViewController {
         setupExploreCollectionView()
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: "profile-icon", style: .plain, target: self, action: #selector(pushProfileVC))
         exploreCollectionView.alwaysBounceVertical = true
-//        getRecipes()
+        getTeams()
         
     }
     
     // MARK: - Networking
     
-    /*
-    @objc private func getRecipes() {
-        print("getRecipes call")
-        NetworkManager.shared.fetchRecipes { [weak self] recipes in guard let self = self else {
+    
+    @objc private func getTeams() {
+        print("getTeams call")
+        NetworkManager.shared.fetchTeams { [weak self] recipes in guard let self = self else {
             print("Self is null")
             return }
-            self.recipes = recipes
-            self.filteredRecipes = recipes
+            self.teams = teams
             print("Successfully fetched recipes")
             
             // Perform UI update on main queue
             DispatchQueue.main.async {
-                self.recipeCollectionView.reloadData()
+                self.exploreCollectionView.reloadData()
                 self.refreshControl.endRefreshing()
             }
         }
     }
-     */
     
     // MARK: - Set Up Views
     
@@ -209,7 +379,7 @@ class ViewController: UIViewController {
         exploreCollectionView.dataSource = self
         exploreCollectionView.contentInset = UIEdgeInsets(top: 32, left: 0, bottom: 0, right: 0)
         
-//        refreshControl.addTarget(self, action: #selector(getRecipes), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(getTeams), for: .valueChanged)
         exploreCollectionView.refreshControl = refreshControl
         
         view.addSubview(exploreCollectionView)
@@ -270,6 +440,7 @@ extension ViewController: UICollectionViewDelegate {
         let selectedTeam = teams[indexPath.item]
         let detailVC = DetailViewController(team: selectedTeam)
         navigationController?.pushViewController(detailVC, animated: true)
+        detailVC.delegate = self
      /*
         if (collectionView == filterCollectionView) {
             currFilter = filters[indexPath.item]

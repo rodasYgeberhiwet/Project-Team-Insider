@@ -4,7 +4,7 @@
 //
 //  Created by Paul Ng on 11/19/25.
 //
-/*
+
 import Alamofire
 import Foundation
 
@@ -16,50 +16,32 @@ class NetworkManager {
     private init() { }
 
     /// Endpoint
-    private let devEndpoint: String = "https://ios-course-backend.cornellappdev.com"
-    private let endpoint = "https://api.jsonbin.io/v3/b/64d033f18e4aa6225ecbcf9f?meta=false"
+    
+    private let endpoint = "https://pastebin.com/jFKaKdcP"
     
     private let decoder = JSONDecoder()
     
     // MARK: - Requests
     
-    func fetchRecipes(completion: @escaping ([Recipe]) -> Void) {
-        // Create the request
+    func fetchTeams(completion: @escaping ([Team]) -> Void) {
+        // Create the request for a team
 
         AF.request(endpoint, method: .get)
             .validate()
-            .responseDecodable(of: [Recipe].self, decoder: decoder) { response in
+            .responseDecodable(of: [Team].self, decoder: decoder) { response in
                 // Handle the response
                 switch response.result {
-                case .success(let recipes):
-                    print("Successfully fetched \(recipes.count) recipes") // debugging
-                    completion(recipes)
+                case .success(let teams):
+                    print("Successfully fetched \(teams.count) teams") // debugging
+                    completion(teams)
                 case .failure(let error):
-                    print("Error in NetworkManager.fetchRecipes: \(error.localizedDescription)")
+                    print("Error in NetworkManager.fetchTeams: \(error.localizedDescription)")
                 }
             }
     }
  
- func fetchRoster(completion: @escaping ([Post]) -> Void) {
-     // Create the request
-     decoder.dateDecodingStrategy = .iso8601
-     AF.request(endpoint, method: .get)
-         .validate()
-         .responseDecodable(of: [Post].self, decoder: decoder) { response in
-             // Handle the response
-             switch response.result {
-             case .success(let posts):
-                 print("Successfully fetched \(posts.count) posts") // debugging
-                 completion(posts)
-             case .failure(let error):
-                 print("Error in NetworkManager.fetchRoster: \(error.localizedDescription)")
-             }
-         }
- }
- 
-     func addToRoster(message: String, completion: @escaping (Post) -> Void) {
-         decoder.dateDecodingStrategy = .iso8601
-         // Define the request body
+    func addTeams(message: String, completion: @escaping (Team) -> Void) {
+        decoder.dateDecodingStrategy = .iso8601
          let parameters: Parameters = [
              "message": message
          ]
@@ -67,24 +49,24 @@ class NetworkManager {
          // Make the request
          AF.request("\(endpoint)create/", method: .post, parameters: parameters, encoding: JSONEncoding.default)
              .validate()
-             .responseDecodable(of: Post.self, decoder: decoder) { response in
+             .responseDecodable(of: Team.self, decoder: decoder) { response in
                  // Handle the response
                  switch response.result{
-                 case .success(let post):
-                     print("Successfully added post \(post.id)")
-                     completion(post)
+                 case .success(let team):
+                     print("Successfully added team \(team.id)")
+                     completion(team)
                  case .failure(let error):
-                     print("Error in NetworkManager.addToRoster \(error.localizedDescription)")
+                     print("Error in NetworkManager.addTeams \(error.localizedDescription)")
                  }
              }
          
      }
-     
+     /*
      func updateRosterLikes(netId: String, postId: String, completion: @escaping (Post) -> Void) {
          decoder.dateDecodingStrategy = .iso8601
          // Define the request body
          let parameters: Parameters = [
-             "netId": netId,
+             "netId": netId
          ]
 
          // Make the request
@@ -103,6 +85,6 @@ class NetworkManager {
              }
          
      }
-
+     */
 }
-*/
+

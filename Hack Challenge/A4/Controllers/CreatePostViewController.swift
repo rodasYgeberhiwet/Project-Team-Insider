@@ -5,7 +5,6 @@
 //  Created by Amy Yang on 12/3/25.
 //
 
-<<<<<<< HEAD
 import UIKit
 
 class TextField: UITextField {
@@ -63,6 +62,7 @@ class CreatePostViewController: UIViewController {
     private let team: Team
     
     init(post: Post, team: Team, overallRatingText: String, diffRatingText: String, majorRatingText: String, memberText: String, yearAppText: String, hoursText: String, messageText: String, delegate: UpdateTextDelegate){
+        self.post = post
         self.team = team
         self.overallRatingText = overallRatingText
         self.diffRatingText = diffRatingText
@@ -101,15 +101,17 @@ class CreatePostViewController: UIViewController {
         
         configureView()
         setupTitleLabel()
-//        setupMajor()
-//        setupMembershipLabel()
-//        setupYears()
-//        setupHours()
-//        setupMessageField()
-//        setupOverallRating()
-//        setupDiffRating()
-//        setupCancelButton()
-//        setupPostButton()
+        /*
+        setupMajor()
+        setupMembershipLabel()
+        setupYears()
+        setupHours()
+        setupMessageField()
+        setupOverallRating()
+        setupDiffRating()
+        setupCancelButton()
+        setupPostButton()
+        */
     }
 
     // MARK: - Set Up Views
@@ -154,7 +156,7 @@ class CreatePostViewController: UIViewController {
         }
     }
      */
-
+    /*
     private func setupTextField() {
         textField.placeholder = "✏️ What's on your mind?"
         textField.font = .systemFont(ofSize: 16)
@@ -169,7 +171,7 @@ class CreatePostViewController: UIViewController {
             textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: sidePadding)
         ])
     }
-
+     */
     /*
     private func setupPostButton() {
         postButton.backgroundColor = UIColor.a4.pinkRed
@@ -199,7 +201,7 @@ class CreatePostViewController: UIViewController {
         cancelButton.setTitle("Post", for: .normal)
         cancelButton.setTitleColor(UIColor.a4.white, for: .normal)
         cancelButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
-        cancelButton.addTarget(self, action: #selector(tapBack), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(createPost), for: .touchUpInside)
 
         contentView.addSubview(cancelButton)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
@@ -217,25 +219,5 @@ class CreatePostViewController: UIViewController {
         }
     }
     */
-    
-    @objc private func popVC() {
-        // let saveVC = ProfileVC()
-        navigationController?.popViewController(animated: true)
-        delegate?.updateText(
-            newOverallRatingText: overallRatingTextField.text ?? "",
-            newDiffRatingText: diffRatingTextField.text ?? "",
-            newMajorText: majorTextField.text ?? "",
-            newMemberText: memberTextField.text ?? "",
-            newYearAppText: yearsAppTextField.text ?? "",
-            newHoursText: hoursTextField.text ?? "",
-            newMessageText: messageTextField.text ?? ""
-        )
-    }
-    
-    @objc private func tapBack() {
-        navigationController?.popViewController(animated: true)
-    }
 
 }
-=======
->>>>>>> parent of de4497c (mid updates)

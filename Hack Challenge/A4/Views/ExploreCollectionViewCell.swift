@@ -34,6 +34,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     private let hours = UILabel()
     private let learnMore = UIButton()
     private let bookmark = UIImageView()
+    private let teamInfo = UILabel()
         
     static let reuse = "ExploreCollectionViewCellReuse"
     
@@ -70,7 +71,8 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         comp.text = team.comp
         desc.text = team.description
         category.text = team.category        
-        reviews.text = "\(team.reviews.count) reviews"
+        //reviews.text = "\(team.reviews.count) reviews"
+        reviews.text = "10 reviews"
         hours.text = "\(team.hours) hours/week"
         
         // Check UserDefaults
@@ -254,7 +256,13 @@ class ExploreCollectionViewCell: UICollectionViewCell {
             make.width.height.equalTo(20)
         }
     }
-     
+    
+    @objc private func createTeam() {
+        // TODO: Send a POST request to create a team
+        if let teamInfoText = teamInfo.text, !teamInfoText.isEmpty {
+            NetworkManager.shared.addTeams(message: teamInfoText) {[weak self] post in guard let self = self else {return} }
+        }
+    }
 }
 
 
