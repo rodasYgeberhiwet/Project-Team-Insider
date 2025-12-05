@@ -450,7 +450,7 @@ class DetailViewController: UIViewController {
         createPostButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         createPostButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
      
-     //        createPostButton.addTarget(self, action: #selector(createPost), for: .touchUpInside)
+             createPostButton.addTarget(self, action: #selector(pushCreatePost), for: .touchUpInside)
 
         view.addSubview(createPostButton)
         createPostButton.translatesAutoresizingMaskIntoConstraints = false
@@ -464,6 +464,7 @@ class DetailViewController: UIViewController {
     private func setupPostCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical //~needed?
+//        layout.estimatedItemSize = automatic
 //        layout.minimumLineSpacing = 32
         layout.minimumInteritemSpacing = 16
         
@@ -569,8 +570,9 @@ class DetailViewController: UIViewController {
         }
     }
     
-    @objc private func createPost() {
-        
+    @objc private func pushCreatePost() {
+        let createVC = createPostViewController(hometownText: hometownText, majorText: majorText, delegate: self)
+        navigationController?.pushViewController(createVC, animated: true)
     }
 
 }
@@ -633,4 +635,14 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
         // Add padding around the section
         return UIEdgeInsets(top: 16, left: 32, bottom: 32, right: 32)
     }
+    
+    @objc private func pushVC() {
+        // TODO: Push ViewControllerTwo
+        let editVC = EditProfileVC(hometownText: hometownText, majorText: majorText, delegate: self)
+        navigationController?.pushViewController(editVC, animated: true)
+    }
+}
+
+protocol UpdateTextDelegate: AnyObject {
+    func updateText(newHometownText: String, newMajorText: String)
 }
