@@ -21,6 +21,8 @@ class Review(db.Model):
     likes = db.Column(db.Integer, nullable=True, default=0)
     date_posted = db.Column(db.DateTime, nullable=False, server_default=func.now())
     time_commitment = db.Column(db.String, nullable=False)
+
+    #---------------change this------------------------
     list_of_pros = db.Column(db.JSON, nullable=True)
     list_of_cons = db.Column(db.JSON, nullable=True)
     team_id = db.Column(db.Integer, db.ForeignKey("team.id"), nullable=False)
@@ -91,6 +93,10 @@ class Interview(db.Model):
     tips = db.Column(db.Text, nullable=True)
     team_id = db.Column(db.Integer, db.ForeignKey("team.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+    #add the interview difficulty level
+    difficulty_level = db.Column(db.Float, nullable=True)
+
     accepted = db.Column(db.Boolean, nullable=False)
 
     team = db.relationship("Team", back_populates="interviews")
@@ -152,11 +158,8 @@ class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=True)
-    pfp = db.Column(db.String, nullable=True, default="default_icon.png")
-    associated_teams = db.Column(db.JSON, nullable=True)  # List of team names, not IDs
     grad_year = db.Column(db.Integer, nullable=True)
     anonymous = db.Column(db.Boolean, nullable=False, default=False)
-    password_hash = db.Column(db.String, nullable=True)  # For authentication
 
     reviews = db.relationship("Review", back_populates="user", cascade="delete")
     interviews = db.relationship("Interview", back_populates="user", cascade="delete")
@@ -169,12 +172,9 @@ class User(db.Model):
 
         if self.anonymous:
             self.name = None
-            self.pfp = "default_icon.png"
         else:
             self.name = kwargs.get("name")
-            self.pfp = kwargs.get("pfp", "default_icon.png")
 
-        self.associated_teams = kwargs.get("associated_teams")
         self.grad_year = kwargs.get("grad_year")
 
     def serialize(self):
@@ -186,19 +186,13 @@ class User(db.Model):
                 "id": self.id,
                 "anonymous": True,
                 "grad_year": self.grad_year,
-                "reviews_count": len(self.reviews),
-                "interviews_count": len(self.interviews)
             }
         else:
             return {
                 "id": self.id,
                 "name": self.name,
-                "pfp": self.pfp,
                 "grad_year": self.grad_year,
                 "anonymous": False,
-                "associated_teams": self.associated_teams,
-                "reviews_count": len(self.reviews),
-                "interviews_count": len(self.interviews)
             }
 
 
@@ -212,11 +206,15 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.Text, nullable=False)
+    comp = db.Column(db.String, nullable=True)
+    hours = db.Column(db.String, nullable=True)
+    #add the interview difficulty level
     
     tags = db.relationship("Tag", secondary = "team_tag", backref = "team")  #??-------
 
     reviews = db.relationship("Review", back_populates="team", cascade="delete")
     interviews = db.relationship("Interview", back_populates="team", cascade="delete")
+
 
     def __init__(self, **kwargs):
         """
@@ -225,6 +223,9 @@ class Team(db.Model):
         self.name = kwargs.get("name")
         self.description = kwargs.get("description")
         self.tags = []
+        self.comp = kwargs.get("comp")
+        self.hours = kwargs.get("hours")
+        
 
     # Helper method to compute stats
     def _compute_stats(self):
@@ -256,7 +257,9 @@ class Team(db.Model):
             "reviews": [review.serialize() for review in self.reviews],
             "reviews_count": len(self.reviews),
             "interviews_count": len(self.interviews),
-            "interviews": [interview.serialize() for interview in self.interviews]
+            "interviews": [interview.serialize() for interview in self.interviews],
+        
+            
         }
 
 
