@@ -28,6 +28,9 @@ class TextField: UITextField {
 class CreatePostViewController: UIViewController {
 
     // MARK: - Properties (view)
+    
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
 
     private let titleLabel = UILabel()
     
@@ -87,7 +90,7 @@ class CreatePostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.a4.white
-        
+        setupScroll()
         configureView()
         setupTitleLabel()
         
@@ -105,41 +108,23 @@ class CreatePostViewController: UIViewController {
         
         setupButtons()
     }
-    /*
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let titleLabel = UILabel()
-        titleLabel.text = "Cup of Teams"
-        titleLabel.textColor = UIColor.a4.lightPurple
-        titleLabel.font = UIFont.rounded(ofSize: 28, weight: .bold)
-        let attributedString = NSMutableAttributedString(string: "Cup of Teams")
-        attributedString.addAttribute(.kern, value: 1.2, range: NSRange(location: 0, length: attributedString.length))
-        titleLabel.attributedText = attributedString
-
-        titleLabel.sizeToFit()
-        navigationItem.titleView = titleLabel
-        
-        view.backgroundColor = UIColor.a4.white
-        
-        configureView()
-        setupTitleLabel()
-        /*
-        setupMajor()
-        setupMembershipLabel()
-        setupYears()
-        setupHours()
-        setupMessageField()
-        setupOverallRating()
-        setupDiffRating()
-        setupCancelButton()
-        setupPostButton()
-        */
-    }
-    */
 
     // MARK: - Set Up Views
     //~im confused bc why are we initializing blank fields?? whats being passed in anyhow?
+    
+    private func setupScroll() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        scrollView.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(view.snp.width)
+        }
+    }
+    
     private func configureView() {
         titleLabel.text = "Rate \(team.name)"
         overallRatingLabel.text = overallRatingText
@@ -157,11 +142,11 @@ class CreatePostViewController: UIViewController {
         titleLabel.textAlignment = .left
         titleLabel.numberOfLines = 0
         
-        view.addSubview(titleLabel)
+        contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
             
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
+            make.top.equalToSuperview().offset(16)
             make.leading.equalToSuperview().offset(sidePadding)
             make.trailing.equalToSuperview().offset(-sidePadding) //~how does this work if not spanning the entire thing tho
         }
@@ -173,7 +158,7 @@ class CreatePostViewController: UIViewController {
         label.text = labelText
         label.textColor = UIColor.a4.offBlack
         label.font = .systemFont(ofSize: 14, weight: .semibold)
-        view.addSubview(label)
+        contentView.addSubview(label)
         
         // 2. Configure TextField
         textField.placeholder = placeholder
@@ -182,7 +167,7 @@ class CreatePostViewController: UIViewController {
         textField.backgroundColor = UIColor.a4.lilac.withAlphaComponent(0.3)
         textField.layer.cornerRadius = 8
         textField.layer.masksToBounds = true
-        view.addSubview(textField)
+        contentView.addSubview(textField)
         
         // 3. Apply Constraints
         
@@ -211,7 +196,7 @@ class CreatePostViewController: UIViewController {
         label.text = labelText
         label.textColor = UIColor.a4.offBlack
         label.font = .systemFont(ofSize: 14, weight: .semibold)
-        view.addSubview(label)
+        contentView.addSubview(label)
         
         // 2. Configure TextField (using large text area appearance)
         textField.placeholder = placeholder
@@ -220,7 +205,7 @@ class CreatePostViewController: UIViewController {
         textField.backgroundColor = UIColor.a4.lilac.withAlphaComponent(0.3)
         textField.layer.cornerRadius = 8
         textField.layer.masksToBounds = true
-        view.addSubview(textField)
+        contentView.addSubview(textField)
         
         // 3. Apply Constraints
         label.snp.makeConstraints { make in
@@ -247,7 +232,7 @@ class CreatePostViewController: UIViewController {
         postButton.setTitleColor(UIColor.a4.white, for: .normal)
         postButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
         postButton.addTarget(self, action: #selector(popVC), for: .touchUpInside) // Target for posting and popping [12]
-        view.addSubview(postButton)
+        contentView.addSubview(postButton)
         
         // Setup Cancel Button
         cancelButton.backgroundColor = UIColor.a4.pinkRed
@@ -256,22 +241,24 @@ class CreatePostViewController: UIViewController {
         cancelButton.setTitleColor(UIColor.a4.white, for: .normal)
         cancelButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
         cancelButton.addTarget(self, action: #selector(tapBack), for: .touchUpInside) // Target for popping [14]
-        view.addSubview(cancelButton)
+        contentView.addSubview(cancelButton)
 
         // Constraints for buttons (place below the message field)
         
         cancelButton.snp.makeConstraints { make in
             make.top.equalTo(lastView.snp.bottom).offset(32)
             make.leading.equalToSuperview().offset(sidePadding)
-            make.width.equalTo(96) // Using width from example constraints [15]
-            make.height.equalTo(40)
+            make.width.equalTo(96)
+//            make.height.equalTo(40)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-32)
         }
 
         postButton.snp.makeConstraints { make in
             make.top.equalTo(cancelButton.snp.top)
             make.trailing.equalToSuperview().offset(-sidePadding)
             make.width.equalTo(96)
-            make.height.equalTo(40)
+//            make.height.equalTo(40)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-32)
         }
         
     }
