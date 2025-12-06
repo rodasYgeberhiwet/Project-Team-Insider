@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 load_dotenv()
-API_KEY = "AIzaSyAWWr8AAA2jVkcM8Su4NbGdTQlLuEfno"
+API_KEY =os.getenv("API_KEY") 
 if not API_KEY:
     raise RuntimeError("API_KEY not found in environment")
 

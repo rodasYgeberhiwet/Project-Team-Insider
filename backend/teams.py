@@ -1,4 +1,5 @@
 def initial_teams():
+    '''returns all the project teams to initialize the project teams in the database'''
     
     return [
             {
