@@ -795,6 +795,10 @@ extension DetailViewController: UpdateTextDelegate {
         // Determine yearsMember status based on isMember
         let yearsMemberStatus = isMember ? "F2025 - S2026" : "N/A"
         
+        let overallRatingFloat = Float(newOverallRatingText) ?? 0.0
+        let formattedOverallRating = String(format: "%.1f", overallRatingFloat)
+        let diffRatingFloat = Float(newDiffRatingText) ?? 0.0
+        let formattedDiffRating = String(format: "%.1f", diffRatingFloat)
         // Step B: Create a New Post Object
         
         // Construct the new Post object using the data collected from CreatePostVC.
@@ -804,8 +808,8 @@ extension DetailViewController: UpdateTextDelegate {
             time: Date(), // Set post time to now
             id: UUID().uuidString, // Generate a unique identifier
             profileImage: "default_icon.png", // Use a placeholder profile image
-            overallRating: newOverallRatingText,
-            difficultyRating: newDiffRatingText,
+            overallRating: formattedOverallRating,
+            difficultyRating: formattedDiffRating,
             isMember: isMember,
             yearsMember: yearsMemberStatus,
             major: newMajorText,

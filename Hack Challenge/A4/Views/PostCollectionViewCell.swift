@@ -271,14 +271,37 @@ class PostCollectionViewCell: UICollectionViewCell {
     @objc private func updateLiking(){
         guard var post = post else { return }
         var postIsLiked = post.likes.contains(netId)
-        
+        if postIsLiked {
+            // UNLIKE: Remove the netId from the likes array
+            if let index = post.likes.firstIndex(of: netId) {
+                post.likes.remove(at: index)
+            }
+            
+            // Update visual state to unliked
+            heart.setTitle("♡", for: .normal)
+            heart.setTitleColor(UIColor.a4.silver, for: .normal)
+            
+        } else {
+            // LIKE: Add the netId to the likes array
+            post.likes.append(netId)
+            
+            // Update visual state to liked
+            heart.setTitle("♥︎", for: .normal)
+            heart.setTitleColor(UIColor.a4.pinkRed, for: .normal)
+        }
+        self.post = post
+        self.likes.text = "\(post.likes.count) likes"
+        /*
         heart.setTitle("♥︎", for: .normal)
         heart.setTitleColor(UIColor.a4.pinkRed, for: .normal)
         post.likes.append(netId)
-//        NetworkManager.shared.updateRosterLikes(netId: netId, postId: post.id) { updatedPost in
-//            self.post = updatedPost
-//            self.likes.text = "\(updatedPost.likes.count) likes"
-//        }
+         */
+        /*
+        NetworkManager.shared.updateRosterLikes(netId: netId, postId: post.id) { updatedPost in
+            self.post = updatedPost
+            self.likes.text = "\(updatedPost.likes.count) likes"
+        }
+        */
     }
     
     private func setupLikeCount(){

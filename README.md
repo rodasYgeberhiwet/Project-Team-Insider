@@ -52,6 +52,7 @@ Represents a student who writes reviews or shares interview experiences.
 | `id` | Integer | Primary key (auto-increment) |
 | `name` | String | User's name (nullable if anonymous) |
 | `grad_year` | Integer | Expected graduation year |
+| `major` | String | Student's major (nullable) |
 | `anonymous` | Boolean | Whether to hide user identity (default: False) |
 
 **Relationships:**
@@ -266,6 +267,7 @@ Create a new review with automatic content moderation.
 {
   "name": "John Smith",
   "grad_year": 2026,
+  "major": "Computer Science",
   "anonymous": false,
   "star_rating": 4.5,
   "time_commitment": "15-20 hours/week",
@@ -625,7 +627,7 @@ def moderate_text(text):
 python app.py
 ```
 
-The database will be automatically created with 35+ pre-populated Cornell project teams on first run.
+The database will be automatically created with 40+ pre-populated Cornell project teams on first run.
 
 ### Running the Application
 ```bash
@@ -674,6 +676,7 @@ curl -X POST http://localhost:5000/teams/1/reviews \
   -d '{
     "name": "John Doe",
     "grad_year": 2026,
+    "major": "Computer Science",
     "anonymous": false,
     "star_rating": 4.5,
     "time_commitment": "15-20 hours/week",
@@ -819,18 +822,6 @@ Reviews are automatically moderated using the `moderate_text()` function from `m
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
----
-
-## License
-
-This project is licensed under the MIT License.
-
----
-
-## Contact
-
-For questions or support, please contact the development team.
 
 ---
 

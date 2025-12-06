@@ -18,6 +18,7 @@ class NetworkManager {
     /// Endpoint
     
     private let endpoint = "https://pastebin.com/jFKaKdcP"
+//    private let baseEndpoint = "http://127.0.0.1:5000"
     
     private let decoder = JSONDecoder()
     
@@ -61,7 +62,7 @@ class NetworkManager {
              }
          
      }
-     /*
+     
      func updateRosterLikes(netId: String, postId: String, completion: @escaping (Post) -> Void) {
          decoder.dateDecodingStrategy = .iso8601
          // Define the request body
@@ -83,8 +84,5 @@ class NetworkManager {
                      print("Error in NetworkManager.updateRosterLikes \(error.localizedDescription)")
                  }
              }
-         
      }
-     */
 }
-

@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     
     // MARK: - Properties (data)
+//    private var teams : [Team] = []
+    
     
     private var teams : [Team] = [
         Team(
