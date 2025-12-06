@@ -823,7 +823,8 @@ extension DetailViewController: UpdateTextDelegate {
         // Step C: Update the Data Source
         
         // Append the newly created post to the local data source array [6, 7].
-        self.posts.append(newPost)
+//        self.posts.append(newPost)
+        self.posts.insert(newPost, at: 0)
 
         // Step D: Display the New Post
         
