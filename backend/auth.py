@@ -54,13 +54,3 @@ def verify_auth_token(token):
 	user = User.query.get(data['user_id'])
 	return user
 
-# Example protected route
-@auth_bp.route('/me', methods=['GET'])
-def get_me():
-	token = request.headers.get('Authorization')
-	if not token:
-		return jsonify({'success': False, 'error': 'Missing token'}), 401
-	user = verify_auth_token(token)
-	if not user:
-		return jsonify({'success': False, 'error': 'Invalid or expired token'}), 401
-	return jsonify({'success': True, 'user': user.serialize()})
